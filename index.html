@@ -186,8 +186,8 @@
         color: #e2e8f0;
       }
       [data-theme="dark"] .card-back {
-        background: #1e293b;
-        color: #cbd5e1;
+        background: linear-gradient(135deg, #082f49 0%, #0f766e 100%);
+        color: white;
       }
       [data-theme="dark"] .msg-bubble.admin-bubble {
         background: #0f172a;
@@ -1321,13 +1321,30 @@
         max-width: 600px;
         margin: 0 auto;
       }
+      .member-card-toolbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 28px;
+      }
       .card-toggle {
         display: flex;
         gap: 12px;
-        margin-bottom: 28px;
+        margin-bottom: 0;
       }
       .card-toggle .btn {
         border-radius: 10px;
+      }
+      .card-photo-tools {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+      .member-photo-input {
+        display: none;
       }
       .card-toggle .btn-primary {
         background: linear-gradient(135deg, #0e7490, #1a7fa8);
@@ -1428,7 +1445,26 @@
         align-items: center;
         justify-content: center;
         color: rgba(255, 255, 255, 0.4);
-        font-size: 32px;
+        font-size: 13px;
+        font-weight: 800;
+        letter-spacing: 0.4px;
+        text-transform: uppercase;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+      }
+      .card-photo img {
+        display: none;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .card-photo.has-photo {
+        background: rgba(255, 255, 255, 0.08);
+      }
+      .card-photo.has-photo img {
+        display: block;
+      }
+      .card-photo.has-photo .card-photo-placeholder {
+        display: none;
       }
       .barcode-area {
         margin-top: 16px;
@@ -1477,15 +1513,154 @@
       }
 
       .card-back {
-        background: white;
-        padding: 24px 32px;
+        background: linear-gradient(135deg, #083344 0%, #0e7490 58%, #0f766e 100%);
+        color: white;
+        padding: 28px 32px;
         display: none;
+        min-height: 320px;
+        position: relative;
+        overflow: hidden;
+      }
+      .card-back::before {
+        content: "";
+        position: absolute;
+        width: 220px;
+        height: 220px;
+        border-radius: 999px;
+        right: -72px;
+        top: -90px;
+        background: rgba(255, 255, 255, 0.08);
+      }
+      .card-back::after {
+        content: "";
+        position: absolute;
+        width: 280px;
+        height: 280px;
+        border-radius: 999px;
+        left: -110px;
+        bottom: -155px;
+        background: rgba(255, 255, 255, 0.05);
       }
       .card-back.active {
         display: block;
       }
       .card-front.hidden {
         display: none;
+      }
+      .card-back-content {
+        position: relative;
+        z-index: 1;
+      }
+      .card-back-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 18px;
+        margin-bottom: 20px;
+      }
+      .card-back-title {
+        font-size: 24px;
+        font-weight: 900;
+        letter-spacing: 2px;
+      }
+      .card-back-subtitle {
+        color: rgba(255, 255, 255, 0.76);
+        font-size: 12px;
+        letter-spacing: 0.9px;
+        text-transform: uppercase;
+      }
+      .card-back-chip {
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        border-radius: 999px;
+        padding: 7px 12px;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 0.7px;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.82);
+      }
+      .card-back-grid {
+        display: grid;
+        grid-template-columns: 1.15fr 0.85fr;
+        gap: 18px;
+        align-items: stretch;
+      }
+      .card-back-rules,
+      .card-back-panel {
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.13);
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        padding: 16px;
+      }
+      .card-back-rules h3,
+      .card-back-panel h3 {
+        color: white;
+        font-size: 13px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+      }
+      .card-back-rules ul {
+        list-style: none;
+        display: grid;
+        gap: 8px;
+        color: rgba(255, 255, 255, 0.78);
+        font-size: 12px;
+        line-height: 1.45;
+      }
+      .card-back-rules li {
+        padding-left: 18px;
+        position: relative;
+      }
+      .card-back-rules li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 8px;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.65);
+      }
+      .card-back-member {
+        display: grid;
+        gap: 9px;
+        margin-bottom: 14px;
+      }
+      .card-back-field {
+        display: grid;
+        gap: 2px;
+      }
+      .card-back-label {
+        color: rgba(255, 255, 255, 0.62);
+        font-size: 10px;
+        letter-spacing: 0.9px;
+        text-transform: uppercase;
+      }
+      .card-back-value {
+        color: white;
+        font-size: 13px;
+        font-weight: 800;
+      }
+      .card-back-barcode {
+        background: rgba(255, 255, 255, 0.92);
+        border-radius: 6px;
+        min-height: 46px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        margin-top: 10px;
+      }
+      .card-back-footer {
+        display: flex;
+        justify-content: space-between;
+        gap: 18px;
+        margin-top: 18px;
+        color: rgba(255, 255, 255, 0.74);
+        font-size: 11px;
+        position: relative;
+        z-index: 1;
       }
 
       /* LOAN STEPPER */
@@ -1917,6 +2092,56 @@
         display: flex;
         flex-direction: column;
         align-items: flex-end;
+      }
+      .chat-message-row {
+        display: flex;
+        align-items: flex-end;
+        gap: 10px;
+        max-width: 82%;
+      }
+      .chat-message.admin .chat-message-row {
+        margin-right: auto;
+      }
+      .chat-message.user .chat-message-row {
+        flex-direction: row-reverse;
+        margin-left: auto;
+      }
+      .chat-message-stack {
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+      }
+      .chat-message.user .chat-message-stack {
+        align-items: flex-end;
+      }
+      .chat-avatar {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #0e7490, #1a7fa8);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: 0 0 36px;
+        overflow: hidden;
+        font-size: 12px;
+        font-weight: 900;
+        border: 2px solid white;
+        box-shadow: 0 6px 18px rgba(15, 23, 42, 0.14);
+      }
+      .chat-avatar.admin-avatar {
+        background: #e0f2fe;
+        color: #0e7490;
+      }
+      .chat-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .chat-message-row .msg-bubble {
+        max-width: 100%;
       }
 
       .msg-sender {
@@ -2600,6 +2825,26 @@
         .dashboard-news-grid {
           grid-template-columns: 1fr;
         }
+        .member-card-toolbar,
+        .card-details,
+        .card-back-header,
+        .card-back-footer {
+          flex-direction: column;
+          align-items: stretch;
+        }
+        .card-photo-tools {
+          justify-content: flex-start;
+        }
+        .card-back-grid {
+          grid-template-columns: 1fr;
+        }
+        .card-front,
+        .card-back {
+          padding: 22px;
+        }
+        .card-footer-strip {
+          padding: 10px 22px;
+        }
         .book-overview-grid,
         .book-detail-meta-grid {
           grid-template-columns: 1fr;
@@ -3096,20 +3341,6 @@
             </svg>
             Buku
           </div>
-          <div class="nav-item" data-page="kategori" onclick="navigate('kategori')">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.8"
-            >
-              <rect x="3" y="3" width="7" height="7" rx="1" />
-              <rect x="14" y="3" width="7" height="7" rx="1" />
-              <rect x="3" y="14" width="7" height="7" rx="1" />
-              <rect x="14" y="14" width="7" height="7" rx="1" />
-            </svg>
-            Kategori
-          </div>
           <div class="nav-item" data-page="anggota" onclick="navigate('anggota')">
             <svg
               viewBox="0 0 24 24"
@@ -3509,8 +3740,13 @@
           </div>
         </div>
 
-        <!-- KATEGORI -->
-        <div class="page-panel" id="page-kategori">
+        <!-- KATEGORI LEGACY (disembunyikan, kategori pindah ke dashboard buku) -->
+        <div
+          class="page-panel"
+          id="page-kategori-legacy"
+          style="display: none !important"
+          aria-hidden="true"
+        >
           <div class="page-header">
             <div>
               <h1>Kategori Buku</h1>
@@ -3546,21 +3782,48 @@
           </div>
           <div class="page-body">
             <div class="member-card-wrapper">
-              <div class="card-toggle">
-                <button
-                  class="btn btn-primary btn-sm"
-                  id="btn-depan"
-                  onclick="toggleCard('depan')"
-                >
-                  Depan
-                </button>
-                <button
-                  class="btn btn-outline btn-sm"
-                  id="btn-belakang"
-                  onclick="toggleCard('belakang')"
-                >
-                  Belakang
-                </button>
+              <div class="member-card-toolbar">
+                <div class="card-toggle">
+                  <button
+                    class="btn btn-primary btn-sm"
+                    id="btn-depan"
+                    onclick="toggleCard('depan')"
+                  >
+                    Depan
+                  </button>
+                  <button
+                    class="btn btn-outline btn-sm"
+                    id="btn-belakang"
+                    onclick="toggleCard('belakang')"
+                  >
+                    Belakang
+                  </button>
+                </div>
+                <div class="card-photo-tools">
+                  <input
+                    class="member-photo-input"
+                    id="member-photo-input"
+                    type="file"
+                    accept="image/*"
+                    onchange="handleMemberPhotoUpload(event)"
+                  />
+                  <button
+                    class="btn btn-outline btn-sm"
+                    type="button"
+                    onclick="document.getElementById('member-photo-input').click()"
+                  >
+                    Tambah Foto
+                  </button>
+                  <button
+                    class="btn btn-outline btn-sm"
+                    id="btn-remove-member-photo"
+                    type="button"
+                    onclick="removeMemberPhoto()"
+                    style="display: none"
+                  >
+                    Hapus Foto
+                  </button>
+                </div>
               </div>
               <div class="member-id-card">
                 <div class="card-front" id="card-front-view">
@@ -3596,7 +3859,10 @@
                         </div>
                       </div>
                     </div>
-                    <div class="card-photo">👤</div>
+                    <div class="card-photo" id="card-photo-box">
+                      <img id="card-photo-img" alt="Foto anggota" />
+                      <span class="card-photo-placeholder">Foto</span>
+                    </div>
                   </div>
                   <div class="card-footer-strip">
                     <div>
@@ -3611,17 +3877,54 @@
                   </div>
                 </div>
                 <div class="card-back" id="card-back-view">
-                  <p
-                    style="
-                      color: var(--text-muted);
-                      font-size: 14px;
-                      text-align: center;
-                      padding: 40px 0;
-                    "
-                  >
-                    Bagian belakang kartu akan menampilkan informasi tambahan
-                    dan barcode anggota.
-                  </p>
+                  <div class="card-back-content">
+                    <div class="card-back-header">
+                      <div>
+                        <div class="card-back-subtitle">Literasea Library</div>
+                        <div class="card-back-title">Kartu Anggota</div>
+                      </div>
+                      <div class="card-back-chip">Aktif</div>
+                    </div>
+                    <div class="card-back-grid">
+                      <div class="card-back-rules">
+                        <h3>Ketentuan Kartu</h3>
+                        <ul>
+                          <li>Kartu ini digunakan untuk peminjaman dan pengembalian buku.</li>
+                          <li>Kartu tidak boleh dipinjamkan kepada anggota lain.</li>
+                          <li>Jika kartu hilang, hubungi helpdesk perpustakaan.</li>
+                          <li>Denda keterlambatan mengikuti aturan perpustakaan.</li>
+                        </ul>
+                      </div>
+                      <div class="card-back-panel">
+                        <h3>Data Anggota</h3>
+                        <div class="card-back-member">
+                          <div class="card-back-field">
+                            <span class="card-back-label">Nama</span>
+                            <span class="card-back-value" id="card-back-nama">-</span>
+                          </div>
+                          <div class="card-back-field">
+                            <span class="card-back-label">ID Anggota</span>
+                            <span class="card-back-value" id="card-back-id">-</span>
+                          </div>
+                          <div class="card-back-field">
+                            <span class="card-back-label">Telepon</span>
+                            <span class="card-back-value" id="card-back-phone">-</span>
+                          </div>
+                          <div class="card-back-field">
+                            <span class="card-back-label">Bergabung</span>
+                            <span class="card-back-value" id="card-back-join">-</span>
+                          </div>
+                        </div>
+                        <div class="card-back-barcode">
+                          <div class="barcode-lines" id="back-barcode-lines"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card-back-footer">
+                      <span>Helpdesk: menu Helpdesk Chat</span>
+                      <span>Berlaku sampai <strong id="card-back-valid">-</strong></span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -5050,6 +5353,7 @@
       // ====== RENDER CATEGORIES ======
       function renderCategories() {
         const grid = document.getElementById("category-grid");
+        if (!grid) return;
         grid.innerHTML = categories
           .map(
             (cat) => `
@@ -5118,6 +5422,8 @@
       function navigate(page, options = {}) {
         const { skipHistory = false, resetHistory = false } = options;
 
+        if (page === "kategori") page = "buku";
+
         if (isPageBlockedBySuspension(page)) {
           showToast(getSuspensionBlockedMessage());
           return;
@@ -5141,7 +5447,6 @@
         const panelMap = {
           dashboard: "page-dashboard",
           buku: "page-buku",
-          kategori: "page-kategori",
           anggota: "page-anggota",
           peminjaman: "page-peminjaman",
           pengembalian: "page-pengembalian",
@@ -5165,13 +5470,12 @@
         const navMap = {
           dashboard: 0,
           buku: 1,
-          kategori: 2,
-          anggota: 3,
-          peminjaman: 4,
-          pengembalian: 5,
-          riwayat: 6,
-          saranBuku: 7,
-          helpdesk: 8,
+          anggota: 2,
+          peminjaman: 3,
+          pengembalian: 4,
+          riwayat: 5,
+          saranBuku: 6,
+          helpdesk: 7,
         };
         if (navMap[page] !== undefined)
           navItems[navMap[page]].classList.add("active");
@@ -5310,6 +5614,7 @@
           id: profile?.member_id || "LIT-???",
           tl: profile?.tanggal_lahir || "-",
           phone: profile?.phone || "-",
+          photo: getProfilePhoto(profile),
           joinDate: profile?.created_at
             ? new Date(profile.created_at).toLocaleDateString("id-ID")
             : "-",
@@ -5481,6 +5786,7 @@
               id: profile?.member_id || `LIT-${String(Date.now()).slice(-6)}`,
               tl: profile?.tanggal_lahir || "-",
               phone: profile?.phone || phone || "-",
+              photo: getProfilePhoto(profile),
               joinDate: profile?.created_at
                 ? new Date(profile.created_at).toLocaleDateString("id-ID")
                 : new Date().toLocaleDateString("id-ID"),
@@ -5550,21 +5856,23 @@
           currentUser.name || "-";
         document.getElementById("card-id").textContent = currentUser.id || "-";
         document.getElementById("card-tl").textContent = currentUser.tl || "-";
+        document.getElementById("card-back-nama").textContent =
+          currentUser.name || "-";
+        document.getElementById("card-back-id").textContent =
+          currentUser.id || "-";
+        document.getElementById("card-back-phone").textContent =
+          currentUser.phone || "-";
+        document.getElementById("card-back-join").textContent =
+          currentUser.joinDate || "-";
+        const memberCardValidDate = new Date().toLocaleDateString("id-ID");
         document.getElementById("card-valid").textContent =
-          new Date().toLocaleDateString("id-ID");
+          memberCardValidDate;
+        document.getElementById("card-back-valid").textContent =
+          memberCardValidDate;
 
-        // Generate barcode
-        const barcodeEl = document.getElementById("barcode-lines");
-        barcodeEl.innerHTML = "";
-        for (let i = 0; i < 40; i++) {
-          const div = document.createElement("div");
-          div.style.width =
-            (Math.random() > 0.7 ? "3" : Math.random() > 0.5 ? "2" : "1") +
-            "px";
-          div.style.height = (Math.random() > 0.5 ? "28" : "20") + "px";
-          div.style.background = "#1e293b";
-          barcodeEl.appendChild(div);
-        }
+        renderMemberBarcode("barcode-lines");
+        renderMemberBarcode("back-barcode-lines");
+        hydrateMemberCardPhoto();
 
         renderDashboardNews();
         renderCategories();
@@ -5572,6 +5880,112 @@
         updateAccountSuspensionUI();
         setWelcomeTime();
         showToast("Selamat datang, " + currentUser.name + "!");
+      }
+
+      function getProfilePhoto(profile) {
+        return (
+          profile?.foto_url ||
+          profile?.foto ||
+          profile?.photo_url ||
+          profile?.avatar_url ||
+          profile?.image_url ||
+          ""
+        );
+      }
+
+      function getMemberPhotoStorageKey() {
+        const owner = currentUser?.email || currentUser?.id || "guest";
+        return `literasea_member_photo_${encodeURIComponent(owner)}`;
+      }
+
+      function getMemberPhotoSource() {
+        return localStorage.getItem(getMemberPhotoStorageKey()) || currentUser?.photo || "";
+      }
+
+      function setMemberCardPhoto(source) {
+        const box = document.getElementById("card-photo-box");
+        const img = document.getElementById("card-photo-img");
+        const removeBtn = document.getElementById("btn-remove-member-photo");
+        if (!box || !img) return;
+
+        if (source) {
+          img.src = source;
+          img.alt = `Foto ${currentUser?.name || "anggota"}`;
+          box.classList.add("has-photo");
+          if (removeBtn) removeBtn.style.display = "inline-flex";
+          return;
+        }
+
+        img.removeAttribute("src");
+        box.classList.remove("has-photo");
+        if (removeBtn) removeBtn.style.display = "none";
+      }
+
+      function hydrateMemberCardPhoto() {
+        setMemberCardPhoto(getMemberPhotoSource());
+      }
+
+      function handleMemberPhotoUpload(event) {
+        const input = event.target;
+        const file = input.files?.[0];
+        if (!file) return;
+
+        if (!file.type.startsWith("image/")) {
+          showToast("File harus berupa gambar.");
+          input.value = "";
+          return;
+        }
+
+        if (file.size > 2 * 1024 * 1024) {
+          showToast("Ukuran foto maksimal 2 MB.");
+          input.value = "";
+          return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = () => {
+          try {
+            const imageData = String(reader.result || "");
+            localStorage.setItem(getMemberPhotoStorageKey(), imageData);
+            currentUser.photo = imageData;
+            setMemberCardPhoto(imageData);
+            showToast("Foto kartu berhasil ditambahkan.");
+          } catch (error) {
+            console.error("Gagal menyimpan foto kartu:", error);
+            showToast("Gagal menyimpan foto. Coba gambar yang lebih kecil.");
+          } finally {
+            input.value = "";
+          }
+        };
+        reader.onerror = () => {
+          showToast("Gagal membaca file foto.");
+          input.value = "";
+        };
+        reader.readAsDataURL(file);
+      }
+
+      function removeMemberPhoto() {
+        localStorage.removeItem(getMemberPhotoStorageKey());
+        if (currentUser) currentUser.photo = "";
+        setMemberCardPhoto("");
+        const input = document.getElementById("member-photo-input");
+        if (input) input.value = "";
+        showToast("Foto kartu dihapus.");
+      }
+
+      function renderMemberBarcode(elementId) {
+        const barcodeEl = document.getElementById(elementId);
+        if (!barcodeEl) return;
+        barcodeEl.innerHTML = "";
+        const memberCode = String(currentUser?.id || "LIT-000000");
+        for (let i = 0; i < 40; i++) {
+          const div = document.createElement("div");
+          const charCode = memberCode.charCodeAt(i % memberCode.length) || 49;
+          div.style.width = `${(charCode + i) % 3 === 0 ? 3 : (charCode + i) % 2 === 0 ? 2 : 1}px`;
+          div.style.height = `${20 + ((charCode + i) % 5) * 2}px`;
+          div.style.background = "#1e293b";
+          barcodeEl.appendChild(div);
+        }
       }
 
       // ====== MEMBER CARD TOGGLE ======
@@ -5622,6 +6036,14 @@
           user_id: String(row?.user_id || "").trim(),
           user_name: String(row?.user_name || row?.nama_pengguna || "").trim(),
           user_email: String(row?.user_email || row?.email || "").trim(),
+          user_photo: String(
+            row?.user_photo ||
+              row?.foto_url ||
+              row?.foto ||
+              row?.photo_url ||
+              row?.avatar_url ||
+              "",
+          ).trim(),
           sender_role: senderRole === "admin" ? "admin" : "user",
           admin_id: row?.admin_id ? String(row.admin_id).trim() : "",
           admin_name: String(row?.admin_name || "").trim(),
@@ -5631,6 +6053,81 @@
           created_at: row?.created_at || new Date().toISOString(),
           _sourceTable: sourceTable,
         };
+      }
+
+      function getInitials(value) {
+        const words = String(value || "Pengguna")
+          .trim()
+          .split(/\s+/)
+          .filter(Boolean);
+        if (!words.length) return "U";
+        return words
+          .slice(0, 2)
+          .map((word) => word[0])
+          .join("")
+          .toUpperCase();
+      }
+
+      function renderChatAvatar(source, label, extraClass = "") {
+        const cleanSource = String(source || "").trim();
+        const safeLabel = escapeHtml(label || "Pengguna");
+        const className = `chat-avatar ${extraClass}`.trim();
+        if (cleanSource) {
+          return `<div class="${className}"><img src="${escapeHtml(cleanSource)}" alt="${safeLabel}" /></div>`;
+        }
+        return `<div class="${className}" aria-hidden="true"><span>${escapeHtml(getInitials(label))}</span></div>`;
+      }
+
+      function getHelpdeskUserPhoto(message = null) {
+        return getMemberPhotoSource() || message?.user_photo || currentUser?.photo || "";
+      }
+
+      function fillChatAvatarElement(avatarEl, source, label) {
+        if (!avatarEl) return;
+        const cleanSource = String(source || "").trim();
+        avatarEl.innerHTML = "";
+        if (cleanSource) {
+          const img = document.createElement("img");
+          img.src = cleanSource;
+          img.alt = label || "Foto profil";
+          avatarEl.appendChild(img);
+          return;
+        }
+
+        const span = document.createElement("span");
+        span.textContent = getInitials(label);
+        avatarEl.appendChild(span);
+      }
+
+      function decorateHelpdeskAvatars() {
+        const chatBody = document.getElementById("chat-body");
+        if (!chatBody) return;
+
+        chatBody.querySelectorAll(".chat-message").forEach((messageEl) => {
+          const isUser = messageEl.classList.contains("user");
+          const label = isUser ? currentUser?.name || "Pengguna" : "Admin Literasea";
+          const source = isUser ? getHelpdeskUserPhoto() : "";
+          let avatarEl = messageEl.querySelector(".chat-avatar");
+
+          if (!avatarEl) {
+            const stack = document.createElement("div");
+            stack.className = "chat-message-stack";
+
+            while (messageEl.firstChild) {
+              stack.appendChild(messageEl.firstChild);
+            }
+
+            const row = document.createElement("div");
+            row.className = "chat-message-row";
+            avatarEl = document.createElement("div");
+            avatarEl.className = `chat-avatar${isUser ? "" : " admin-avatar"}`;
+            row.appendChild(avatarEl);
+            row.appendChild(stack);
+            messageEl.appendChild(row);
+          }
+
+          fillChatAvatarElement(avatarEl, source, label);
+        });
       }
 
       async function fetchUserHelpdeskMessages(userId) {
@@ -5761,6 +6258,7 @@
             </div>
           `;
           setWelcomeTime();
+          decorateHelpdeskAvatars();
           return;
         }
 
@@ -5807,6 +6305,7 @@
         });
 
         chatBody.innerHTML = sections.join("");
+        decorateHelpdeskAvatars();
         chatBody.scrollTop = chatBody.scrollHeight;
       }
 
@@ -7368,6 +7867,7 @@
             id: profile?.member_id || "LIT-???",
             tl: profile?.tanggal_lahir || "-",
             phone: profile?.phone || "-",
+            photo: getProfilePhoto(profile),
             joinDate: profile?.created_at
               ? new Date(profile.created_at).toLocaleDateString("id-ID")
               : "-",
