@@ -1602,23 +1602,22 @@
               </div>
 
               <div class="card">
-  <div class="card-header">
-    <div class="card-title">💬 Chat Helpdesk Terbaru</div>
+                <div class="card-header">
+                  <div class="card-title">💬 Chat Helpdesk Terbaru</div>
 
-    <button
-      class="btn btn-primary btn-sm"
-      onclick="showPage('helpdeskChat')"
-    >
-      Buka Chat
-    </button>
-  </div>
+                  <button
+                    class="btn btn-primary btn-sm"
+                    onclick="showPage('helpdeskChat')"
+                  >
+                    Buka Chat
+                  </button>
+                </div>
 
-  <div id="dashboardHelpdeskList">
-    <div style="padding:12px;color:#94a3b8">
-      Memuat chat...
-    </div>
-  </div>
-
+                <div id="dashboardHelpdeskList">
+                  <div style="padding: 12px; color: #94a3b8">
+                    Memuat chat...
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -1709,39 +1708,37 @@
             </div>
           </div>
 
-        <!-- ===== KONFIRMASI PEMINJAMAN ===== -->
-<div class="page" id="page-konfirmasiPeminjaman">
-  <div class="card">
-    <div class="card-header">
-      <div class="card-title">✅ Konfirmasi Peminjaman Buku</div>
-      <span id="badgePeminjamanMenunggu" class="badge badge-yellow">
-        0 Menunggu
-      </span>
-    </div>
+          <!-- ===== KONFIRMASI PEMINJAMAN ===== -->
+          <div class="page" id="page-konfirmasiPeminjaman">
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">✅ Konfirmasi Peminjaman Buku</div>
+                <span id="badgePeminjamanMenunggu" class="badge badge-yellow">
+                  0 Menunggu
+                </span>
+              </div>
 
-    <div id="daftarPeminjamanAdmin" class="confirm-list">
-      <p style="color:#94a3b8">Memuat data...</p>
-    </div>
-  </div>
-</div>
-          
+              <div id="daftarPeminjamanAdmin" class="confirm-list">
+                <p style="color: #94a3b8">Memuat data...</p>
+              </div>
+            </div>
+          </div>
 
-         <!-- ===== KONFIRMASI PENGEMBALIAN ===== -->
-<div class="page" id="page-konfirmasiPengembalian">
-  <div class="card">
-    <div class="card-header">
-      <div class="card-title">🔄 Konfirmasi Pengembalian Buku</div>
-      <span id="badgePengembalian" class="badge badge-blue">
-        0 Proses
-      </span>
-    </div>
+          <!-- ===== KONFIRMASI PENGEMBALIAN ===== -->
+          <div class="page" id="page-konfirmasiPengembalian">
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">🔄 Konfirmasi Pengembalian Buku</div>
+                <span id="badgePengembalian" class="badge badge-blue">
+                  0 Proses
+                </span>
+              </div>
 
-    <div id="daftarPengembalianAdmin" class="confirm-list">
-      <p style="color:#94a3b8">Memuat data...</p>
-    </div>
-
-  </div>
-</div>
+              <div id="daftarPengembalianAdmin" class="confirm-list">
+                <p style="color: #94a3b8">Memuat data...</p>
+              </div>
+            </div>
+          </div>
 
           <!-- ===== KELOLA ANGGOTA ===== -->
           <div class="page" id="page-kelolaAnggota">
@@ -1859,7 +1856,9 @@
                 "
               >
                 <div class="card-title">💬 Helpdesk Chat</div>
-                <span class="badge badge-blue" id="helpdeskUnreadBadge">0 Belum Dibaca</span>
+                <span class="badge badge-blue" id="helpdeskUnreadBadge"
+                  >0 Belum Dibaca</span
+                >
               </div>
               <div class="chat-container" style="padding: 20px">
                 <div class="chat-list">
@@ -1955,8 +1954,8 @@
                   <div class="chart-bar" style="height: 8%; flex: 1"></div>
                 </div>
                 <div class="chart-labels" id="owner-loan-chart-labels">
-                  <span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span
-                  ><span>Mei</span><span>Jun</span>
+                  <span>Jan</span><span>Feb</span><span>Mar</span
+                  ><span>Apr</span><span>Mei</span><span>Jun</span>
                 </div>
               </div>
 
@@ -1966,7 +1965,9 @@
                 </div>
                 <div class="metrics-row">
                   <div class="metric-item">
-                    <div class="metric-value" id="owner-metric-loans-value">0</div>
+                    <div class="metric-value" id="owner-metric-loans-value">
+                      0
+                    </div>
                     <div class="metric-label">Peminjaman Bulan Ini</div>
                     <div
                       class="metric-change change-neutral"
@@ -1988,7 +1989,10 @@
                     </div>
                   </div>
                   <div class="metric-item">
-                    <div class="metric-value" id="owner-metric-new-members-value">
+                    <div
+                      class="metric-value"
+                      id="owner-metric-new-members-value"
+                    >
                       0
                     </div>
                     <div class="metric-label">Anggota Baru</div>
@@ -2000,7 +2004,10 @@
                     </div>
                   </div>
                   <div class="metric-item">
-                    <div class="metric-value" id="owner-metric-active-fines-value">
+                    <div
+                      class="metric-value"
+                      id="owner-metric-active-fines-value"
+                    >
                       Rp 0
                     </div>
                     <div class="metric-label">Denda Aktif</div>
@@ -2240,7 +2247,9 @@
               </div>
               <div class="grid-3" style="margin-bottom: 20px">
                 <div class="metric-item">
-                  <div class="metric-value" id="laporanPeminjamanTotalValue">0</div>
+                  <div class="metric-value" id="laporanPeminjamanTotalValue">
+                    0
+                  </div>
                   <div class="metric-label">Total Peminjaman</div>
                 </div>
                 <div class="metric-item">
@@ -2781,7 +2790,14 @@
               type="url"
               placeholder="https://contoh.com/cover-buku.jpg"
             />
-            <div style="margin-top: 10px; display: flex; gap: 10px; flex-wrap: wrap">
+            <div
+              style="
+                margin-top: 10px;
+                display: flex;
+                gap: 10px;
+                flex-wrap: wrap;
+              "
+            >
               <button
                 type="button"
                 id="book-auto-cover-btn"
@@ -2791,7 +2807,8 @@
                 🖼️ Cek URL / Cari Cover
               </button>
               <span style="font-size: 12px; color: var(--text-muted, #64748b)">
-                Tempel URL gambar langsung atau halaman produk. Jika itu halaman buku, sistem akan coba ambil gambar utamanya.
+                Tempel URL gambar langsung atau halaman produk. Jika itu halaman
+                buku, sistem akan coba ambil gambar utamanya.
               </span>
             </div>
           </div>
@@ -2974,7 +2991,7 @@
         } = await supabaseClient.auth.getSession();
 
         if (!session || !session.user) {
-          window.location.href = "user.html";
+          window.location.href = "index.html";
           return;
         }
 
@@ -2998,7 +3015,9 @@
             session.user.user_metadata?.name,
             session.user.email?.split("@")[0],
           ],
-          currentRole === "owner" ? "Owner Literasea" : "Administrator Literasea",
+          currentRole === "owner"
+            ? "Owner Literasea"
+            : "Administrator Literasea",
         );
         const fallbackEmail = pickDisplayIdentity(
           [adminRow.email, session.user.email],
@@ -3216,17 +3235,23 @@
 
       function renderOwnerLoanChart(monthlySeries) {
         const barsContainer = document.getElementById("owner-loan-chart-bars");
-        const labelsContainer = document.getElementById("owner-loan-chart-labels");
+        const labelsContainer = document.getElementById(
+          "owner-loan-chart-labels",
+        );
         if (!barsContainer || !labelsContainer) return;
 
-        const series = Array.isArray(monthlySeries) && monthlySeries.length
-          ? monthlySeries
-          : Array.from({ length: 6 }, (_, index) => ({
-              label: `M${index + 1}`,
-              value: 0,
-            }));
+        const series =
+          Array.isArray(monthlySeries) && monthlySeries.length
+            ? monthlySeries
+            : Array.from({ length: 6 }, (_, index) => ({
+                label: `M${index + 1}`,
+                value: 0,
+              }));
 
-        const maxValue = Math.max(...series.map((item) => Number(item.value) || 0), 1);
+        const maxValue = Math.max(
+          ...series.map((item) => Number(item.value) || 0),
+          1,
+        );
 
         barsContainer.innerHTML = series
           .map((item) => {
@@ -3311,7 +3336,8 @@
         const activeOverdueDays = getAdminOverdueDays(row);
         if (activeOverdueDays > 0) return activeOverdueDays;
 
-        const estimatedFine = Number(row?._estimatedFine) || getEstimatedLoanFine(row);
+        const estimatedFine =
+          Number(row?._estimatedFine) || getEstimatedLoanFine(row);
         if (estimatedFine <= 0) return 0;
 
         return Math.max(1, Math.round(estimatedFine / TARIF_DENDA_ADMIN));
@@ -3352,11 +3378,9 @@
         const select = document.getElementById("laporanPeminjamanMonthSelect");
         if (!select) return;
 
-        const monthKeys = [...new Set(
-          (rows || [])
-            .map((row) => row._monthKey)
-            .filter(Boolean),
-        )].sort((left, right) => right.localeCompare(left));
+        const monthKeys = [
+          ...new Set((rows || []).map((row) => row._monthKey).filter(Boolean)),
+        ].sort((left, right) => right.localeCompare(left));
 
         if (!monthKeys.length) {
           laporanPeminjamanSelectedMonth = "";
@@ -3458,7 +3482,9 @@
               formatLaporanPeminjamanDate(row.tanggal_pinjam || row.created_at),
               formatLaporanPeminjamanDate(row.tanggal_kembali),
               statusMeta.label,
-              row._estimatedFine > 0 ? formatAdminRupiah(row._estimatedFine) : "—",
+              row._estimatedFine > 0
+                ? formatAdminRupiah(row._estimatedFine)
+                : "—",
             ];
           }),
         ];
@@ -3501,7 +3527,9 @@
           laporanPeminjamanRows = [];
           laporanPeminjamanFilteredRows = [];
           laporanPeminjamanSelectedMonth = "";
-          const select = document.getElementById("laporanPeminjamanMonthSelect");
+          const select = document.getElementById(
+            "laporanPeminjamanMonthSelect",
+          );
           if (select) {
             select.innerHTML = `<option value="">Gagal memuat bulan</option>`;
           }
@@ -3535,7 +3563,9 @@
         );
 
         const reportRows = data || [];
-        const userIds = [...new Set(reportRows.map((row) => row.user_id).filter(Boolean))];
+        const userIds = [
+          ...new Set(reportRows.map((row) => row.user_id).filter(Boolean)),
+        ];
         let profileMap = new Map();
 
         if (userIds.length) {
@@ -3559,9 +3589,7 @@
               _borrowDate: borrowDate,
               _monthKey: getMonthKeyFromDate(borrowDate),
               _bookTitle:
-                row.judul_buku ||
-                linkedBook?.judul ||
-                "Buku tidak tersedia",
+                row.judul_buku || linkedBook?.judul || "Buku tidak tersedia",
               _memberName:
                 row.nama_anggota ||
                 linkedProfile?.full_name ||
@@ -3573,7 +3601,8 @@
           .filter((row) => row._monthKey)
           .sort(
             (left, right) =>
-              (right._borrowDate?.getTime() || 0) - (left._borrowDate?.getTime() || 0),
+              (right._borrowDate?.getTime() || 0) -
+              (left._borrowDate?.getTime() || 0),
           );
 
         populateLaporanPeminjamanMonthOptions(laporanPeminjamanRows);
@@ -3584,11 +3613,9 @@
         const select = document.getElementById("laporanDendaMonthSelect");
         if (!select) return;
 
-        const monthKeys = [...new Set(
-          (rows || [])
-            .map((row) => row._monthKey)
-            .filter(Boolean),
-        )].sort((left, right) => right.localeCompare(left));
+        const monthKeys = [
+          ...new Set((rows || []).map((row) => row._monthKey).filter(Boolean)),
+        ].sort((left, right) => right.localeCompare(left));
 
         if (!monthKeys.length) {
           laporanDendaSelectedMonth = "";
@@ -3615,7 +3642,9 @@
         if (!tbody) return;
 
         laporanDendaFilteredRows = laporanDendaSelectedMonth
-          ? laporanDendaRows.filter((row) => row._monthKey === laporanDendaSelectedMonth)
+          ? laporanDendaRows.filter(
+              (row) => row._monthKey === laporanDendaSelectedMonth,
+            )
           : [...laporanDendaRows];
 
         const totalDenda = laporanDendaFilteredRows.reduce(
@@ -3623,13 +3652,28 @@
           0,
         );
         const sudahDibayar = laporanDendaFilteredRows
-          .filter((row) => normalizeAdminFinePaymentStatus(row.status_pembayaran_denda, row._estimatedFine) === "lunas")
+          .filter(
+            (row) =>
+              normalizeAdminFinePaymentStatus(
+                row.status_pembayaran_denda,
+                row._estimatedFine,
+              ) === "lunas",
+          )
           .reduce((total, row) => total + (Number(row._estimatedFine) || 0), 0);
         const belumDibayar = totalDenda - sudahDibayar;
 
-        setDashboardValue("laporanDendaTotalValue", formatAdminRupiah(totalDenda));
-        setDashboardValue("laporanDendaPaidValue", formatAdminRupiah(sudahDibayar));
-        setDashboardValue("laporanDendaUnpaidValue", formatAdminRupiah(belumDibayar));
+        setDashboardValue(
+          "laporanDendaTotalValue",
+          formatAdminRupiah(totalDenda),
+        );
+        setDashboardValue(
+          "laporanDendaPaidValue",
+          formatAdminRupiah(sudahDibayar),
+        );
+        setDashboardValue(
+          "laporanDendaUnpaidValue",
+          formatAdminRupiah(belumDibayar),
+        );
 
         if (!laporanDendaFilteredRows.length) {
           tbody.innerHTML = `
@@ -3764,8 +3808,12 @@
             .map((book) => [String(book._dbId), book]),
         );
 
-        const fineRows = (data || []).filter((row) => getEstimatedLoanFine(row) > 0);
-        const userIds = [...new Set(fineRows.map((row) => row.user_id).filter(Boolean))];
+        const fineRows = (data || []).filter(
+          (row) => getEstimatedLoanFine(row) > 0,
+        );
+        const userIds = [
+          ...new Set(fineRows.map((row) => row.user_id).filter(Boolean)),
+        ];
         let profileMap = new Map();
 
         if (userIds.length) {
@@ -3794,9 +3842,7 @@
                 linkedProfile?.email ||
                 "Anggota",
               _bookTitle:
-                row.judul_buku ||
-                linkedBook?.judul ||
-                "Buku tidak tersedia",
+                row.judul_buku || linkedBook?.judul || "Buku tidak tersedia",
               _fineReferenceDate: fineReferenceDate,
             };
           })
@@ -3814,9 +3860,7 @@
       async function loadDashboardStats() {
         const [bukuRows, anggotaResult, peminjamanResult] = await Promise.all([
           loadBookRowsFromDatabase().catch(() => []),
-          supabaseClient
-            .from("profiles")
-            .select("id, created_at"),
+          supabaseClient.from("profiles").select("id, created_at"),
           supabaseClient
             .from("peminjaman")
             .select(
@@ -3838,8 +3882,7 @@
         const peminjamanRows = peminjamanResult.data || [];
         const dipinjamHariIni = peminjamanRows.filter(
           (row) =>
-            row.status === "dipinjam" &&
-            isSameLocalDay(row.tanggal_pinjam),
+            row.status === "dipinjam" && isSameLocalDay(row.tanggal_pinjam),
         ).length;
         const menungguKonfirmasi = peminjamanRows.filter((row) =>
           matchesBorrowingStatuses(row.status, ["menunggu"]),
@@ -3946,7 +3989,9 @@
           const book = bookMap.get(String(row.buku_id || ""));
           const key =
             String(row.buku_id || "").trim() ||
-            String(row.judul_buku || "").trim().toLowerCase();
+            String(row.judul_buku || "")
+              .trim()
+              .toLowerCase();
           if (!key) return;
 
           const existing = topBooksMap.get(key) || {
@@ -3957,13 +4002,22 @@
           };
 
           existing.total += 1;
-          if ((!existing.penulis || existing.penulis === "-") && book?.penulis) {
+          if (
+            (!existing.penulis || existing.penulis === "-") &&
+            book?.penulis
+          ) {
             existing.penulis = book.penulis;
           }
-          if ((!existing.kategori || existing.kategori === "-") && book?.kategori) {
+          if (
+            (!existing.kategori || existing.kategori === "-") &&
+            book?.kategori
+          ) {
             existing.kategori = book.kategori;
           }
-          if ((!existing.judul || existing.judul === "Tanpa Judul") && book?.judul) {
+          if (
+            (!existing.judul || existing.judul === "Tanpa Judul") &&
+            book?.judul
+          ) {
             existing.judul = book.judul;
           }
 
@@ -4198,9 +4252,14 @@
         if (directMatch) return directMatch;
 
         const normalizedColumns = new Map(
-          availableColumns.map((column) => [normalizeColumnName(column), column]),
+          availableColumns.map((column) => [
+            normalizeColumnName(column),
+            column,
+          ]),
         );
-        const aliases = [...new Set([...(BOOK_FIELD_ALIASES[field] || []), field])];
+        const aliases = [
+          ...new Set([...(BOOK_FIELD_ALIASES[field] || []), field]),
+        ];
 
         for (const alias of aliases) {
           const normalizedAlias = normalizeColumnName(alias);
@@ -4301,7 +4360,9 @@
           const parsed = new URL(normalized);
           const pathname = String(parsed.pathname || "").toLowerCase();
           if (!pathname || pathname === "/") return true;
-          return !/\.(avif|bmp|gif|ico|jpe?g|jfif|png|svg|webp)$/i.test(pathname);
+          return !/\.(avif|bmp|gif|ico|jpe?g|jfif|png|svg|webp)$/i.test(
+            pathname,
+          );
         } catch (_) {
           return false;
         }
@@ -4312,7 +4373,9 @@
         if (!normalizedCandidate) return "";
 
         try {
-          return normalizeBookCoverUrl(new URL(normalizedCandidate, baseUrl).toString());
+          return normalizeBookCoverUrl(
+            new URL(normalizedCandidate, baseUrl).toString(),
+          );
         } catch (_) {
           return normalizeBookCoverUrl(normalizedCandidate);
         }
@@ -4370,7 +4433,9 @@
           'link[rel="image_src"]',
         ].forEach((selector) => {
           documentNode.querySelectorAll(selector).forEach((node) => {
-            pushValue(node.getAttribute("content") || node.getAttribute("href"));
+            pushValue(
+              node.getAttribute("content") || node.getAttribute("href"),
+            );
           });
         });
 
@@ -4387,7 +4452,11 @@
               node.getAttribute("src") ||
                 node.getAttribute("data-src") ||
                 node.getAttribute("data-large_image") ||
-                node.getAttribute("srcset")?.split(",")?.[0]?.trim()?.split(" ")?.[0],
+                node
+                  .getAttribute("srcset")
+                  ?.split(",")?.[0]
+                  ?.trim()
+                  ?.split(" ")?.[0],
             );
           });
         });
@@ -4477,7 +4546,9 @@
           imageLinks.smallThumbnail ||
           "";
 
-        return String(rawUrl || "").trim().replace(/^http:\/\//i, "https://");
+        return String(rawUrl || "")
+          .trim()
+          .replace(/^http:\/\//i, "https://");
       }
 
       async function fetchGoogleBooksCandidates(query) {
@@ -4722,7 +4793,10 @@
         };
 
         if (!manualCoverUrl && !book.judul && !book.isbn) {
-          showToast("Isi judul atau ISBN dulu supaya cover bisa dicari.", "warning");
+          showToast(
+            "Isi judul atau ISBN dulu supaya cover bisa dicari.",
+            "warning",
+          );
           return;
         }
 
@@ -4735,17 +4809,22 @@
 
         try {
           if (manualCoverUrl) {
-            const resolvedManualUrl = await resolveManualBookCoverInputUrl(
-              manualCoverUrl,
-            );
+            const resolvedManualUrl =
+              await resolveManualBookCoverInputUrl(manualCoverUrl);
 
             if (!resolvedManualUrl) {
-              showToast(getManualBookCoverInputErrorMessage(manualCoverUrl), "warning");
+              showToast(
+                getManualBookCoverInputErrorMessage(manualCoverUrl),
+                "warning",
+              );
               return;
             }
 
             if (input) input.value = resolvedManualUrl;
-            showToast("🖼️ URL cover dari link yang Anda isi berhasil dipakai!", "success");
+            showToast(
+              "🖼️ URL cover dari link yang Anda isi berhasil dipakai!",
+              "success",
+            );
             return;
           }
 
@@ -4805,7 +4884,8 @@
           _dbId: dbId ? String(dbId) : "",
           _idColumn: findBookColumn(row, "id") || "id",
           _tableName: tableName,
-          _columns: columns && columns.length ? columns : [...BOOK_FALLBACK_COLUMNS],
+          _columns:
+            columns && columns.length ? columns : [...BOOK_FALLBACK_COLUMNS],
           _matchData: buildBookMatchData(row),
           id: dbId ? String(dbId) : `${tableName}-${index + 1}`,
           judul: String(getBookValue(row, "judul") || "").trim(),
@@ -4824,7 +4904,9 @@
         const errors = [];
 
         for (const tableName of BOOK_TABLE_CANDIDATES) {
-          const { data, error } = await supabaseClient.from(tableName).select("*");
+          const { data, error } = await supabaseClient
+            .from(tableName)
+            .select("*");
           if (error) {
             errors.push(`${tableName}: ${error.message}`);
             continue;
@@ -4853,7 +4935,8 @@
         });
 
         const writableTable =
-          results.find((result) => result.tableName === "buku") || sortedResults[0];
+          results.find((result) => result.tableName === "buku") ||
+          sortedResults[0];
 
         activeBookTableName = writableTable.tableName;
         activeBookColumns = writableTable.columns.length
@@ -4876,7 +4959,11 @@
               normalizedRow.isbn,
               normalizedRow.kategori,
             ]
-              .map((value) => String(value || "").trim().toLowerCase())
+              .map((value) =>
+                String(value || "")
+                  .trim()
+                  .toLowerCase(),
+              )
               .join("|");
             if (seenKeys.has(dedupeKey)) return;
             seenKeys.add(dedupeKey);
@@ -4957,11 +5044,7 @@
           description: book.deskripsi || null,
         };
 
-        const payloads = [
-          defaultPayload,
-          legacyBukuPayload,
-          englishPayload,
-        ];
+        const payloads = [defaultPayload, legacyBukuPayload, englishPayload];
 
         if (normalizedCoverUrl) {
           payloads.splice(
@@ -5071,7 +5154,9 @@
         helpdeskRefreshTimer = setTimeout(() => {
           helpdeskRefreshTimer = null;
           if (
-            document.getElementById("page-helpdeskChat")?.classList.contains("active")
+            document
+              .getElementById("page-helpdeskChat")
+              ?.classList.contains("active")
           ) {
             loadHelpdeskChat();
             return;
@@ -5128,16 +5213,23 @@
       }
 
       function normalizeBorrowingStatus(status) {
-        return String(status || "").trim().toLowerCase() === "pending"
+        return String(status || "")
+          .trim()
+          .toLowerCase() === "pending"
           ? "menunggu"
-          : String(status || "").trim().toLowerCase();
+          : String(status || "")
+              .trim()
+              .toLowerCase();
       }
 
       function matchesBorrowingStatuses(status, requestedStatuses = []) {
-        if (!Array.isArray(requestedStatuses) || !requestedStatuses.length) return true;
+        if (!Array.isArray(requestedStatuses) || !requestedStatuses.length)
+          return true;
 
         const normalizedStatus = normalizeBorrowingStatus(status);
-        const normalizedTargets = requestedStatuses.map(normalizeBorrowingStatus);
+        const normalizedTargets = requestedStatuses.map(
+          normalizeBorrowingStatus,
+        );
         return normalizedTargets.includes(normalizedStatus);
       }
 
@@ -5176,7 +5268,8 @@
           className: "badge-blue",
           label: normalizedStatus
             ? escapeHtml(
-                normalizedStatus.charAt(0).toUpperCase() + normalizedStatus.slice(1),
+                normalizedStatus.charAt(0).toUpperCase() +
+                  normalizedStatus.slice(1),
               )
             : "-",
         };
@@ -5188,12 +5281,20 @@
         userId = null,
         ascending = false,
       } = {}) {
-        const orderColumns = ["created_at", "tanggal_pinjam", "tanggal_kembali"];
-        const requestedStatuses = Array.isArray(statuses) && statuses.length ? statuses : null;
+        const orderColumns = [
+          "created_at",
+          "tanggal_pinjam",
+          "tanggal_kembali",
+        ];
+        const requestedStatuses =
+          Array.isArray(statuses) && statuses.length ? statuses : null;
         const safeStatuses = requestedStatuses
           ? requestedStatuses
               .map(normalizeBorrowingStatus)
-              .filter((value, index, array) => value && array.indexOf(value) === index)
+              .filter(
+                (value, index, array) =>
+                  value && array.indexOf(value) === index,
+              )
           : null;
         let lastError = null;
 
@@ -5226,7 +5327,10 @@
           fallbackQuery = fallbackQuery.in("status", safeStatuses);
         }
         if (status) {
-          fallbackQuery = fallbackQuery.eq("status", normalizeBorrowingStatus(status));
+          fallbackQuery = fallbackQuery.eq(
+            "status",
+            normalizeBorrowingStatus(status),
+          );
         }
         if (userId) {
           fallbackQuery = fallbackQuery.eq("user_id", userId);
@@ -5297,7 +5401,9 @@
             .map((book) => [String(book._dbId), book]),
         );
 
-        const userIds = [...new Set(rows.map((item) => item.user_id).filter(Boolean))];
+        const userIds = [
+          ...new Set(rows.map((item) => item.user_id).filter(Boolean)),
+        ];
         let profileMap = new Map();
         if (userIds.length) {
           const { data: profiles } = await supabaseClient
@@ -5315,9 +5421,7 @@
             const linkedBook = bookMap.get(String(item.buku_id || ""));
             const linkedProfile = profileMap.get(String(item.user_id || ""));
             const judulBuku =
-              item.judul_buku ||
-              linkedBook?.judul ||
-              "Judul tidak tersedia";
+              item.judul_buku || linkedBook?.judul || "Judul tidak tersedia";
             const namaAnggota =
               item.nama_anggota ||
               linkedProfile?.full_name ||
@@ -5325,7 +5429,10 @@
               item.user_id ||
               "Anggota";
             const statusMeta = getBorrowingStatusMeta(item.status);
-            const canReview = matchesBorrowingStatuses(item.status, ["menunggu", "pending"]);
+            const canReview = matchesBorrowingStatuses(item.status, [
+              "menunggu",
+              "pending",
+            ]);
 
             return `
               <tr>
@@ -5482,10 +5589,10 @@
       }
 
       // ===== INIT: jalankan auth guard saat halaman dibuka =====
-    document.addEventListener("DOMContentLoaded", async () => {
-  await checkAuthAndLoad();
-  await loadDashboardHelpdesk();
-});
+      document.addEventListener("DOMContentLoaded", async () => {
+        await checkAuthAndLoad();
+        await loadDashboardHelpdesk();
+      });
 
       // Kalau session berakhir / logout dari tab lain, ikut dilempar keluar
       supabaseClient.auth.onAuthStateChange((event) => {
@@ -5599,10 +5706,12 @@
         });
 
         if (error) {
-          container.innerHTML =
-            `<p style="color:#ef4444">Gagal memuat data peminjaman: ${escapeHtml(error.message || "Unknown error")}</p>`;
+          container.innerHTML = `<p style="color:#ef4444">Gagal memuat data peminjaman: ${escapeHtml(error.message || "Unknown error")}</p>`;
           if (badge) badge.textContent = "0 Menunggu";
-          showToast("Gagal memuat konfirmasi peminjaman: " + error.message, "danger");
+          showToast(
+            "Gagal memuat konfirmasi peminjaman: " + error.message,
+            "danger",
+          );
           console.error(error);
           return;
         }
@@ -5621,7 +5730,10 @@
           try {
             bookRows = await loadBookRowsFromDatabase();
           } catch (loadError) {
-            console.warn("Gagal menyiapkan data buku untuk konfirmasi:", loadError);
+            console.warn(
+              "Gagal menyiapkan data buku untuk konfirmasi:",
+              loadError,
+            );
           }
         }
 
@@ -5631,7 +5743,9 @@
             .map((book) => [String(book._dbId), book]),
         );
 
-        const userIds = [...new Set(rows.map((item) => item.user_id).filter(Boolean))];
+        const userIds = [
+          ...new Set(rows.map((item) => item.user_id).filter(Boolean)),
+        ];
         let profileMap = new Map();
         if (userIds.length) {
           const { data: profiles } = await supabaseClient
@@ -5649,9 +5763,7 @@
             const linkedBook = bookMap.get(String(item.buku_id || ""));
             const linkedProfile = profileMap.get(String(item.user_id || ""));
             const judulBuku =
-              item.judul_buku ||
-              linkedBook?.judul ||
-              "Judul tidak tersedia";
+              item.judul_buku || linkedBook?.judul || "Judul tidak tersedia";
             const namaAnggota =
               item.nama_anggota ||
               linkedProfile?.full_name ||
@@ -5697,7 +5809,6 @@
           })
           .join("");
       }
- 
 
       // =====Pengembalian========
       function parseAdminDateOnly(value) {
@@ -5716,7 +5827,12 @@
       }
 
       function getAdminOverdueDays(item) {
-        if (!item || String(item.status || "").trim().toLowerCase() !== "dipinjam") {
+        if (
+          !item ||
+          String(item.status || "")
+            .trim()
+            .toLowerCase() !== "dipinjam"
+        ) {
           return 0;
         }
 
@@ -5792,7 +5908,9 @@
           );
         }
 
-        const userIds = [...new Set(rows.map((item) => item.user_id).filter(Boolean))];
+        const userIds = [
+          ...new Set(rows.map((item) => item.user_id).filter(Boolean)),
+        ];
         let profileMap = new Map();
         if (userIds.length) {
           const { data: profiles } = await supabaseClient
@@ -5810,9 +5928,7 @@
             const linkedBook = bookMap.get(String(item.buku_id || ""));
             const linkedProfile = profileMap.get(String(item.user_id || ""));
             const judulBuku =
-              item.judul_buku ||
-              linkedBook?.judul ||
-              "Judul tidak tersedia";
+              item.judul_buku || linkedBook?.judul || "Judul tidak tersedia";
             const namaAnggota =
               item.nama_anggota ||
               linkedProfile?.full_name ||
@@ -5904,7 +6020,10 @@
           .maybeSingle();
 
         if (fetchError) {
-          showToast("Gagal membaca data peminjaman: " + fetchError.message, "danger");
+          showToast(
+            "Gagal membaca data peminjaman: " + fetchError.message,
+            "danger",
+          );
           return;
         }
         if (!peminjaman) {
@@ -5981,7 +6100,10 @@
           .maybeSingle();
 
         if (loanError) {
-          showToast("Gagal membaca data pengembalian: " + loanError.message, "danger");
+          showToast(
+            "Gagal membaca data pengembalian: " + loanError.message,
+            "danger",
+          );
           return;
         }
         if (!loan) {
@@ -5991,7 +6113,9 @@
 
         const overdueDays = getAdminOverdueDays(loan);
         const estimatedFine =
-          overdueDays > 0 ? overdueDays * TARIF_DENDA_ADMIN : Number(loan?.denda) || 0;
+          overdueDays > 0
+            ? overdueDays * TARIF_DENDA_ADMIN
+            : Number(loan?.denda) || 0;
         const fineStatus = normalizeAdminFinePaymentStatus(
           loan?.status_pembayaran_denda,
           estimatedFine,
@@ -6010,7 +6134,9 @@
           .update({
             status: "dikembalikan",
             status_pembayaran_denda:
-              estimatedFine > 0 ? "lunas" : loan?.status_pembayaran_denda || "belum_dibayar",
+              estimatedFine > 0
+                ? "lunas"
+                : loan?.status_pembayaran_denda || "belum_dibayar",
           })
           .eq("id", id);
 
@@ -6039,16 +6165,16 @@
           .eq("id", id);
 
         if (error) {
-          showToast(
-            "Gagal menandai denda lunas: " + error.message,
-            "danger",
-          );
+          showToast("Gagal menandai denda lunas: " + error.message, "danger");
           return;
         }
 
         await loadKonfirmasiPengembalian();
         loadDashboardStats();
-        showToast(`💰 Denda ${nama} ditandai lunas dan pengembalian diproses!`, "success");
+        showToast(
+          `💰 Denda ${nama} ditandai lunas dan pengembalian diproses!`,
+          "success",
+        );
       }
 
       function showFineDetail(btn) {
@@ -6094,8 +6220,12 @@
 
       */
       function setBookModalMode(mode) {
-        const modalTitle = document.querySelector("#modalTambahBuku .modal-title");
-        const saveButton = document.querySelector("#modalTambahBuku .btn.btn-primary");
+        const modalTitle = document.querySelector(
+          "#modalTambahBuku .modal-title",
+        );
+        const saveButton = document.querySelector(
+          "#modalTambahBuku .btn.btn-primary",
+        );
         if (modalTitle) {
           modalTitle.textContent =
             mode === "edit" ? "✏️ Edit Buku" : "➕ Tambah Buku Baru";
@@ -6126,7 +6256,9 @@
         document.getElementById("book-deskripsi").value = book.deskripsi || "";
 
         const kategoriSelect = document.getElementById("book-kategori");
-        const kategoriValue = String(book.kategori || "").trim().toLowerCase();
+        const kategoriValue = String(book.kategori || "")
+          .trim()
+          .toLowerCase();
         const match = Array.from(kategoriSelect.options).find((option) => {
           const optionValue = String(option.value || option.text || "")
             .trim()
@@ -6142,7 +6274,8 @@
         const row = btn.closest("tr");
         const bookId = row?.dataset?.bookId;
         const bookLocalId = row?.dataset?.bookLocalId || row?.dataset?.bookId;
-        const bookTable = row?.dataset?.bookTable || activeBookTableName || "buku";
+        const bookTable =
+          row?.dataset?.bookTable || activeBookTableName || "buku";
         const bookIdColumn = row?.dataset?.bookIdColumn || "id";
         const book = allKoleksiBuku.find(
           (item) =>
@@ -6615,7 +6748,9 @@
         const profile = resolveHelpdeskProfile(entry);
         const rawName = String(entry?.user_name || "").trim();
         const rawEmail = String(entry?.user_email || "").trim();
-        const rawUserId = String(entry?.user_id || "").trim().toLowerCase();
+        const rawUserId = String(entry?.user_id || "")
+          .trim()
+          .toLowerCase();
 
         if (profile?.full_name) return profile.full_name;
         if (
@@ -6636,11 +6771,13 @@
       }
 
       async function hydrateHelpdeskProfiles(messages) {
-        const userIds = [...new Set(
-          (Array.isArray(messages) ? messages : [])
-            .map((message) => String(message?.user_id || "").trim())
-            .filter(Boolean),
-        )];
+        const userIds = [
+          ...new Set(
+            (Array.isArray(messages) ? messages : [])
+              .map((message) => String(message?.user_id || "").trim())
+              .filter(Boolean),
+          ),
+        ];
 
         if (!userIds.length) {
           helpdeskProfileMap = new Map();
@@ -6784,8 +6921,10 @@
           };
 
           existing.messages.push(message);
-          existing.user_name = resolveHelpdeskUserName(message) || existing.user_name;
-          existing.user_email = resolveHelpdeskUserEmail(message) || existing.user_email;
+          existing.user_name =
+            resolveHelpdeskUserName(message) || existing.user_name;
+          existing.user_email =
+            resolveHelpdeskUserEmail(message) || existing.user_email;
 
           if (
             !existing.last_message_at ||
@@ -7050,7 +7189,8 @@
         const { error } = await insertAdminHelpdeskMessage({
           user_id: thread.user_id,
           user_name: thread.user_name,
-          user_email: thread.user_email || resolveHelpdeskUserEmail(thread) || null,
+          user_email:
+            thread.user_email || resolveHelpdeskUserEmail(thread) || null,
           sender_role: "admin",
           admin_id: user.id,
           admin_name: currentUser?.name || user.email,
@@ -7581,32 +7721,32 @@
       updateClock();
       setInterval(updateClock, 1000);
 
-      
-async function loadDashboardHelpdesk() {
-  const container = document.getElementById("dashboardHelpdeskList");
-  if (!container) return;
+      async function loadDashboardHelpdesk() {
+        const container = document.getElementById("dashboardHelpdeskList");
+        if (!container) return;
 
-  container.innerHTML =
-    '<div style="padding:12px;color:#94a3b8">Memuat chat...</div>';
+        container.innerHTML =
+          '<div style="padding:12px;color:#94a3b8">Memuat chat...</div>';
 
-  const { error } = await syncHelpdeskState();
-  if (error) {
-    container.innerHTML =
-      '<div style="padding:12px;color:red">Gagal memuat chat</div>';
-    return;
-  }
+        const { error } = await syncHelpdeskState();
+        if (error) {
+          container.innerHTML =
+            '<div style="padding:12px;color:red">Gagal memuat chat</div>';
+          return;
+        }
 
-  updateHelpdeskUnreadIndicators();
-  renderDashboardHelpdeskList();
+        updateHelpdeskUnreadIndicators();
+        renderDashboardHelpdeskList();
 
-  if (document.getElementById("page-helpdeskChat")?.classList.contains("active")) {
-    renderHelpdeskList();
-    renderHelpdeskConversation();
-  }
-}
-
-
+        if (
+          document
+            .getElementById("page-helpdeskChat")
+            ?.classList.contains("active")
+        ) {
+          renderHelpdeskList();
+          renderHelpdeskConversation();
+        }
+      }
     </script>
   </body>
 </html>
-
