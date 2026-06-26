@@ -105,6 +105,27 @@
       [data-theme="dark"] .about-card p {
         color: #94a3b8;
       }
+      [data-theme="dark"] .dashboard-alert {
+        background: linear-gradient(135deg, #3b1d12, #2b160d);
+        border-color: #7c2d12;
+      }
+      [data-theme="dark"] .dashboard-alert strong,
+      [data-theme="dark"] .dashboard-alert p {
+        color: #fed7aa;
+      }
+      [data-theme="dark"] .dashboard-news-card,
+      [data-theme="dark"] .dashboard-news-item {
+        background: #0f172a;
+        border-color: #334155;
+      }
+      [data-theme="dark"] .dashboard-news-header h2,
+      [data-theme="dark"] .dashboard-news-item h3 {
+        color: #e2e8f0;
+      }
+      [data-theme="dark"] .dashboard-news-item p,
+      [data-theme="dark"] .dashboard-news-date {
+        color: #94a3b8;
+      }
       [data-theme="dark"] .search-bar input {
         background: #0f172a;
         border-color: #334155;
@@ -139,6 +160,30 @@
       }
       [data-theme="dark"] .alert-box ul li {
         color: #f59e0b;
+      }
+      [data-theme="dark"] .fine-summary-card,
+      [data-theme="dark"] .fine-payment-card {
+        background: #0f172a;
+        border-color: #334155;
+      }
+      [data-theme="dark"] .fine-summary-title,
+      [data-theme="dark"] .fine-payment-title,
+      [data-theme="dark"] .fine-payment-meta strong {
+        color: #e2e8f0;
+      }
+      [data-theme="dark"] .fine-summary-note,
+      [data-theme="dark"] .fine-payment-meta,
+      [data-theme="dark"] .fine-payment-status {
+        color: #94a3b8;
+      }
+      [data-theme="dark"] .fine-payment-helper {
+        background: #1e293b;
+        color: #cbd5e1;
+      }
+      [data-theme="dark"] .fine-payment-select {
+        background: #020617;
+        border-color: #334155;
+        color: #e2e8f0;
       }
       [data-theme="dark"] .card-back {
         background: #1e293b;
@@ -822,6 +867,14 @@
         background: rgba(255, 255, 255, 0.18);
         color: white;
       }
+      .nav-item.is-disabled {
+        opacity: 0.42;
+        cursor: not-allowed;
+      }
+      .nav-item.is-disabled:hover {
+        background: transparent;
+        color: rgba(255, 255, 255, 0.75);
+      }
       .nav-item svg {
         width: 20px;
         height: 20px;
@@ -997,6 +1050,115 @@
         font-family: "Poppins", sans-serif;
       }
       .about-card p {
+        color: var(--text-muted);
+        line-height: 1.7;
+      }
+      .dashboard-alert {
+        display: none;
+        margin-bottom: 22px;
+        padding: 18px 20px;
+        border-radius: 16px;
+        border: 1px solid #fdba74;
+        background: linear-gradient(135deg, #fff7ed, #ffedd5);
+      }
+      .dashboard-alert strong {
+        display: block;
+        margin-bottom: 6px;
+        font-size: 15px;
+        font-weight: 800;
+        color: #9a3412;
+      }
+      .dashboard-alert p {
+        margin: 0;
+        font-size: 13px;
+        line-height: 1.7;
+        color: #9a3412;
+      }
+      .dashboard-news-card {
+        margin-top: 24px;
+        background: white;
+        border: 1.5px solid var(--border);
+        border-radius: 16px;
+        padding: 28px;
+      }
+      .dashboard-news-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 18px;
+      }
+      .dashboard-news-kicker {
+        display: inline-block;
+        margin-bottom: 8px;
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--primary-dark);
+      }
+      .dashboard-news-header h2 {
+        font-size: 20px;
+        font-weight: 800;
+        color: var(--text);
+        font-family: "Poppins", sans-serif;
+      }
+      .dashboard-news-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 9px 14px;
+        border-radius: 999px;
+        background: #ecfeff;
+        color: #0f766e;
+        font-size: 12px;
+        font-weight: 800;
+        white-space: nowrap;
+      }
+      .dashboard-news-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+      }
+      .dashboard-news-item {
+        border-radius: 16px;
+        padding: 18px;
+        border: 1px solid var(--border);
+        background: linear-gradient(180deg, #f8fbff 0%, #ffffff 100%);
+      }
+      .dashboard-news-meta {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 12px;
+      }
+      .dashboard-news-pill {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 6px 10px;
+        border-radius: 999px;
+        background: #e0f2fe;
+        color: #0369a1;
+        font-size: 11px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+      .dashboard-news-date {
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--text-muted);
+      }
+      .dashboard-news-item h3 {
+        font-size: 16px;
+        font-weight: 800;
+        color: var(--text);
+        margin-bottom: 8px;
+      }
+      .dashboard-news-item p {
+        font-size: 13px;
         color: var(--text-muted);
         line-height: 1.7;
       }
@@ -1389,6 +1551,184 @@
         content: "•";
       }
 
+      .pengembalian-tabs {
+        align-items: center;
+        margin-bottom: 18px;
+      }
+      .pengembalian-tab-panel {
+        display: none;
+      }
+      .pengembalian-tab-panel.active {
+        display: block;
+      }
+      .fine-tab-count {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 24px;
+        height: 24px;
+        margin-left: 8px;
+        padding: 0 8px;
+        border-radius: 999px;
+        background: rgba(14, 116, 144, 0.12);
+        color: var(--primary-dark);
+        font-size: 12px;
+        font-weight: 800;
+      }
+      .tab-btn.active .fine-tab-count {
+        background: rgba(255, 255, 255, 0.18);
+        color: white;
+      }
+      .fine-summary-card {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 20px 22px;
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        background: #f8fbff;
+        margin-bottom: 18px;
+      }
+      .fine-summary-title {
+        font-size: 18px;
+        font-weight: 800;
+        color: var(--text-dark);
+        margin-bottom: 6px;
+      }
+      .fine-summary-note {
+        font-size: 13px;
+        color: var(--text-muted);
+        line-height: 1.6;
+      }
+      .fine-summary-amount {
+        font-size: 28px;
+        font-weight: 900;
+        color: var(--primary-dark);
+        white-space: nowrap;
+      }
+      .fine-payment-list {
+        display: grid;
+        gap: 14px;
+      }
+      .fine-payment-card {
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        background: white;
+        padding: 18px 20px;
+      }
+      .fine-payment-head {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 18px;
+        margin-bottom: 14px;
+      }
+      .fine-payment-title {
+        font-size: 18px;
+        font-weight: 800;
+        color: var(--text-dark);
+        margin-bottom: 6px;
+      }
+      .fine-payment-meta {
+        font-size: 13px;
+        color: var(--text-muted);
+        line-height: 1.7;
+      }
+      .fine-payment-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 8px 12px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 800;
+        white-space: nowrap;
+      }
+      .fine-payment-badge.overdue {
+        background: #fff7ed;
+        color: #c2410c;
+      }
+      .fine-payment-badge.requested {
+        background: #ecfeff;
+        color: #0f766e;
+      }
+      .fine-payment-body {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 18px;
+        align-items: end;
+      }
+      .fine-payment-status {
+        margin-bottom: 12px;
+        font-size: 13px;
+        color: var(--text-muted);
+      }
+      .fine-payment-helper {
+        background: #f8fafc;
+        border-radius: 12px;
+        padding: 12px 14px;
+        font-size: 13px;
+        color: #334155;
+        line-height: 1.6;
+      }
+      .fine-payment-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        min-width: 220px;
+      }
+      .fine-payment-select {
+        width: 100%;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 12px 14px;
+        font-size: 14px;
+        font-weight: 700;
+        font-family: "Nunito", sans-serif;
+        color: var(--text-dark);
+        background: white;
+      }
+      .fine-payment-btn {
+        border: none;
+        border-radius: 12px;
+        padding: 12px 16px;
+        background: linear-gradient(135deg, #0e7490, #1a7fa8);
+        color: white;
+        font-size: 14px;
+        font-weight: 800;
+        font-family: "Nunito", sans-serif;
+        cursor: pointer;
+        transition: transform 0.2s ease, opacity 0.2s ease;
+      }
+      .fine-payment-btn:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+      }
+      .fine-payment-btn:not(:disabled):hover {
+        transform: translateY(-1px);
+      }
+      .fine-empty-state {
+        border: 1px dashed var(--border);
+        border-radius: 16px;
+        background: white;
+      }
+      @media (max-width: 860px) {
+        .fine-summary-card,
+        .fine-payment-head,
+        .fine-payment-body {
+          flex-direction: column;
+          align-items: stretch;
+          grid-template-columns: 1fr;
+        }
+        .fine-summary-amount {
+          white-space: normal;
+        }
+        .fine-payment-actions {
+          min-width: 0;
+        }
+      }
+
       /* READING HISTORY */
       .tab-group {
         display: flex;
@@ -1411,6 +1751,11 @@
         background: linear-gradient(135deg, #0e7490, #1a7fa8);
         color: white;
         border-color: transparent;
+      }
+      .tab-btn.is-disabled,
+      .tab-btn:disabled {
+        opacity: 0.48;
+        cursor: not-allowed;
       }
 
       .history-stats {
@@ -1456,6 +1801,7 @@
         display: flex;
         flex-direction: column;
         height: 100%;
+        min-height: 0;
       }
 
       .chat-header {
@@ -1546,6 +1892,7 @@
         flex: 1;
         overflow-y: auto;
         padding: 0 40px;
+        min-height: 0;
       }
 
       .date-divider {
@@ -1655,6 +2002,7 @@
         font-size: 12px;
         color: var(--text-muted);
         padding-bottom: 8px;
+        flex-shrink: 0;
       }
 
       .book-shelf-page {
@@ -2228,6 +2576,13 @@
       }
 
       @media (max-width: 1100px) {
+        .dashboard-news-grid {
+          grid-template-columns: 1fr;
+        }
+        .dashboard-news-header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
         .book-overview-grid,
         .book-grid-user {
           grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -2241,6 +2596,10 @@
       }
 
       @media (max-width: 720px) {
+        .stat-grid,
+        .dashboard-news-grid {
+          grid-template-columns: 1fr;
+        }
         .book-overview-grid,
         .book-detail-meta-grid {
           grid-template-columns: 1fr;
@@ -2707,6 +3066,7 @@
         <nav class="sidebar-nav">
           <div
             class="nav-item active"
+            data-page="dashboard"
             onclick="navigate('dashboard', { resetHistory: true })"
           >
             <svg
@@ -2722,7 +3082,7 @@
             </svg>
             Dashboard
           </div>
-          <div class="nav-item" onclick="navigate('buku')">
+          <div class="nav-item" data-page="buku" onclick="navigate('buku')">
             <svg
               viewBox="0 0 24 24"
               fill="none"
@@ -2736,7 +3096,7 @@
             </svg>
             Buku
           </div>
-          <div class="nav-item" onclick="navigate('kategori')">
+          <div class="nav-item" data-page="kategori" onclick="navigate('kategori')">
             <svg
               viewBox="0 0 24 24"
               fill="none"
@@ -2750,7 +3110,7 @@
             </svg>
             Kategori
           </div>
-          <div class="nav-item" onclick="navigate('anggota')">
+          <div class="nav-item" data-page="anggota" onclick="navigate('anggota')">
             <svg
               viewBox="0 0 24 24"
               fill="none"
@@ -2764,7 +3124,7 @@
             </svg>
             Anggota
           </div>
-          <div class="nav-item" onclick="navigate('peminjaman')">
+          <div class="nav-item" data-page="peminjaman" onclick="navigate('peminjaman')">
             <svg
               viewBox="0 0 24 24"
               fill="none"
@@ -2776,7 +3136,7 @@
             </svg>
             Peminjaman
           </div>
-          <div class="nav-item" onclick="navigate('pengembalian')">
+          <div class="nav-item" data-page="pengembalian" onclick="navigate('pengembalian')">
             <svg
               viewBox="0 0 24 24"
               fill="none"
@@ -2788,7 +3148,7 @@
             </svg>
             Pengembalian
           </div>
-          <div class="nav-item" onclick="navigate('riwayat')">
+          <div class="nav-item" data-page="riwayat" onclick="navigate('riwayat')">
             <svg
               viewBox="0 0 24 24"
               fill="none"
@@ -2800,7 +3160,7 @@
             </svg>
             Riwayat Bacaan
           </div>
-          <div class="nav-item" onclick="navigate('saranBuku')">
+          <div class="nav-item" data-page="saranBuku" onclick="navigate('saranBuku')">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="20"
@@ -2818,7 +3178,7 @@
             </svg>
             <span>Saran Buku</span>
           </div>
-          <div class="nav-item" onclick="navigate('helpdesk')">
+          <div class="nav-item" data-page="helpdesk" onclick="navigate('helpdesk')">
             <svg
               viewBox="0 0 24 24"
               fill="none"
@@ -2938,6 +3298,14 @@
                 </div>
               </div>
             </div>
+            <div class="dashboard-alert" id="account-suspension-banner">
+              <strong>Akun sementara ditangguhkan</strong>
+              <p>
+                Masih ada denda yang belum dibereskan lebih dari 3 hari. Akses
+                buku, peminjaman, dan fitur lain dibatasi sampai pembayaran
+                diproses.
+              </p>
+            </div>
             <div class="about-card">
               <h2>Tentang LITERASEA</h2>
               <p>
@@ -2947,6 +3315,16 @@
                 pengelana tak sekadar berlayar di permukaan, namun mampu
                 menyelami hakikat ilmu hingga ke dasarnya.
               </p>
+            </div>
+            <div class="dashboard-news-card">
+              <div class="dashboard-news-header">
+                <div>
+                  <span class="dashboard-news-kicker">Info Terbaru</span>
+                  <h2>Berita & Pengumuman</h2>
+                </div>
+                <span class="dashboard-news-badge">Update Perpustakaan</span>
+              </div>
+              <div class="dashboard-news-grid" id="dashboard-news-grid"></div>
             </div>
           </div>
         </div>
@@ -3422,25 +3800,62 @@
                 <li>Admin yang akan mengkonfirmasi pengembalian buku Anda</li>
               </ul>
             </div>
-            <div class="table-container">
-              <table class="data-table" id="pengembalian-table">
-                <thead>
-                  <tr>
-                    <th>Judul</th>
-                    <th>Tgl Pinjam</th>
-                    <th>Jatuh Tempo</th>
-                    <th>Status</th>
-                    <th>Denda</th>
-                  </tr>
-                </thead>
-                <tbody id="pengembalian-tbody">
-                  <tr>
-                    <td colspan="5">
-                      <div class="empty-state"><p>Memuat data...</p></div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+            <div class="dashboard-alert" id="pengembalian-suspension-banner">
+              <strong>Akun ditangguhkan sampai denda diproses</strong>
+              <p>
+                Selama penangguhan, Anda hanya bisa membuka pembayaran denda di
+                halaman ini.
+              </p>
+            </div>
+            <div class="tab-group pengembalian-tabs">
+              <button
+                class="tab-btn active"
+                id="tab-pengembalian-daftar"
+                onclick="setPengembalianTab('daftar')"
+              >
+                Daftar Pinjaman
+              </button>
+              <button
+                class="tab-btn"
+                id="tab-pengembalian-denda"
+                onclick="setPengembalianTab('denda')"
+              >
+                Bayar Denda
+                <span class="fine-tab-count" id="pengembalianFineCount">0</span>
+              </button>
+            </div>
+            <div class="pengembalian-tab-panel active" id="pengembalian-panel-daftar">
+              <div class="table-container">
+                <table class="data-table" id="pengembalian-table">
+                  <thead>
+                    <tr>
+                      <th>Judul</th>
+                      <th>Tgl Pinjam</th>
+                      <th>Jatuh Tempo</th>
+                      <th>Status</th>
+                      <th>Denda</th>
+                    </tr>
+                  </thead>
+                  <tbody id="pengembalian-tbody">
+                    <tr>
+                      <td colspan="5">
+                        <div class="empty-state"><p>Memuat data...</p></div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="pengembalian-tab-panel" id="pengembalian-panel-denda">
+              <div class="fine-summary-card" id="fine-payment-summary">
+                <div>
+                  <div class="fine-summary-title">Memuat data denda...</div>
+                  <div class="fine-summary-note">
+                    Sistem sedang menyiapkan daftar pembayaran Anda.
+                  </div>
+                </div>
+              </div>
+              <div class="fine-payment-list" id="fine-payment-list"></div>
             </div>
           </div>
         </div>
@@ -3974,6 +4389,38 @@
       const bookCoverLookupMisses = new Set();
       const bookCoverLookupPending = new Set();
       const HELPDESK_TABLE_CANDIDATES = ["helpdesk_messages", "helpdesk_chat"];
+      const DASHBOARD_NEWS_ITEMS = [
+        {
+          tag: "Layanan",
+          date: "26 Juni 2026",
+          title: "Jam layanan akhir pekan diperpanjang",
+          body: "Perpustakaan kini buka sampai pukul 18.00 setiap Sabtu agar proses pinjam, kembali, dan pembayaran denda lebih fleksibel.",
+        },
+        {
+          tag: "Koleksi",
+          date: "25 Juni 2026",
+          title: "Rak pengembangan diri bertambah",
+          body: "Beberapa judul baru tentang produktivitas, karier, dan public speaking sudah tersedia dan bisa diajukan untuk dipinjam.",
+        },
+        {
+          tag: "Pengumuman",
+          date: "24 Juni 2026",
+          title: "Denda wajib diselesaikan maksimal 3 hari",
+          body: "Jika denda belum diproses lebih dari 3 hari setelah jatuh tempo, akun akan ditangguhkan sementara sampai pembayaran selesai diverifikasi.",
+        },
+      ];
+      const ACCOUNT_SUSPEND_THRESHOLD_DAYS = 3;
+      const ACCOUNT_SUSPEND_ALLOWED_PAGES = new Set([
+        "dashboard",
+        "pengembalian",
+      ]);
+      let accountSuspensionState = {
+        isSuspended: false,
+        overdueLoans: [],
+        totalFine: 0,
+        maxOverdueDays: 0,
+      };
+      let previousSuspensionFlag = false;
 
       function requestBukuRefresh() {
         if (bukuRefreshTimer) clearTimeout(bukuRefreshTimer);
@@ -4063,8 +4510,42 @@
         return Number.isFinite(numericValue) ? Math.max(0, numericValue) : 1;
       }
 
+      let googleBooksRateLimitedUntil = 0;
+
       function normalizeBookCoverUrl(value) {
-        return String(value || "").trim().replace(/^http:\/\//i, "https://");
+        const normalized = String(value || "")
+          .trim()
+          .replace(/^['"]|['"]$/g, "");
+        if (!normalized) return "";
+        if (/^\/\//.test(normalized)) return `https:${normalized}`;
+        return normalized.replace(/^http:\/\//i, "https://");
+      }
+
+      function uniqueUrlList(urls) {
+        const seen = new Set();
+        return (Array.isArray(urls) ? urls : []).filter((url) => {
+          const normalized = normalizeBookCoverUrl(url);
+          if (!normalized || seen.has(normalized)) return false;
+          seen.add(normalized);
+          return true;
+        });
+      }
+
+      function buildBookCoverProxyUrl(url) {
+        const normalized = normalizeBookCoverUrl(url);
+        if (!normalized) return "";
+        if (/^https:\/\/images\.weserv\.nl\/\?url=/i.test(normalized)) {
+          return normalized;
+        }
+        return `https://images.weserv.nl/?url=${encodeURIComponent(
+          normalized.replace(/^https?:\/\//i, ""),
+        )}&default=404`;
+      }
+
+      function buildRenderableBookCoverUrls(url) {
+        const normalized = normalizeBookCoverUrl(url);
+        if (!normalized) return [];
+        return uniqueUrlList([normalized, buildBookCoverProxyUrl(normalized)]);
       }
 
       function normalizeBookSearchText(value) {
@@ -4130,32 +4611,60 @@
 
       function probeBookCoverUrl(url, timeoutMs = 6000) {
         return new Promise((resolve) => {
-          if (!url) {
+          const candidates = buildRenderableBookCoverUrls(url);
+          if (!candidates.length) {
             resolve("");
             return;
           }
 
-          const img = new Image();
           let settled = false;
-          const finish = (ok) => {
+          let activeImg = null;
+          let timer = null;
+          const finish = (result) => {
             if (settled) return;
             settled = true;
             clearTimeout(timer);
-            img.onload = null;
-            img.onerror = null;
-            resolve(ok ? url.replace("?default=false", "") : "");
+            if (activeImg) {
+              activeImg.onload = null;
+              activeImg.onerror = null;
+            }
+            resolve(result);
           };
-          const timer = setTimeout(() => finish(false), timeoutMs);
 
-          img.onload = () => finish(true);
-          img.onerror = () => finish(false);
-          img.referrerPolicy = "no-referrer";
-          img.src = url;
+          const tryCandidate = (index) => {
+            if (index >= candidates.length) {
+              finish("");
+              return;
+            }
+
+            const candidateUrl = candidates[index];
+            activeImg = new Image();
+            timer = setTimeout(() => {
+              if (activeImg) {
+                activeImg.onload = null;
+                activeImg.onerror = null;
+              }
+              tryCandidate(index + 1);
+            }, timeoutMs);
+
+            activeImg.onload = () => {
+              finish(candidateUrl.replace("?default=false", ""));
+            };
+            activeImg.onerror = () => {
+              clearTimeout(timer);
+              tryCandidate(index + 1);
+            };
+            activeImg.referrerPolicy = "no-referrer";
+            activeImg.src = candidateUrl;
+          };
+
+          tryCandidate(0);
         });
       }
 
       async function fetchGoogleBooksCandidates(query) {
         if (!query) return [];
+        if (Date.now() < googleBooksRateLimitedUntil) return [];
 
         const params = new URLSearchParams({
           q: query,
@@ -4172,6 +4681,10 @@
         const response = await fetch(
           `https://www.googleapis.com/books/v1/volumes?${params.toString()}`,
         );
+        if (response.status === 429) {
+          googleBooksRateLimitedUntil = Date.now() + 10 * 60 * 1000;
+          return [];
+        }
         if (!response.ok) return [];
 
         const payload = await response.json();
@@ -4370,6 +4883,24 @@
         } finally {
           bookCoverLookupPending.delete(cacheKey);
         }
+      }
+
+      function handleBookCoverImageError(img, fallbackSrc) {
+        if (!img) return;
+
+        const sourceUrl = img.dataset.coverUrl || "";
+        const candidates = buildRenderableBookCoverUrls(sourceUrl);
+        const triedIndex = Number(img.dataset.coverErrorIndex || "0");
+        const nextCandidate = candidates[triedIndex + 1];
+
+        if (nextCandidate) {
+          img.dataset.coverErrorIndex = String(triedIndex + 1);
+          img.src = nextCandidate;
+          return;
+        }
+
+        img.onerror = null;
+        img.src = fallbackSrc;
       }
 
       function normalizeBookRow(row, tableName, columns, index) {
@@ -4586,6 +5117,11 @@
       // ====== NAVIGATION ======
       function navigate(page, options = {}) {
         const { skipHistory = false, resetHistory = false } = options;
+
+        if (isPageBlockedBySuspension(page)) {
+          showToast(getSuspensionBlockedMessage());
+          return;
+        }
 
         if (resetHistory) {
           pageHistory = [];
@@ -4983,6 +5519,13 @@
           helpdeskRealtimeChannel = null;
         }
         currentUser = null;
+        accountSuspensionState = {
+          isSuspended: false,
+          overdueLoans: [],
+          totalFine: 0,
+          maxOverdueDays: 0,
+        };
+        previousSuspensionFlag = false;
         document.getElementById("app").classList.remove("active");
         document.getElementById("app").style.display = "";
         showSplash();
@@ -5023,8 +5566,10 @@
           barcodeEl.appendChild(div);
         }
 
+        renderDashboardNews();
         renderCategories();
         navigate("dashboard", { resetHistory: true });
+        updateAccountSuspensionUI();
         setWelcomeTime();
         showToast("Selamat datang, " + currentUser.name + "!");
       }
@@ -5051,8 +5596,8 @@
 
       // ====== TAB GROUP ======
       function setTab(el, type) {
-        document
-          .querySelectorAll(".tab-btn")
+        const scope = el?.closest(".tab-group");
+        (scope ? scope.querySelectorAll(".tab-btn") : document.querySelectorAll(".tab-btn"))
           .forEach((b) => b.classList.remove("active"));
         el.classList.add("active");
       }
@@ -5548,6 +6093,158 @@
         setTimeout(() => toast.classList.remove("show"), 2800);
       }
 
+      function renderDashboardNews() {
+        const grid = document.getElementById("dashboard-news-grid");
+        if (!grid) return;
+
+        grid.innerHTML = DASHBOARD_NEWS_ITEMS.map(
+          (item) => `
+            <article class="dashboard-news-item">
+              <div class="dashboard-news-meta">
+                <span class="dashboard-news-pill">${escapeHtml(item.tag)}</span>
+                <span class="dashboard-news-date">${escapeHtml(item.date)}</span>
+              </div>
+              <h3>${escapeHtml(item.title)}</h3>
+              <p>${escapeHtml(item.body)}</p>
+            </article>
+          `,
+        ).join("");
+      }
+
+      function isPageBlockedBySuspension(page) {
+        return (
+          accountSuspensionState.isSuspended &&
+          !ACCOUNT_SUSPEND_ALLOWED_PAGES.has(page)
+        );
+      }
+
+      function getSuspensionBlockedMessage() {
+        return "Akun sedang ditangguhkan. Silakan selesaikan pembayaran denda terlebih dahulu.";
+      }
+
+      function redirectToAllowedSuspensionPage() {
+        if (currentPage !== "pengembalian") {
+          navigate("pengembalian", { resetHistory: true });
+          return;
+        }
+        setPengembalianTab("denda");
+      }
+
+      function guardSuspendedAction() {
+        if (!accountSuspensionState.isSuspended) return false;
+        showToast(getSuspensionBlockedMessage());
+        redirectToAllowedSuspensionPage();
+        return true;
+      }
+
+      function computeAccountSuspensionState(loans = []) {
+        const overdueLoans = loans.filter(
+          (loan) =>
+            loan.status === "dipinjam" &&
+            Number(loan._overdueDays || 0) >= ACCOUNT_SUSPEND_THRESHOLD_DAYS &&
+            normalizeFinePaymentStatus(
+              loan._finePaymentStatus,
+              loan._estimatedFine,
+            ) !== "lunas",
+        );
+
+        return {
+          isSuspended: overdueLoans.length > 0,
+          overdueLoans,
+          totalFine: overdueLoans.reduce(
+            (sum, loan) => sum + (Number(loan._estimatedFine) || 0),
+            0,
+          ),
+          maxOverdueDays: overdueLoans.reduce(
+            (max, loan) => Math.max(max, Number(loan._overdueDays) || 0),
+            0,
+          ),
+        };
+      }
+
+      function updateAccountSuspensionUI() {
+        const dashboardBanner = document.getElementById(
+          "account-suspension-banner",
+        );
+        const pengembalianBanner = document.getElementById(
+          "pengembalian-suspension-banner",
+        );
+        const isSuspended = accountSuspensionState.isSuspended;
+        const overdueCount = accountSuspensionState.overdueLoans.length;
+        const totalFine = formatRupiah(accountSuspensionState.totalFine);
+        const suspensionDetail = isSuspended
+          ? `Ada ${overdueCount} pinjaman dengan denda aktif lebih dari ${ACCOUNT_SUSPEND_THRESHOLD_DAYS} hari. Total sementara ${totalFine}.`
+          : "";
+
+        if (dashboardBanner) {
+          if (isSuspended) {
+            dashboardBanner.style.display = "block";
+            dashboardBanner.innerHTML = `
+              <strong>Akun sementara ditangguhkan</strong>
+              <p>${escapeHtml(
+                suspensionDetail,
+              )} Anda tetap bisa membuka dashboard dan pembayaran denda sampai semuanya selesai diproses.</p>
+            `;
+          } else {
+            dashboardBanner.style.display = "none";
+          }
+        }
+
+        if (pengembalianBanner) {
+          if (isSuspended) {
+            pengembalianBanner.style.display = "block";
+            pengembalianBanner.innerHTML = `
+              <strong>Akun ditangguhkan sampai denda diproses</strong>
+              <p>${escapeHtml(
+                suspensionDetail,
+              )} Untuk sementara, hanya tab pembayaran denda yang bisa digunakan.</p>
+            `;
+          } else {
+            pengembalianBanner.style.display = "none";
+          }
+        }
+
+        document
+          .querySelectorAll(".sidebar .nav-item[data-page]")
+          .forEach((item) => {
+            const page = item.dataset.page || "";
+            const disabled = isPageBlockedBySuspension(page);
+            item.classList.toggle("is-disabled", disabled);
+            item.setAttribute("aria-disabled", disabled ? "true" : "false");
+            item.title = disabled
+              ? "Akses dikunci sampai pembayaran denda selesai."
+              : "";
+          });
+
+        const daftarBtn = document.getElementById("tab-pengembalian-daftar");
+        const dendaBtn = document.getElementById("tab-pengembalian-denda");
+        if (daftarBtn) {
+          daftarBtn.disabled = isSuspended;
+          daftarBtn.classList.toggle("is-disabled", isSuspended);
+        }
+        if (dendaBtn) {
+          dendaBtn.disabled = false;
+          dendaBtn.classList.remove("is-disabled");
+        }
+
+        if (isSuspended && currentPage && isPageBlockedBySuspension(currentPage)) {
+          navigate("pengembalian", { resetHistory: true });
+        }
+        if (isSuspended) {
+          setPengembalianTab("denda");
+        }
+
+        if (isSuspended && !previousSuspensionFlag) {
+          showToast(
+            "Akun ditangguhkan karena denda melewati 3 hari. Silakan lanjutkan ke pembayaran.",
+          );
+        } else if (!isSuspended && previousSuspensionFlag) {
+          showToast("Status akun kembali aktif.");
+        }
+
+        previousSuspensionFlag = isSuspended;
+      }
+
       // ====== BUKU & PEMINJAMAN (terhubung ke Supabase) ======
       let allBukuUser = [];
       let bukuTerpilih = null;
@@ -5558,7 +6255,410 @@
         totalPinjamAktif: 0,
         totalJudul: 0,
       };
-      const TARIF_DENDA_USER = 1000; // samakan dgn admin.html
+      const TARIF_DENDA_USER = 5000;
+      const FINE_PAYMENT_METHODS = {
+        qris: {
+          label: "QRIS",
+          instruction:
+            "Pilih QRIS bila ingin scan pembayaran saat bertemu admin perpustakaan.",
+        },
+        transfer: {
+          label: "Transfer Bank",
+          instruction:
+            "Pilih transfer bank lalu tunggu admin mengirim detail rekening melalui helpdesk.",
+        },
+        ewallet: {
+          label: "E-Wallet",
+          instruction:
+            "Pilih e-wallet untuk pembayaran via DANA, OVO, atau GoPay sesuai arahan admin.",
+        },
+        cash: {
+          label: "Tunai di Perpustakaan",
+          instruction:
+            "Pilih tunai jika Anda akan membayar langsung ke petugas saat mengembalikan buku.",
+        },
+      };
+      let pengembalianLoansCache = [];
+      let pengembalianFineRequestMap = new Map();
+
+      function parseDateOnly(value) {
+        if (!value) return null;
+        if (value instanceof Date) {
+          const cloned = new Date(value.getTime());
+          cloned.setHours(0, 0, 0, 0);
+          return cloned;
+        }
+
+        const raw = String(value).trim();
+        if (!raw) return null;
+
+        const match = raw.match(/^(\d{4})-(\d{2})-(\d{2})/);
+        if (match) {
+          const [, year, month, day] = match;
+          return new Date(Number(year), Number(month) - 1, Number(day));
+        }
+
+        const parsed = new Date(raw);
+        if (Number.isNaN(parsed.getTime())) return null;
+        parsed.setHours(0, 0, 0, 0);
+        return parsed;
+      }
+
+      function formatDateID(value) {
+        const parsed = parseDateOnly(value);
+        return parsed ? parsed.toLocaleDateString("id-ID") : "-";
+      }
+
+      function formatDateTimeID(value) {
+        if (!value) return "-";
+        const parsed = new Date(value);
+        if (Number.isNaN(parsed.getTime())) return "-";
+        return parsed.toLocaleString("id-ID", {
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+        });
+      }
+
+      function formatRupiah(value) {
+        const amount = Number(value) || 0;
+        return `Rp ${amount.toLocaleString("id-ID")}`;
+      }
+
+      function addDaysToDateValue(value, daysToAdd) {
+        const parsed = parseDateOnly(value);
+        if (!parsed) return null;
+        parsed.setDate(parsed.getDate() + (Number(daysToAdd) || 0));
+        return parsed;
+      }
+
+      function getLoanDueDateValue(loan) {
+        if (!loan) return null;
+        const directDueDate = loan.tanggal_jatuh_tempo || loan.tanggal_kembali;
+        if (directDueDate) return parseDateOnly(directDueDate);
+        if (!loan.tanggal_pinjam) return null;
+        return addDaysToDateValue(
+          loan.tanggal_pinjam,
+          Number(loan.durasi_hari) || 7,
+        );
+      }
+
+      function getLoanOverdueDays(loan, dueDateValue, baseDate = new Date()) {
+        if (!loan || loan.status !== "dipinjam" || !dueDateValue) return 0;
+        const today = parseDateOnly(baseDate) || new Date();
+        const dueDate = parseDateOnly(dueDateValue);
+        if (!dueDate) return 0;
+        const diffMs = today.getTime() - dueDate.getTime();
+        return Math.max(0, Math.floor(diffMs / 86400000));
+      }
+
+      function getFinePaymentMethodLabel(methodKey) {
+        return FINE_PAYMENT_METHODS[methodKey]?.label || "Metode Lain";
+      }
+
+      function getFinePaymentInstructionText(methodKey) {
+        return (
+          FINE_PAYMENT_METHODS[methodKey]?.instruction ||
+          "Pilih metode pembayaran yang ingin Anda gunakan."
+        );
+      }
+
+      function normalizeFinePaymentStatus(value, fineAmount = 0) {
+        const normalized = String(value || "")
+          .trim()
+          .toLowerCase();
+
+        if (
+          normalized === "belum_dibayar" ||
+          normalized === "menunggu_verifikasi" ||
+          normalized === "lunas"
+        ) {
+          return normalized;
+        }
+
+        return Number(fineAmount) > 0 ? "belum_dibayar" : "belum_dibayar";
+      }
+
+      function getFinePaymentStatusLabel(status) {
+        if (status === "menunggu_verifikasi") return "Menunggu Verifikasi";
+        if (status === "lunas") return "Lunas";
+        return "Belum Dibayar";
+      }
+
+      function buildFinePaymentHelpdeskMessage(loan, methodKey, amount) {
+        const loanId = String(loan?.id || "").trim();
+        const judul = loan?.judul_buku || "Buku";
+        const dueDateText = formatDateID(loan?._dueDateValue);
+        return `Pengajuan pembayaran denda untuk \"${judul}\" via ${getFinePaymentMethodLabel(methodKey)}. Total saat ini ${formatRupiah(amount)}. Jatuh tempo ${dueDateText}. [DENDA:${loanId}|${methodKey}|${amount}]`;
+      }
+
+      function parseFinePaymentHelpdeskMessage(message) {
+        const raw = String(message || "").trim();
+        const match = raw.match(/\[DENDA:([^|\]]+)\|([^|\]]+)\|(\d+)\]/i);
+        if (!match) return null;
+        return {
+          loanId: String(match[1] || "").trim(),
+          methodKey: String(match[2] || "").trim().toLowerCase(),
+          amount: Number(match[3]) || 0,
+        };
+      }
+
+      function setPengembalianTab(tabName) {
+        if (accountSuspensionState.isSuspended && tabName !== "denda") {
+          showToast(
+            "Saat akun ditangguhkan, Anda hanya bisa mengakses pembayaran denda.",
+          );
+          tabName = "denda";
+        }
+
+        const daftarBtn = document.getElementById("tab-pengembalian-daftar");
+        const dendaBtn = document.getElementById("tab-pengembalian-denda");
+        const daftarPanel = document.getElementById("pengembalian-panel-daftar");
+        const dendaPanel = document.getElementById("pengembalian-panel-denda");
+        const showFinePanel = tabName === "denda";
+
+        daftarBtn?.classList.toggle("active", !showFinePanel);
+        dendaBtn?.classList.toggle("active", showFinePanel);
+        daftarPanel?.classList.toggle("active", !showFinePanel);
+        dendaPanel?.classList.toggle("active", showFinePanel);
+      }
+
+      function refreshFinePaymentInstruction(loanId) {
+        const select = document.getElementById(`fine-method-${loanId}`);
+        const helper = document.getElementById(`fine-helper-${loanId}`);
+        if (!select || !helper) return;
+        helper.textContent = getFinePaymentInstructionText(select.value);
+      }
+
+      function renderFinePaymentPanel() {
+        const summary = document.getElementById("fine-payment-summary");
+        const list = document.getElementById("fine-payment-list");
+        const countBadge = document.getElementById("pengembalianFineCount");
+        if (!summary || !list || !countBadge) return;
+
+        const overdueLoans = pengembalianLoansCache.filter(
+          (loan) =>
+            loan.status === "dipinjam" &&
+            loan._overdueDays > 0 &&
+            normalizeFinePaymentStatus(
+              loan._finePaymentStatus,
+              loan._estimatedFine,
+            ) !== "lunas",
+        );
+        countBadge.textContent = overdueLoans.length.toLocaleString("id-ID");
+
+        if (!overdueLoans.length) {
+          summary.innerHTML = `
+            <div>
+              <div class="fine-summary-title">Belum ada denda aktif</div>
+              <div class="fine-summary-note">
+                Jika ada buku yang melewati jatuh tempo, form pembayaran denda akan muncul di sini.
+              </div>
+            </div>
+            <div class="fine-summary-amount">${formatRupiah(0)}</div>
+          `;
+          list.innerHTML = `
+            <div class="empty-state fine-empty-state">
+              <p>Semua pinjaman Anda masih aman. Belum ada denda yang perlu dibayarkan.</p>
+            </div>
+          `;
+          return;
+        }
+
+        const totalFine = overdueLoans.reduce(
+          (sum, loan) => sum + (Number(loan._estimatedFine) || 0),
+          0,
+        );
+
+        summary.innerHTML = `
+          <div>
+            <div class="fine-summary-title">Total denda aktif Anda</div>
+            <div class="fine-summary-note">
+              Pilih metode pembayaran untuk setiap buku yang terlambat. Setelah dikirim, admin bisa menindaklanjuti lewat helpdesk.
+            </div>
+          </div>
+          <div class="fine-summary-amount">${formatRupiah(totalFine)}</div>
+        `;
+
+        list.innerHTML = overdueLoans
+          .map((loan) => {
+            const request = loan._fineRequest || null;
+            const paymentStatus = normalizeFinePaymentStatus(
+              loan._finePaymentStatus,
+              loan._estimatedFine,
+            );
+            const selectedMethod = request?.methodKey || "qris";
+            const requestInfo =
+              paymentStatus === "menunggu_verifikasi"
+                ? `Pembayaran sedang menunggu verifikasi admin. Pengajuan terakhir via ${getFinePaymentMethodLabel(
+                    request?.methodKey || selectedMethod,
+                  )} pada ${formatDateTimeID(request?.created_at)}.`
+                : request
+                  ? `Pengajuan terakhir via ${getFinePaymentMethodLabel(
+                      request.methodKey,
+                    )} pada ${formatDateTimeID(request.created_at)}.`
+                  : "Belum ada pengajuan pembayaran untuk denda ini.";
+            const actionLabel =
+              paymentStatus === "menunggu_verifikasi" || request
+                ? "Kirim Ulang Pengajuan"
+                : "Ajukan Pembayaran";
+            const badgeLabel =
+              paymentStatus === "menunggu_verifikasi"
+                ? "Menunggu Verifikasi"
+                : "Perlu Dibayar";
+
+            return `
+              <div class="fine-payment-card">
+                <div class="fine-payment-head">
+                  <div>
+                    <div class="fine-payment-title">${escapeHtml(
+                      loan.judul_buku || "Tanpa Judul",
+                    )}</div>
+                    <div class="fine-payment-meta">
+                      <div><strong>Jatuh tempo:</strong> ${formatDateID(
+                        loan._dueDateValue,
+                      )}</div>
+                      <div><strong>Terlambat:</strong> ${loan._overdueDays} hari</div>
+                      <div><strong>Total denda:</strong> ${formatRupiah(
+                        loan._estimatedFine,
+                      )}</div>
+                    </div>
+                  </div>
+                  <span class="fine-payment-badge ${
+                    paymentStatus === "menunggu_verifikasi"
+                      ? "requested"
+                      : "overdue"
+                  }">
+                    ${escapeHtml(badgeLabel)}
+                  </span>
+                </div>
+                <div class="fine-payment-body">
+                  <div>
+                    <div class="fine-payment-status">${escapeHtml(
+                      requestInfo,
+                    )}</div>
+                    <div class="fine-payment-helper" id="fine-helper-${escapeHtml(
+                      loan.id,
+                    )}">${escapeHtml(
+                      getFinePaymentInstructionText(selectedMethod),
+                    )}</div>
+                  </div>
+                  <div class="fine-payment-actions">
+                    <select
+                      class="fine-payment-select"
+                      id="fine-method-${escapeHtml(loan.id)}"
+                      onchange="refreshFinePaymentInstruction('${escapeHtml(
+                        loan.id,
+                      )}')"
+                    >
+                      ${Object.entries(FINE_PAYMENT_METHODS)
+                        .map(
+                          ([key, method]) =>
+                            `<option value="${escapeHtml(key)}" ${
+                              key === selectedMethod ? "selected" : ""
+                            }>${escapeHtml(method.label)}</option>`,
+                        )
+                        .join("")}
+                    </select>
+                    <button
+                      class="fine-payment-btn"
+                      id="fine-submit-${escapeHtml(loan.id)}"
+                      onclick="kirimPembayaranDenda('${escapeHtml(loan.id)}')"
+                    >
+                      ${escapeHtml(actionLabel)}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            `;
+          })
+          .join("");
+      }
+
+      async function kirimPembayaranDenda(loanId) {
+        const loan = pengembalianLoansCache.find(
+          (item) => String(item.id) === String(loanId),
+        );
+        if (!loan) {
+          showToast("Data pinjaman tidak ditemukan");
+          return;
+        }
+        if (loan.status !== "dipinjam" || loan._overdueDays <= 0) {
+          showToast("Pinjaman ini belum terkena denda");
+          return;
+        }
+
+        const methodSelect = document.getElementById(`fine-method-${loanId}`);
+        const submitButton = document.getElementById(`fine-submit-${loanId}`);
+        const methodKey = methodSelect?.value || "qris";
+        const amount = Number(loan._estimatedFine) || 0;
+
+        if (!amount) {
+          showToast("Nominal denda belum tersedia");
+          return;
+        }
+
+        if (submitButton) {
+          submitButton.disabled = true;
+          submitButton.textContent = "Mengirim...";
+        }
+
+        try {
+          const {
+            data: { user },
+          } = await supabaseClient.auth.getUser();
+
+          if (!user) {
+            showToast("Silakan login terlebih dahulu");
+            return;
+          }
+
+          const profile = await ensureMemberProfile(user, {
+            full_name: currentUser?.name || user.email.split("@")[0],
+          });
+
+          const { error: updateError } = await supabaseClient
+            .from("peminjaman")
+            .update({
+              denda: amount,
+              status_pembayaran_denda: "menunggu_verifikasi",
+            })
+            .eq("id", loanId)
+            .eq("user_id", user.id);
+
+          if (updateError) {
+            showToast("Gagal menyimpan data denda: " + updateError.message);
+            return;
+          }
+
+          const { error: helpdeskError } = await insertHelpdeskUserMessage({
+            user_id: user.id,
+            user_name:
+              profile?.full_name || currentUser?.name || user.email.split("@")[0],
+            user_email: profile?.email || user.email,
+            sender_role: "user",
+            message: buildFinePaymentHelpdeskMessage(loan, methodKey, amount),
+          });
+
+          if (helpdeskError) {
+            showToast(
+              "Nominal denda tersimpan, tapi pengajuan ke admin gagal: " +
+                helpdeskError.message,
+            );
+            return;
+          }
+
+          showToast("Pengajuan pembayaran denda berhasil dikirim");
+          await loadPengembalianUser();
+        } finally {
+          if (submitButton) {
+            submitButton.disabled = false;
+            submitButton.textContent = "Ajukan Pembayaran";
+          }
+        }
+      }
 
       function getFilteredBukuUserData() {
         const cari = (document.getElementById("search-buku")?.value || "")
@@ -5790,6 +6890,19 @@
         const emptyState = document.getElementById("books-grid-empty");
         if (!grid || !emptyState) return;
 
+        if (accountSuspensionState.isSuspended) {
+          grid.innerHTML = `
+            <div class="empty-state" style="display:flex;">
+              <div>
+                <p style="font-size:17px; font-weight:800; color:var(--text); margin-bottom:6px;">Akses koleksi sedang dikunci</p>
+                <p>Selesaikan pembayaran denda terlebih dahulu untuk membuka kembali daftar buku.</p>
+              </div>
+            </div>
+          `;
+          emptyState.style.display = "none";
+          return;
+        }
+
         const data = getFilteredBukuUserData();
         updateCategoryFilterBanner();
         renderBookCategorySidebar();
@@ -5813,7 +6926,14 @@
             (b) => `
               <article class="book-card" data-book-id="${escapeHtml(b.id)}" onclick="openBookDetailModal(this.dataset.bookId)">
                 <div class="book-card-cover" data-book-id="${escapeHtml(b.id)}">
-                  <img src="${escapeHtml(getBookCoverSource(b))}" alt="Cover ${escapeHtml(b.judul || "Buku")}" onerror="this.onerror=null;this.src='${escapeHtml(buildBookCoverDataUri(b))}'" />
+                  <img
+                    src="${escapeHtml(getBookCoverSource(b))}"
+                    alt="Cover ${escapeHtml(b.judul || "Buku")}"
+                    data-cover-url="${escapeHtml(normalizeBookCoverUrl(b.cover_url))}"
+                    data-cover-error-index="0"
+                    referrerpolicy="no-referrer"
+                    onerror="handleBookCoverImageError(this,'${escapeHtml(buildBookCoverDataUri(b))}')"
+                  />
                   <span class="book-card-cover-badge">${escapeHtml(b.kategori || "Koleksi")}</span>
                 </div>
                 <div class="book-card-content">
@@ -5830,6 +6950,8 @@
       }
 
       function openBookDetailModal(bookId) {
+        if (guardSuspendedAction()) return;
+
         const book = allBukuUser.find((item) => item.id === bookId);
         if (!book) {
           showToast("Detail buku tidak ditemukan");
@@ -5863,10 +6985,11 @@
         }
 
         modal.dataset.bookId = String(book.id || "");
-        cover.onerror = () => {
-          cover.onerror = null;
-          cover.src = buildBookCoverDataUri(book);
-        };
+        cover.dataset.coverUrl = normalizeBookCoverUrl(book.cover_url || "");
+        cover.dataset.coverErrorIndex = "0";
+        cover.referrerPolicy = "no-referrer";
+        cover.onerror = () =>
+          handleBookCoverImageError(cover, buildBookCoverDataUri(book));
         cover.src = getBookCoverSource(book);
         cover.alt = `Cover ${book.judul || "Buku"}`;
         category.textContent = book.kategori || "Koleksi";
@@ -5934,6 +7057,12 @@
       function renderPinjamBukuList() {
         const tbody = document.getElementById("pinjam-buku-tbody");
         if (!tbody) return;
+
+        if (accountSuspensionState.isSuspended) {
+          tbody.innerHTML = `<tr><td colspan="5"><div class="empty-state"><p>Akun ditangguhkan. Selesaikan pembayaran denda untuk mengajukan peminjaman baru.</p></div></td></tr>`;
+          return;
+        }
+
         const cari = (
           document.getElementById("search-pinjam-buku")?.value || ""
         ).toLowerCase();
@@ -5968,6 +7097,8 @@
       }
 
       function pilihBukuPinjam(id) {
+        if (guardSuspendedAction()) return;
+
         const b = allBukuUser.find((x) => x.id === id);
         if (!b) {
           showToast("Buku tidak ditemukan, coba muat ulang halaman");
@@ -6000,6 +7131,8 @@
       }
 
       async function submitPengajuanPinjam() {
+        if (guardSuspendedAction()) return;
+
         if (!bukuTerpilih) {
           showToast("Pilih buku terlebih dahulu");
           return;
@@ -6060,64 +7193,146 @@
         } = await supabaseClient.auth.getUser();
         if (!user) return;
 
-        const { data, error } = await fetchUserPeminjamanRows(user.id);
+        const [loanResponse, helpdeskResponse] = await Promise.all([
+          fetchUserPeminjamanRows(user.id),
+          fetchUserHelpdeskMessages(user.id),
+        ]);
+        const { data, error } = loanResponse;
 
         if (error) {
+          pengembalianLoansCache = [];
+          pengembalianFineRequestMap = new Map();
+          accountSuspensionState = {
+            isSuspended: false,
+            overdueLoans: [],
+            totalFine: 0,
+            maxOverdueDays: 0,
+          };
+          updateAccountSuspensionUI();
+          renderFinePaymentPanel();
           tbody.innerHTML = `<tr><td colspan="5"><div class="empty-state"><p>Gagal memuat data peminjaman: ${escapeHtml(error.message || "Unknown error")}</p></div></td></tr>`;
           return;
         }
 
-        const aktif = (data || []).filter(
+        pengembalianFineRequestMap = new Map();
+        if (!helpdeskResponse?.error) {
+          (helpdeskResponse.data || []).forEach((message) => {
+            if (message.sender_role !== "user") return;
+            const parsed = parseFinePaymentHelpdeskMessage(message.message);
+            if (!parsed?.loanId) return;
+            const existing = pengembalianFineRequestMap.get(parsed.loanId);
+            if (
+              !existing ||
+              new Date(message.created_at).getTime() >
+                new Date(existing.created_at || 0).getTime()
+            ) {
+              pengembalianFineRequestMap.set(parsed.loanId, {
+                ...parsed,
+                created_at: message.created_at,
+              });
+            }
+          });
+        }
+
+        const normalizedRows = (data || []).map((row) => {
+          const dueDateValue = getLoanDueDateValue(row);
+          const overdueDays = getLoanOverdueDays(row, dueDateValue, new Date());
+          const persistedFine = Number(row.denda) || 0;
+          const estimatedFine =
+            overdueDays > 0 ? overdueDays * TARIF_DENDA_USER : persistedFine;
+          const finePaymentStatus = normalizeFinePaymentStatus(
+            row.status_pembayaran_denda,
+            estimatedFine,
+          );
+          return {
+            ...row,
+            _dueDateValue: dueDateValue,
+            _overdueDays: overdueDays,
+            _estimatedFine: estimatedFine,
+            _finePaymentStatus: finePaymentStatus,
+            _fineRequest:
+              pengembalianFineRequestMap.get(String(row.id)) || null,
+          };
+        });
+
+        pengembalianLoansCache = normalizedRows;
+        accountSuspensionState = computeAccountSuspensionState(normalizedRows);
+        updateAccountSuspensionUI();
+        renderFinePaymentPanel();
+
+        const aktif = normalizedRows.filter(
           (d) => d.status === "dipinjam",
         ).length;
         document.getElementById("stat-pinjam").textContent = aktif;
 
-        if (!data || data.length === 0) {
+        if (!normalizedRows.length) {
           tbody.innerHTML = `<tr><td colspan="5"><div class="empty-state"><p>Anda belum pernah meminjam buku</p></div></td></tr>`;
           return;
         }
 
         const badgeLabel = {
-          pending: "⏳ Menunggu",
-          dipinjam: "📖 Dipinjam",
-          ditolak: "❌ Ditolak",
-          dikembalikan: "✅ Selesai",
+          pending: "Menunggu",
+          menunggu: "Menunggu",
+          dipinjam: "Dipinjam",
+          ditolak: "Ditolak",
+          dikembalikan: "Selesai",
         };
         const badgeColor = {
           pending: "#f59e0b",
+          menunggu: "#f59e0b",
           dipinjam: "#2563eb",
           ditolak: "#ef4444",
           dikembalikan: "#10a37f",
         };
 
-        const hariIni = new Date();
-        hariIni.setHours(0, 0, 0, 0);
-
-        tbody.innerHTML = data
+        tbody.innerHTML = normalizedRows
           .map((d) => {
             let statusText = badgeLabel[d.status] || d.status;
-            let estimasiDenda = d.denda || 0;
-            if (d.status === "dipinjam" && d.tanggal_jatuh_tempo) {
-              const jt = new Date(d.tanggal_jatuh_tempo);
-              const telat = Math.max(0, Math.round((hariIni - jt) / 86400000));
-              if (telat > 0) {
-                statusText = `⚠️ Terlambat ${telat} hari`;
-                estimasiDenda = telat * TARIF_DENDA_USER;
+            let statusColor = badgeColor[d.status] || "#64748b";
+            if (d.status === "dipinjam" && d._overdueDays > 0) {
+              if (d._finePaymentStatus === "lunas") {
+                statusText = "Denda Lunas";
+                statusColor = "#059669";
+              } else if (d._finePaymentStatus === "menunggu_verifikasi") {
+                statusText = "Verifikasi Pembayaran";
+                statusColor = "#0f766e";
+              } else {
+                statusText = `Terlambat ${d._overdueDays} hari`;
+                statusColor = "#dc2626";
               }
             }
+            const fineNote =
+              d._estimatedFine > 0
+                ? `<div style="font-size:11px; color:var(--text-muted); margin-top:4px;">${escapeHtml(
+                    getFinePaymentStatusLabel(d._finePaymentStatus),
+                  )}${
+                    d._fineRequest
+                      ? ` • via ${escapeHtml(
+                          getFinePaymentMethodLabel(d._fineRequest.methodKey),
+                        )}`
+                      : ""
+                  }</div>`
+                : "";
             return `
     <tr>
       <td><strong>${escapeHtml(d.judul_buku)}</strong></td>
-      <td>${d.tanggal_pinjam ? new Date(d.tanggal_pinjam).toLocaleDateString("id-ID") : "-"}</td>
-      <td>${d.tanggal_jatuh_tempo ? new Date(d.tanggal_jatuh_tempo).toLocaleDateString("id-ID") : "-"}</td>
-      <td><span style="font-weight:700; font-size:12px; color:${badgeColor[d.status] || "#64748b"};">${statusText}</span></td>
-      <td>${estimasiDenda > 0 ? "Rp " + estimasiDenda.toLocaleString("id-ID") : "-"}</td>
+      <td>${formatDateID(d.tanggal_pinjam)}</td>
+      <td>${formatDateID(d._dueDateValue)}</td>
+      <td><span style="font-weight:700; font-size:12px; color:${statusColor};">${escapeHtml(
+        statusText,
+      )}</span></td>
+      <td>${
+        d._estimatedFine > 0
+          ? `${formatRupiah(d._estimatedFine)}${fineNote}`
+          : "-"
+      }</td>
     </tr>`;
           })
           .join("");
       }
 
       document.addEventListener("DOMContentLoaded", async () => {
+        renderDashboardNews();
         renderCategories();
         document.getElementById("stat-kategori").textContent =
           categories.length;
@@ -6173,6 +7388,13 @@
               helpdeskRealtimeChannel = null;
             }
             currentUser = null;
+            accountSuspensionState = {
+              isSuspended: false,
+              overdueLoans: [],
+              totalFine: 0,
+              maxOverdueDays: 0,
+            };
+            previousSuspensionFlag = false;
           }
         });
       });
