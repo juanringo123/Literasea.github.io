@@ -3003,7 +3003,7 @@
 
         if (error || !adminRow) {
           // User ini login tapi bukan admin/owner (kemungkinan anggota biasa)
-          window.location.href = "user.html";
+          window.location.href = "index.html";
           return;
         }
 
@@ -3087,7 +3087,7 @@
         }
         currentRole = null;
         currentUser = null;
-        window.location.href = "user.html";
+        window.location.href = "index.html";
       }
 
       function setDashboardValue(id, value) {
@@ -5597,7 +5597,7 @@
       // Kalau session berakhir / logout dari tab lain, ikut dilempar keluar
       supabaseClient.auth.onAuthStateChange((event) => {
         if (event === "SIGNED_OUT") {
-          window.location.href = "user.html";
+          window.location.href = "index.html";
         }
       });
 
