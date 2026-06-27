@@ -807,6 +807,42 @@
         flex-shrink: 0;
       }
 
+      .mobile-menu-btn {
+        display: none;
+        position: fixed;
+        top: 16px;
+        left: 16px;
+        width: 46px;
+        height: 46px;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        background: white;
+        box-shadow: var(--shadow-card);
+        z-index: 1210;
+        cursor: pointer;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 5px;
+      }
+      .mobile-menu-btn span {
+        width: 20px;
+        height: 2px;
+        border-radius: 999px;
+        background: var(--primary-dark);
+        transition: transform 0.2s, opacity 0.2s;
+      }
+      .mobile-sidebar-backdrop {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(15, 23, 42, 0.42);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s ease;
+        z-index: 1190;
+      }
+
       .sidebar-header {
         padding: 24px 20px 20px;
         border-bottom: 1px solid rgba(255, 255, 255, 0.12);
@@ -2930,6 +2966,22 @@
 
       /* RESPONSIVE */
       @media (max-width: 900px) {
+        body.mobile-sidebar-open {
+          overflow: hidden;
+        }
+        #app.active {
+          display: block;
+        }
+        .mobile-menu-btn {
+          display: inline-flex;
+        }
+        .mobile-sidebar-backdrop {
+          display: block;
+        }
+        .mobile-sidebar-backdrop.show {
+          opacity: 1;
+          pointer-events: auto;
+        }
         .stat-grid {
           grid-template-columns: repeat(2, 1fr);
         }
@@ -2944,10 +2996,25 @@
           padding: 28px 24px;
         }
         .sidebar {
-          width: 240px;
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: min(82vw, 280px);
+          height: 100vh;
+          z-index: 1200;
+          transform: translateX(-105%);
+          box-shadow: 24px 0 50px rgba(15, 23, 42, 0.22);
+          transition: transform 0.25s ease;
+        }
+        .sidebar.mobile-open {
+          transform: translateX(0);
+        }
+        .main-content {
+          width: 100%;
         }
         .page-header {
           padding: 24px 24px 20px;
+          padding-left: 72px;
         }
         .page-body {
           padding: 24px;
@@ -3290,6 +3357,22 @@
 
     <!-- ===================== MAIN APP ===================== -->
     <div id="app">
+      <button
+        class="mobile-menu-btn"
+        type="button"
+        onclick="toggleMobileSidebar()"
+        aria-label="Buka menu"
+        aria-expanded="false"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <div
+        class="mobile-sidebar-backdrop"
+        onclick="closeMobileSidebar()"
+      ></div>
+
       <!-- SIDEBAR -->
       <aside class="sidebar">
         <div class="sidebar-header">
@@ -4137,11 +4220,12 @@
                       <th>Jatuh Tempo</th>
                       <th>Status</th>
                       <th>Denda</th>
+                      <th>Aksi</th>
                     </tr>
                   </thead>
                   <tbody id="pengembalian-tbody">
                     <tr>
-                      <td colspan="5">
+                      <td colspan="6">
                         <div class="empty-state"><p>Memuat data...</p></div>
                       </td>
                     </tr>
@@ -4161,6 +4245,28 @@
               <div class="fine-payment-list" id="fine-payment-list"></div>
             </div>
           </div>
+        </div>
+
+        <!-- BACA BUKU -->
+        <div class="page-panel" id="page-baca">
+          <div class="page-header">
+            <div>
+              <h1>Baca Buku</h1>
+              <p id="reader-book-title">Halaman baca kosong</p>
+            </div>
+            <button class="back-btn" onclick="goBackPage()">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M15 18l-6-6 6-6" />
+              </svg>
+              Kembali
+            </button>
+          </div>
+          <div class="page-body"></div>
         </div>
 
         <!-- RIWAYAT BACAAN -->
@@ -5418,6 +5524,36 @@
         activeCategoryFilter = "";
       }
 
+      function setMobileSidebar(open) {
+        const sidebar = document.querySelector("#app .sidebar");
+        const backdrop = document.querySelector("#app .mobile-sidebar-backdrop");
+        const button = document.querySelector("#app .mobile-menu-btn");
+
+        if (!sidebar) return;
+        sidebar.classList.toggle("mobile-open", open);
+        if (backdrop) backdrop.classList.toggle("show", open);
+        document.body.classList.toggle("mobile-sidebar-open", open);
+        if (button) {
+          button.setAttribute("aria-expanded", String(open));
+          button.setAttribute("aria-label", open ? "Tutup menu" : "Buka menu");
+        }
+      }
+
+      function toggleMobileSidebar() {
+        const sidebar = document.querySelector("#app .sidebar");
+        setMobileSidebar(!sidebar?.classList.contains("mobile-open"));
+      }
+
+      function closeMobileSidebar() {
+        setMobileSidebar(false);
+      }
+
+      window.addEventListener("resize", () => {
+        if (!window.matchMedia("(max-width: 900px)").matches) {
+          closeMobileSidebar();
+        }
+      });
+
       // ====== NAVIGATION ======
       function navigate(page, options = {}) {
         const { skipHistory = false, resetHistory = false } = options;
@@ -5426,6 +5562,7 @@
 
         if (isPageBlockedBySuspension(page)) {
           showToast(getSuspensionBlockedMessage());
+          closeMobileSidebar();
           return;
         }
 
@@ -5450,6 +5587,7 @@
           anggota: "page-anggota",
           peminjaman: "page-peminjaman",
           pengembalian: "page-pengembalian",
+          baca: "page-baca",
           riwayat: "page-riwayat",
           saranBuku: "page-saranBuku",
           helpdesk: "page-helpdesk",
@@ -5479,6 +5617,7 @@
         };
         if (navMap[page] !== undefined)
           navItems[navMap[page]].classList.add("active");
+        closeMobileSidebar();
         if (page === "saranBuku") loadRiwayatSaran();
       }
 
@@ -5913,16 +6052,38 @@
           img.alt = `Foto ${currentUser?.name || "anggota"}`;
           box.classList.add("has-photo");
           if (removeBtn) removeBtn.style.display = "inline-flex";
+          decorateHelpdeskAvatars();
           return;
         }
 
         img.removeAttribute("src");
         box.classList.remove("has-photo");
         if (removeBtn) removeBtn.style.display = "none";
+        decorateHelpdeskAvatars();
       }
 
       function hydrateMemberCardPhoto() {
         setMemberCardPhoto(getMemberPhotoSource());
+      }
+
+      async function syncMemberPhotoToProfile(photoData) {
+        const {
+          data: { user },
+        } = await supabaseClient.auth.getUser();
+
+        if (!user) return false;
+
+        const photoColumns = ["foto_url", "foto", "photo_url", "avatar_url"];
+        for (const column of photoColumns) {
+          const { error } = await supabaseClient
+            .from("profiles")
+            .update({ [column]: photoData || null })
+            .eq("id", user.id);
+
+          if (!error) return true;
+        }
+
+        return false;
       }
 
       function handleMemberPhotoUpload(event) {
@@ -5943,12 +6104,16 @@
         }
 
         const reader = new FileReader();
-        reader.onload = () => {
+        reader.onload = async () => {
           try {
             const imageData = String(reader.result || "");
             localStorage.setItem(getMemberPhotoStorageKey(), imageData);
             currentUser.photo = imageData;
             setMemberCardPhoto(imageData);
+            decorateHelpdeskAvatars();
+            await syncMemberPhotoToProfile(imageData).catch((error) =>
+              console.warn("Gagal sinkron foto profil:", error),
+            );
             showToast("Foto kartu berhasil ditambahkan.");
           } catch (error) {
             console.error("Gagal menyimpan foto kartu:", error);
@@ -5968,6 +6133,9 @@
         localStorage.removeItem(getMemberPhotoStorageKey());
         if (currentUser) currentUser.photo = "";
         setMemberCardPhoto("");
+        syncMemberPhotoToProfile("").catch((error) =>
+          console.warn("Gagal sinkron hapus foto profil:", error),
+        );
         const input = document.getElementById("member-photo-input");
         if (input) input.value = "";
         showToast("Foto kartu dihapus.");
@@ -6210,12 +6378,40 @@
 
         if (!modernResponse.error) return modernResponse;
 
-        return supabaseClient.from("helpdesk_chat").insert({
+        if (
+          payload.user_photo &&
+          /user_photo|schema cache|column/i.test(modernResponse.error.message || "")
+        ) {
+          const retryPayload = { ...payload };
+          delete retryPayload.user_photo;
+          const retryResponse = await supabaseClient
+            .from("helpdesk_messages")
+            .insert(retryPayload);
+          if (!retryResponse.error) return retryResponse;
+        }
+
+        const legacyPayload = {
           user_id: payload.user_id,
           nama_pengguna: payload.user_name,
           pengirim: payload.sender_role,
           pesan: payload.message,
-        });
+          user_photo: payload.user_photo || null,
+        };
+        const legacyResponse = await supabaseClient
+          .from("helpdesk_chat")
+          .insert(legacyPayload);
+
+        if (
+          legacyResponse.error &&
+          /user_photo|schema cache|column/i.test(
+            legacyResponse.error.message || "",
+          )
+        ) {
+          delete legacyPayload.user_photo;
+          return supabaseClient.from("helpdesk_chat").insert(legacyPayload);
+        }
+
+        return legacyResponse;
       }
 
       function setWelcomeTime() {
@@ -6468,6 +6664,7 @@
           user_name:
             profile?.full_name || currentUser?.name || user.email.split("@")[0],
           user_email: profile?.email || user.email,
+          user_photo: getHelpdeskUserPhoto() || getProfilePhoto(profile),
           sender_role: "user",
           message: msg,
         });
@@ -6779,6 +6976,47 @@
       };
       let pengembalianLoansCache = [];
       let pengembalianFineRequestMap = new Map();
+      let activeBorrowedBookIds = new Set();
+
+      function normalizeLoanBookId(value) {
+        return String(value || "").trim();
+      }
+
+      function getLoanBookId(row) {
+        return normalizeLoanBookId(row?.buku_id || row?.book_id || row?.id_buku);
+      }
+
+      function isBookCurrentlyBorrowed(book) {
+        if (!book) return false;
+        const ids = [book._dbId, book.id].map(normalizeLoanBookId).filter(Boolean);
+        return ids.some((id) => activeBorrowedBookIds.has(id));
+      }
+
+      function syncActiveBorrowedBookIds(rows) {
+        activeBorrowedBookIds = new Set(
+          (rows || [])
+            .filter(
+              (row) =>
+                String(row?.status || "").trim().toLowerCase() === "dipinjam",
+            )
+            .map(getLoanBookId)
+            .filter(Boolean),
+        );
+      }
+
+      function openBlankReader(bookId = "", title = "") {
+        const titleEl = document.getElementById("reader-book-title");
+        if (titleEl) {
+          titleEl.textContent = title ? `Buku: ${title}` : "Halaman baca kosong";
+        }
+        navigate("baca");
+      }
+
+      function buildReadButtonHtml(bookId = "", title = "") {
+        return `<button class="btn btn-primary btn-sm" onclick='openBlankReader(${escapeHtml(
+          JSON.stringify(normalizeLoanBookId(bookId)),
+        )}, ${escapeHtml(JSON.stringify(String(title || "Buku")))})'>Baca</button>`;
+      }
 
       function parseDateOnly(value) {
         if (!value) return null;
@@ -7327,6 +7565,7 @@
         let data = [];
         let anggotaCount = 0;
         let aktifPinjam = 0;
+        let peminjamanRows = [];
 
         try {
           const {
@@ -7344,7 +7583,8 @@
           ]);
           data = bookRows;
           anggotaCount = anggotaResult.count || 0;
-          aktifPinjam = (peminjamanResult.data || []).filter((row) =>
+          peminjamanRows = peminjamanResult.data || [];
+          aktifPinjam = peminjamanRows.filter((row) =>
             ["dipinjam", "menunggu", "pending"].includes(
               String(row.status || "").trim().toLowerCase(),
             ),
@@ -7355,6 +7595,7 @@
         }
 
         allBukuUser = data || [];
+        syncActiveBorrowedBookIds(peminjamanRows);
         const totalStok = allBukuUser.reduce(
           (total, book) => total + (Number(book.stok) || 0),
           0,
@@ -7499,7 +7740,12 @@
         isbn.textContent = book.isbn || "-";
         publisher.textContent = book.penerbit || "-";
 
-        if (Number(book.stok || 0) > 0) {
+        const isBorrowed = isBookCurrentlyBorrowed(book);
+
+        if (isBorrowed) {
+          stock.textContent = "Sedang Anda Pinjam";
+          stock.style.color = "#2563eb";
+        } else if (Number(book.stok || 0) > 0) {
           stock.textContent = `${Number(book.stok || 0).toLocaleString("id-ID")} Buku Tersedia`;
           stock.style.color = "#059669";
         } else {
@@ -7507,7 +7753,15 @@
           stock.style.color = "#ef4444";
         }
 
-        if (book._dbId && Number(book.stok || 0) > 0) {
+        if (isBorrowed) {
+          borrowBtn.disabled = false;
+          borrowBtn.className = "book-detail-cta";
+          borrowBtn.textContent = "Baca";
+          borrowBtn.onclick = () => {
+            closeBookDetailModal();
+            openBlankReader(book._dbId || book.id, book.judul || "Buku");
+          };
+        } else if (book._dbId && Number(book.stok || 0) > 0) {
           borrowBtn.disabled = false;
           borrowBtn.className = "book-detail-cta";
           borrowBtn.textContent = "Pinjam Sekarang";
@@ -7700,6 +7954,7 @@
 
         if (error) {
           pengembalianLoansCache = [];
+          activeBorrowedBookIds = new Set();
           pengembalianFineRequestMap = new Map();
           accountSuspensionState = {
             isSuspended: false,
@@ -7709,7 +7964,7 @@
           };
           updateAccountSuspensionUI();
           renderFinePaymentPanel();
-          tbody.innerHTML = `<tr><td colspan="5"><div class="empty-state"><p>Gagal memuat data peminjaman: ${escapeHtml(error.message || "Unknown error")}</p></div></td></tr>`;
+          tbody.innerHTML = `<tr><td colspan="6"><div class="empty-state"><p>Gagal memuat data peminjaman: ${escapeHtml(error.message || "Unknown error")}</p></div></td></tr>`;
           return;
         }
 
@@ -7755,6 +8010,7 @@
         });
 
         pengembalianLoansCache = normalizedRows;
+        syncActiveBorrowedBookIds(normalizedRows);
         accountSuspensionState = computeAccountSuspensionState(normalizedRows);
         updateAccountSuspensionUI();
         renderFinePaymentPanel();
@@ -7765,7 +8021,7 @@
         document.getElementById("stat-pinjam").textContent = aktif;
 
         if (!normalizedRows.length) {
-          tbody.innerHTML = `<tr><td colspan="5"><div class="empty-state"><p>Anda belum pernah meminjam buku</p></div></td></tr>`;
+          tbody.innerHTML = `<tr><td colspan="6"><div class="empty-state"><p>Anda belum pernah meminjam buku</p></div></td></tr>`;
           return;
         }
 
@@ -7823,6 +8079,11 @@
       <td>${
         d._estimatedFine > 0
           ? `${formatRupiah(d._estimatedFine)}${fineNote}`
+          : "-"
+      }</td>
+      <td>${
+        d.status === "dipinjam"
+          ? buildReadButtonHtml(getLoanBookId(d), d.judul_buku)
           : "-"
       }</td>
     </tr>`;

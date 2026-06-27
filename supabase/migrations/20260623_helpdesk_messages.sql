@@ -5,6 +5,7 @@ create table if not exists public.helpdesk_messages (
   user_id uuid not null references auth.users(id) on delete cascade,
   user_name text not null,
   user_email text,
+  user_photo text,
   sender_role text not null check (sender_role in ('user', 'admin')),
   admin_id uuid references auth.users(id) on delete set null,
   admin_name text,
@@ -13,6 +14,9 @@ create table if not exists public.helpdesk_messages (
   read_at_user timestamptz,
   created_at timestamptz not null default now()
 );
+
+alter table public.helpdesk_messages
+  add column if not exists user_photo text;
 
 create index if not exists helpdesk_messages_user_created_idx
   on public.helpdesk_messages (user_id, created_at desc);

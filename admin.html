@@ -270,6 +270,41 @@
         flex-shrink: 0;
         transition: width 0.3s;
       }
+      .admin-mobile-menu-btn {
+        display: none;
+        position: fixed;
+        top: 16px;
+        left: 16px;
+        width: 46px;
+        height: 46px;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        background: var(--card-bg);
+        box-shadow: var(--shadow);
+        z-index: 1210;
+        cursor: pointer;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 5px;
+      }
+      .admin-mobile-menu-btn span {
+        width: 20px;
+        height: 2px;
+        border-radius: 999px;
+        background: var(--primary);
+        transition: transform 0.2s, opacity 0.2s;
+      }
+      .admin-sidebar-backdrop {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(15, 23, 42, 0.42);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s ease;
+        z-index: 1190;
+      }
       .sidebar-header {
         padding: 24px 20px;
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -779,6 +814,38 @@
         margin-bottom: 4px;
         border: 1px solid transparent;
       }
+      .chat-item-content {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        min-width: 0;
+      }
+      .chat-item-main {
+        flex: 1;
+        min-width: 0;
+      }
+      .helpdesk-avatar {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #0e7490, #22c55e);
+        color: white;
+        flex: 0 0 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        font-size: 12px;
+        font-weight: 900;
+        border: 2px solid white;
+        box-shadow: 0 8px 18px rgba(15, 23, 42, 0.12);
+      }
+      .helpdesk-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
       .chat-item:hover {
         background: #f8fafc;
       }
@@ -830,9 +897,15 @@
       }
       .msg-user {
         align-self: flex-start;
+        display: flex;
+        align-items: flex-end;
+        gap: 8px;
       }
       .msg-admin {
         align-self: flex-end;
+      }
+      .msg-content {
+        min-width: 0;
       }
       .msg-bubble {
         padding: 10px 14px;
@@ -1101,6 +1174,43 @@
         gap: 20px;
       }
       @media (max-width: 900px) {
+        body.admin-mobile-sidebar-open {
+          overflow: hidden;
+        }
+        .app.active {
+          display: block;
+        }
+        .admin-mobile-menu-btn {
+          display: inline-flex;
+        }
+        .admin-sidebar-backdrop {
+          display: block;
+        }
+        .admin-sidebar-backdrop.show {
+          opacity: 1;
+          pointer-events: auto;
+        }
+        .sidebar {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: min(82vw, 260px);
+          height: 100vh;
+          z-index: 1200;
+          transform: translateX(-105%);
+          box-shadow: 24px 0 50px rgba(15, 23, 42, 0.22);
+          transition: transform 0.25s ease;
+        }
+        .sidebar.mobile-open {
+          transform: translateX(0);
+        }
+        .main {
+          width: 100%;
+          min-height: 100vh;
+        }
+        .topbar {
+          padding-left: 76px;
+        }
         .grid-2,
         .grid-3,
         .chat-container {
@@ -1120,7 +1230,7 @@
           grid-template-columns: 1fr;
         }
         .sidebar {
-          width: 220px;
+          width: min(86vw, 260px);
         }
         .content {
           padding: 16px;
@@ -1133,6 +1243,22 @@
 
     <!-- ===== APP (ADMIN / OWNER) ===== -->
     <div class="app" id="appScreen">
+      <button
+        class="admin-mobile-menu-btn"
+        type="button"
+        onclick="toggleAdminMobileSidebar()"
+        aria-label="Buka menu"
+        aria-expanded="false"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <div
+        class="admin-sidebar-backdrop"
+        onclick="closeAdminMobileSidebar()"
+      ></div>
+
       <!-- SIDEBAR -->
       <div class="sidebar">
         <div class="sidebar-header">
@@ -3087,7 +3213,7 @@
         }
         currentRole = null;
         currentUser = null;
-        window.location.href = "index.html";
+        window.location.replace("index.html");
       }
 
       function setDashboardValue(id, value) {
@@ -3861,11 +3987,7 @@
         const [bukuRows, anggotaResult, peminjamanResult] = await Promise.all([
           loadBookRowsFromDatabase().catch(() => []),
           supabaseClient.from("profiles").select("id, created_at"),
-          supabaseClient
-            .from("peminjaman")
-            .select(
-              "id, buku_id, judul_buku, status, tanggal_pinjam, tanggal_kembali, denda, created_at, status_pembayaran_denda",
-            ),
+          fetchPeminjamanRows({ ascending: false }),
         ]);
 
         if (!allKoleksiBuku.length && bukuRows.length) {
@@ -5275,6 +5397,17 @@
         };
       }
 
+      function isMissingColumnError(error, columnName) {
+        const message = String(error?.message || error || "").toLowerCase();
+        const normalizedColumn = String(columnName || "").toLowerCase();
+        return (
+          message.includes(normalizedColumn) &&
+          (message.includes("does not exist") ||
+            message.includes("schema cache") ||
+            message.includes("column"))
+        );
+      }
+
       async function fetchPeminjamanRows({
         statuses = null,
         status = null,
@@ -5343,6 +5476,55 @@
           ),
           error: fallbackResponse.error || lastError,
         };
+      }
+
+      async function fetchReturnLoanForAdmin(id) {
+        const response = await supabaseClient
+          .from("peminjaman")
+          .select("id, tanggal_kembali, status, denda, status_pembayaran_denda")
+          .eq("id", id)
+          .maybeSingle();
+
+        if (!isMissingColumnError(response.error, "status_pembayaran_denda")) {
+          return response;
+        }
+
+        const fallbackResponse = await supabaseClient
+          .from("peminjaman")
+          .select("id, tanggal_kembali, status, denda")
+          .eq("id", id)
+          .maybeSingle();
+
+        return {
+          ...fallbackResponse,
+          data: fallbackResponse.data
+            ? {
+                ...fallbackResponse.data,
+                status_pembayaran_denda: "belum_dibayar",
+              }
+            : fallbackResponse.data,
+        };
+      }
+
+      async function updatePeminjamanSafe(id, payload) {
+        const response = await supabaseClient
+          .from("peminjaman")
+          .update(payload)
+          .eq("id", id);
+
+        if (
+          !isMissingColumnError(response.error, "status_pembayaran_denda") ||
+          !Object.prototype.hasOwnProperty.call(
+            payload,
+            "status_pembayaran_denda",
+          )
+        ) {
+          return response;
+        }
+
+        const fallbackPayload = { ...payload };
+        delete fallbackPayload.status_pembayaran_denda;
+        return supabaseClient.from("peminjaman").update(fallbackPayload).eq("id", id);
       }
 
       async function loadDashboardBorrowRequests() {
@@ -5603,6 +5785,38 @@
 
       // ===== PAGE NAVIGATION =====
 
+      function setAdminMobileSidebar(open) {
+        const sidebar = document.querySelector("#appScreen .sidebar");
+        const backdrop = document.querySelector(
+          "#appScreen .admin-sidebar-backdrop",
+        );
+        const button = document.querySelector("#appScreen .admin-mobile-menu-btn");
+
+        if (!sidebar) return;
+        sidebar.classList.toggle("mobile-open", open);
+        if (backdrop) backdrop.classList.toggle("show", open);
+        document.body.classList.toggle("admin-mobile-sidebar-open", open);
+        if (button) {
+          button.setAttribute("aria-expanded", String(open));
+          button.setAttribute("aria-label", open ? "Tutup menu" : "Buka menu");
+        }
+      }
+
+      function toggleAdminMobileSidebar() {
+        const sidebar = document.querySelector("#appScreen .sidebar");
+        setAdminMobileSidebar(!sidebar?.classList.contains("mobile-open"));
+      }
+
+      function closeAdminMobileSidebar() {
+        setAdminMobileSidebar(false);
+      }
+
+      window.addEventListener("resize", () => {
+        if (!window.matchMedia("(max-width: 900px)").matches) {
+          closeAdminMobileSidebar();
+        }
+      });
+
       function showPage(pageId) {
         document
           .querySelectorAll(".page")
@@ -5662,6 +5876,7 @@
         if (pageId === "rekomendasiPembelian") loadRekomendasiOwner();
         if (pageId === "purchaseOrder") loadPurchaseOrder();
         if (pageId === "penerimaanBuku") loadPenerimaanBuku();
+        closeAdminMobileSidebar();
       }
 
       // ===== MODAL =====
@@ -6093,11 +6308,8 @@
           return;
         }
 
-        const { data: loan, error: loanError } = await supabaseClient
-          .from("peminjaman")
-          .select("id, tanggal_kembali, status, denda, status_pembayaran_denda")
-          .eq("id", id)
-          .maybeSingle();
+        const { data: loan, error: loanError } =
+          await fetchReturnLoanForAdmin(id);
 
         if (loanError) {
           showToast(
@@ -6129,16 +6341,13 @@
           return;
         }
 
-        const { error } = await supabaseClient
-          .from("peminjaman")
-          .update({
+        const { error } = await updatePeminjamanSafe(id, {
             status: "dikembalikan",
             status_pembayaran_denda:
               estimatedFine > 0
                 ? "lunas"
                 : loan?.status_pembayaran_denda || "belum_dibayar",
-          })
-          .eq("id", id);
+          });
 
         if (error) {
           showToast("Gagal memproses pengembalian: " + error.message, "danger");
@@ -6156,13 +6365,10 @@
           return;
         }
 
-        const { error } = await supabaseClient
-          .from("peminjaman")
-          .update({
+        const { error } = await updatePeminjamanSafe(id, {
             status: "dikembalikan",
             status_pembayaran_denda: "lunas",
-          })
-          .eq("id", id);
+          });
 
         if (error) {
           showToast("Gagal menandai denda lunas: " + error.message, "danger");
@@ -6725,6 +6931,14 @@
           user_id: String(row?.user_id || "").trim(),
           user_name: String(row?.user_name || row?.nama_pengguna || "").trim(),
           user_email: String(row?.user_email || row?.email || "").trim(),
+          user_photo: String(
+            row?.user_photo ||
+              row?.foto_url ||
+              row?.foto ||
+              row?.photo_url ||
+              row?.avatar_url ||
+              "",
+          ).trim(),
           sender_role: senderRole === "admin" ? "admin" : "user",
           admin_id: row?.admin_id ? String(row.admin_id).trim() : "",
           admin_name: String(row?.admin_name || "").trim(),
@@ -6770,6 +6984,81 @@
         return String(entry?.user_email || profile?.email || "").trim();
       }
 
+      function getProfilePhoto(profile) {
+        return String(
+          profile?.foto_url ||
+            profile?.foto ||
+            profile?.photo_url ||
+            profile?.avatar_url ||
+            profile?.image_url ||
+            "",
+        ).trim();
+      }
+
+      function getStoredMemberPhotoByProfile(profile, entry = null) {
+        const candidates = [
+          profile?.email,
+          profile?.member_id,
+          profile?.id,
+          entry?.user_email,
+          entry?.user_name,
+          entry?.user_id,
+        ]
+          .map((value) => String(value || "").trim())
+          .filter(Boolean);
+
+        for (const candidate of candidates) {
+          const stored = localStorage.getItem(
+            `literasea_member_photo_${encodeURIComponent(candidate)}`,
+          );
+          if (stored) return stored;
+        }
+
+        return "";
+      }
+
+      function getHelpdeskInitials(value) {
+        const words = String(value || "Pengguna")
+          .trim()
+          .split(/\s+/)
+          .filter(Boolean);
+        if (!words.length) return "U";
+        return words
+          .slice(0, 2)
+          .map((word) => word[0])
+          .join("")
+          .toUpperCase();
+      }
+
+      function resolveHelpdeskUserPhoto(entry) {
+        const profile = resolveHelpdeskProfile(entry);
+        return String(
+          getProfilePhoto(profile) ||
+            entry?.user_photo ||
+            entry?.foto_url ||
+            entry?.foto ||
+            entry?.photo_url ||
+            entry?.avatar_url ||
+            getStoredMemberPhotoByProfile(profile, entry) ||
+            "",
+        ).trim();
+      }
+
+      function renderHelpdeskAvatar(entry, label) {
+        const source = resolveHelpdeskUserPhoto(entry);
+        const safeLabel = escapeHtml(label || resolveHelpdeskUserName(entry));
+        if (source) {
+          return `<div class="helpdesk-avatar"><img src="${escapeHtml(
+            source,
+          )}" alt="${safeLabel}" onerror="this.remove(); this.parentElement.innerHTML='<span>${escapeHtml(
+            getHelpdeskInitials(label || resolveHelpdeskUserName(entry)),
+          )}</span>'" /></div>`;
+        }
+        return `<div class="helpdesk-avatar" aria-hidden="true"><span>${escapeHtml(
+          getHelpdeskInitials(label || resolveHelpdeskUserName(entry)),
+        )}</span></div>`;
+      }
+
       async function hydrateHelpdeskProfiles(messages) {
         const userIds = [
           ...new Set(
@@ -6786,7 +7075,7 @@
 
         const { data, error } = await supabaseClient
           .from("profiles")
-          .select("id, full_name, email")
+          .select("*")
           .in("id", userIds);
 
         if (error) return;
@@ -6914,6 +7203,7 @@
             user_id: userId,
             user_name: resolveHelpdeskUserName(message),
             user_email: resolveHelpdeskUserEmail(message),
+            user_photo: resolveHelpdeskUserPhoto(message),
             messages: [],
             unread_count: 0,
             last_message: "",
@@ -6925,6 +7215,8 @@
             resolveHelpdeskUserName(message) || existing.user_name;
           existing.user_email =
             resolveHelpdeskUserEmail(message) || existing.user_email;
+          existing.user_photo =
+            resolveHelpdeskUserPhoto(message) || existing.user_photo;
 
           if (
             !existing.last_message_at ||
@@ -6947,6 +7239,7 @@
             ...thread,
             user_name: resolveHelpdeskUserName(thread),
             user_email: resolveHelpdeskUserEmail(thread),
+            user_photo: resolveHelpdeskUserPhoto(thread),
           }))
           .sort((left, right) => {
             const leftDate = new Date(left.last_message_at || 0).getTime();
@@ -6979,12 +7272,17 @@
                 data-user-email="${escapeHtml(thread.user_email || "")}"
                 onclick="selectChat(this)"
               >
-                <div style="display:flex; justify-content:space-between; align-items:center;">
-                  <div class="chat-item-name">${escapeHtml(thread.user_name)}</div>
-                  ${thread.unread_count > 0 ? `<span class="chat-unread">${thread.unread_count}</span>` : ""}
+                <div class="chat-item-content">
+                  ${renderHelpdeskAvatar(thread, thread.user_name)}
+                  <div class="chat-item-main">
+                    <div style="display:flex; justify-content:space-between; align-items:center; gap:8px;">
+                      <div class="chat-item-name">${escapeHtml(thread.user_name)}</div>
+                      ${thread.unread_count > 0 ? `<span class="chat-unread">${thread.unread_count}</span>` : ""}
+                    </div>
+                    <div class="chat-item-preview">${escapeHtml(thread.last_message || "-")}</div>
+                    <div class="chat-item-time">${formatHelpdeskTime(thread.last_message_at)}</div>
+                  </div>
                 </div>
-                <div class="chat-item-preview">${escapeHtml(thread.last_message || "-")}</div>
-                <div class="chat-item-time">${formatHelpdeskTime(thread.last_message_at)}</div>
               </div>
             `;
           })
@@ -7011,12 +7309,17 @@
                 onclick="openHelpdeskThread('${escapeHtml(thread.user_id)}')"
                 style="cursor:pointer"
               >
-                <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;">
-                  <div class="chat-item-name">${escapeHtml(thread.user_name)}</div>
-                  ${thread.unread_count > 0 ? `<span class="chat-unread">${thread.unread_count}</span>` : ""}
+                <div class="chat-item-content">
+                  ${renderHelpdeskAvatar(thread, thread.user_name)}
+                  <div class="chat-item-main">
+                    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;">
+                      <div class="chat-item-name">${escapeHtml(thread.user_name)}</div>
+                      ${thread.unread_count > 0 ? `<span class="chat-unread">${thread.unread_count}</span>` : ""}
+                    </div>
+                    <div class="chat-item-preview">${escapeHtml(thread.last_message || "-")}</div>
+                    <div class="chat-item-time">${formatHelpdeskTime(thread.last_message_at)}</div>
+                  </div>
                 </div>
-                <div class="chat-item-preview">${escapeHtml(thread.last_message || "-")}</div>
-                <div class="chat-item-time">${formatHelpdeskTime(thread.last_message_at)}</div>
               </div>
             `;
           })
@@ -7065,9 +7368,12 @@
 
             return `
               <div class="msg msg-user">
-                <div class="msg-name">${escapeHtml(resolveHelpdeskUserName(message) || thread.user_name || "Pengguna")}</div>
-                <div class="msg-bubble">${escapeHtml(message.message)}</div>
-                <div class="msg-time">${formatHelpdeskTime(message.created_at)}</div>
+                ${renderHelpdeskAvatar(message, resolveHelpdeskUserName(message) || thread.user_name || "Pengguna")}
+                <div class="msg-content">
+                  <div class="msg-name">${escapeHtml(resolveHelpdeskUserName(message) || thread.user_name || "Pengguna")}</div>
+                  <div class="msg-bubble">${escapeHtml(message.message)}</div>
+                  <div class="msg-time">${formatHelpdeskTime(message.created_at)}</div>
+                </div>
               </div>
             `;
           })
