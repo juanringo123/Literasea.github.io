@@ -299,11 +299,21 @@
         padding: 20px;
         box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
         z-index: 9998;
-        display: none;
-        animation: fadeInUp 0.2s ease;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transform: translateY(10px) scale(0.98);
+        transition:
+          opacity 0.2s ease,
+          transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+          visibility 0s linear 0.28s;
       }
       .settings-panel.open {
-        display: block;
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transform: translateY(0) scale(1);
+        transition-delay: 0s;
       }
       [data-theme="dark"] .settings-panel {
         background: #1e293b;
@@ -360,6 +370,10 @@
       }
       .theme-option .theme-icon {
         font-size: 20px;
+      }
+
+      html {
+        scroll-behavior: smooth;
       }
 
       * {
@@ -924,21 +938,36 @@
         flex-direction: column;
         min-height: 100vh;
         overflow: hidden;
+        position: relative;
+        isolation: isolate;
       }
 
       .page-panel {
-        display: none;
-        flex: 1;
+        position: absolute;
+        inset: 16px;
         background: white;
-        margin: 16px;
         border-radius: 20px;
         box-shadow: var(--shadow-card);
         overflow: hidden;
-        animation: fadeInUp 0.3s ease;
+        display: flex;
         flex-direction: column;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transform: translateY(18px) scale(0.992);
+        transition:
+          opacity 0.24s ease,
+          transform 0.34s cubic-bezier(0.22, 1, 0.36, 1),
+          visibility 0s linear 0.34s;
+        will-change: transform, opacity;
       }
       .page-panel.active {
-        display: flex;
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transform: translateY(0) scale(1);
+        z-index: 1;
+        transition-delay: 0s;
       }
 
       .page-header {
@@ -964,6 +993,7 @@
       .page-body {
         padding: 32px 40px;
         flex: 1;
+        min-height: 0;
         overflow-y: auto;
       }
 
@@ -1767,10 +1797,22 @@
         margin-bottom: 18px;
       }
       .pengembalian-tab-panel {
-        display: none;
+        display: block;
+        opacity: 0;
+        max-height: 0;
+        overflow: hidden;
+        pointer-events: none;
+        transform: translateY(12px);
+        transition:
+          opacity 0.2s ease,
+          transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+          max-height 0.35s ease;
       }
       .pengembalian-tab-panel.active {
-        display: block;
+        opacity: 1;
+        max-height: 1000vh;
+        pointer-events: auto;
+        transform: translateY(0);
       }
       .fine-tab-count {
         display: inline-flex;
@@ -1956,7 +1998,16 @@
         font-weight: 700;
         color: var(--text-muted);
         font-family: "Nunito", sans-serif;
-        transition: all 0.2s;
+        transition:
+          background-color 0.2s ease,
+          color 0.2s ease,
+          border-color 0.2s ease,
+          box-shadow 0.24s ease,
+          transform 0.24s ease;
+      }
+      .tab-btn:hover:not(.is-disabled):not(:disabled) {
+        transform: translateY(-1px);
+        box-shadow: 0 10px 24px rgba(14, 116, 144, 0.12);
       }
       .tab-btn.active {
         background: linear-gradient(135deg, #0e7490, #1a7fa8);
@@ -2633,14 +2684,23 @@
         inset: 0;
         background: rgba(15, 23, 42, 0.68);
         backdrop-filter: blur(10px);
-        display: none;
+        display: flex;
         align-items: center;
         justify-content: center;
         padding: 20px;
         z-index: 9999;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transition:
+          opacity 0.24s ease,
+          visibility 0s linear 0.24s;
       }
       .book-detail-modal.open {
-        display: flex;
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transition-delay: 0s;
       }
       .book-detail-dialog {
         width: min(980px, 100%);
@@ -2650,6 +2710,16 @@
         display: grid;
         grid-template-columns: minmax(280px, 0.95fr) minmax(0, 1.35fr);
         box-shadow: 0 30px 80px rgba(15, 23, 42, 0.22);
+        opacity: 0;
+        transform: translateY(24px) scale(0.985);
+        transition:
+          opacity 0.24s ease,
+          transform 0.34s cubic-bezier(0.22, 1, 0.36, 1);
+        will-change: transform, opacity;
+      }
+      .book-detail-modal.open .book-detail-dialog {
+        opacity: 1;
+        transform: translateY(0) scale(1);
       }
       .book-detail-cover-pane {
         position: relative;
@@ -2947,11 +3017,21 @@
         font-size: 14px;
         font-weight: 600;
         z-index: 9999;
-        animation: slideIn 0.3s ease;
-        display: none;
+        display: block;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transform: translate3d(0, 18px, 0) scale(0.98);
+        transition:
+          opacity 0.22s ease,
+          transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+          visibility 0s linear 0.3s;
       }
       .toast.show {
-        display: block;
+        opacity: 1;
+        visibility: visible;
+        transform: translate3d(0, 0, 0) scale(1);
+        transition-delay: 0s;
       }
       @keyframes slideIn {
         from {
@@ -3018,6 +3098,27 @@
         }
         .page-body {
           padding: 24px;
+        }
+        .page-panel {
+          inset: 12px;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+        .settings-panel,
+        .page-panel,
+        .pengembalian-tab-panel,
+        .tab-btn,
+        .book-detail-modal,
+        .book-detail-dialog,
+        .toast,
+        .sidebar,
+        .mobile-sidebar-backdrop {
+          transition: none !important;
+          animation: none !important;
         }
       }
 
@@ -4825,9 +4926,9 @@
       ]);
       let accountSuspensionState = {
         isSuspended: false,
-        overdueLoans: [],
+        blockedLoans: [],
         totalFine: 0,
-        maxOverdueDays: 0,
+        maxBlockedDays: 0,
       };
       let previousSuspensionFlag = false;
 
@@ -5966,9 +6067,9 @@
         currentUser = null;
         accountSuspensionState = {
           isSuspended: false,
-          overdueLoans: [],
+          blockedLoans: [],
           totalFine: 0,
-          maxOverdueDays: 0,
+          maxBlockedDays: 0,
         };
         previousSuspensionFlag = false;
         document.getElementById("app").classList.remove("active");
@@ -6782,11 +6883,20 @@
       }
 
       // ====== TOAST ======
+      let toastTimer = null;
+
       function showToast(msg) {
         const toast = document.getElementById("toast");
+        if (!toast) return;
         toast.textContent = msg;
+        toast.classList.remove("show");
+        void toast.offsetWidth;
         toast.classList.add("show");
-        setTimeout(() => toast.classList.remove("show"), 2800);
+        if (toastTimer) clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => {
+          toast.classList.remove("show");
+          toastTimer = null;
+        }, 2800);
       }
 
       function renderDashboardNews() {
@@ -6834,25 +6944,23 @@
       }
 
       function computeAccountSuspensionState(loans = []) {
-        const overdueLoans = loans.filter(
-          (loan) =>
-            loan.status === "dipinjam" &&
-            Number(loan._overdueDays || 0) >= ACCOUNT_SUSPEND_THRESHOLD_DAYS &&
-            normalizeFinePaymentStatus(
-              loan._finePaymentStatus,
-              loan._estimatedFine,
-            ) !== "lunas",
-        );
+        const blockedLoans = loans.filter((loan) => {
+          const fineState = getLoanFineState(loan);
+          return (
+            fineState.hasOutstandingFine &&
+            fineState.dueAgeDays >= ACCOUNT_SUSPEND_THRESHOLD_DAYS
+          );
+        });
 
         return {
-          isSuspended: overdueLoans.length > 0,
-          overdueLoans,
-          totalFine: overdueLoans.reduce(
+          isSuspended: blockedLoans.length > 0,
+          blockedLoans,
+          totalFine: blockedLoans.reduce(
             (sum, loan) => sum + (Number(loan._estimatedFine) || 0),
             0,
           ),
-          maxOverdueDays: overdueLoans.reduce(
-            (max, loan) => Math.max(max, Number(loan._overdueDays) || 0),
+          maxBlockedDays: blockedLoans.reduce(
+            (max, loan) => Math.max(max, Number(loan._dueAgeDays) || 0),
             0,
           ),
         };
@@ -6866,10 +6974,10 @@
           "pengembalian-suspension-banner",
         );
         const isSuspended = accountSuspensionState.isSuspended;
-        const overdueCount = accountSuspensionState.overdueLoans.length;
+        const blockedCount = accountSuspensionState.blockedLoans.length;
         const totalFine = formatRupiah(accountSuspensionState.totalFine);
         const suspensionDetail = isSuspended
-          ? `Ada ${overdueCount} pinjaman dengan denda aktif lebih dari ${ACCOUNT_SUSPEND_THRESHOLD_DAYS} hari. Total sementara ${totalFine}.`
+          ? `Ada ${blockedCount} denda aktif yang belum selesai lebih dari ${ACCOUNT_SUSPEND_THRESHOLD_DAYS} hari. Total sementara ${totalFine}.`
           : "";
 
         if (dashboardBanner) {
@@ -7091,6 +7199,14 @@
         return Math.max(0, Math.floor(diffMs / 86400000));
       }
 
+      function getDaysSinceDueDate(dueDateValue, baseDate = new Date()) {
+        const dueDate = parseDateOnly(dueDateValue);
+        if (!dueDate) return 0;
+        const today = parseDateOnly(baseDate) || new Date();
+        const diffMs = today.getTime() - dueDate.getTime();
+        return Math.max(0, Math.floor(diffMs / 86400000));
+      }
+
       function getFinePaymentMethodLabel(methodKey) {
         return FINE_PAYMENT_METHODS[methodKey]?.label || "Metode Lain";
       }
@@ -7116,6 +7232,32 @@
         }
 
         return Number(fineAmount) > 0 ? "belum_dibayar" : "belum_dibayar";
+      }
+
+      function getLoanFineState(loan) {
+        const estimatedFine = Math.max(
+          0,
+          Number(loan?._estimatedFine ?? loan?.denda) || 0,
+        );
+        const finePaymentStatus = normalizeFinePaymentStatus(
+          loan?._finePaymentStatus ?? loan?.status_pembayaran_denda,
+          estimatedFine,
+        );
+        const normalizedStatus = String(loan?.status || "")
+          .trim()
+          .toLowerCase();
+        const dueAgeDays = Number.isFinite(Number(loan?._dueAgeDays))
+          ? Number(loan._dueAgeDays)
+          : getDaysSinceDueDate(loan?._dueDateValue, new Date());
+        return {
+          estimatedFine,
+          finePaymentStatus,
+          normalizedStatus,
+          dueAgeDays,
+          isReturned: normalizedStatus === "dikembalikan",
+          hasOutstandingFine:
+            estimatedFine > 0 && finePaymentStatus !== "lunas",
+        };
       }
 
       function getFinePaymentStatusLabel(status) {
@@ -7175,18 +7317,12 @@
         const countBadge = document.getElementById("pengembalianFineCount");
         if (!summary || !list || !countBadge) return;
 
-        const overdueLoans = pengembalianLoansCache.filter(
-          (loan) =>
-            loan.status === "dipinjam" &&
-            loan._overdueDays > 0 &&
-            normalizeFinePaymentStatus(
-              loan._finePaymentStatus,
-              loan._estimatedFine,
-            ) !== "lunas",
+        const fineLoans = pengembalianLoansCache.filter((loan) =>
+          getLoanFineState(loan).hasOutstandingFine,
         );
-        countBadge.textContent = overdueLoans.length.toLocaleString("id-ID");
+        countBadge.textContent = fineLoans.length.toLocaleString("id-ID");
 
-        if (!overdueLoans.length) {
+        if (!fineLoans.length) {
           summary.innerHTML = `
             <div>
               <div class="fine-summary-title">Belum ada denda aktif</div>
@@ -7204,7 +7340,7 @@
           return;
         }
 
-        const totalFine = overdueLoans.reduce(
+        const totalFine = fineLoans.reduce(
           (sum, loan) => sum + (Number(loan._estimatedFine) || 0),
           0,
         );
@@ -7213,25 +7349,25 @@
           <div>
             <div class="fine-summary-title">Total denda aktif Anda</div>
             <div class="fine-summary-note">
-              Pilih metode pembayaran untuk setiap buku yang terlambat. Setelah dikirim, admin bisa menindaklanjuti lewat helpdesk.
+              Pilih metode pembayaran untuk setiap denda aktif. Setelah dikirim, admin bisa menindaklanjuti lewat helpdesk.
             </div>
           </div>
           <div class="fine-summary-amount">${formatRupiah(totalFine)}</div>
         `;
 
-        list.innerHTML = overdueLoans
+        list.innerHTML = fineLoans
           .map((loan) => {
+            const fineState = getLoanFineState(loan);
             const request = loan._fineRequest || null;
-            const paymentStatus = normalizeFinePaymentStatus(
-              loan._finePaymentStatus,
-              loan._estimatedFine,
-            );
+            const paymentStatus = fineState.finePaymentStatus;
             const selectedMethod = request?.methodKey || "qris";
             const requestInfo =
               paymentStatus === "menunggu_verifikasi"
-                ? `Pembayaran sedang menunggu verifikasi admin. Pengajuan terakhir via ${getFinePaymentMethodLabel(
-                    request?.methodKey || selectedMethod,
-                  )} pada ${formatDateTimeID(request?.created_at)}.`
+                ? request
+                  ? `Pembayaran sedang menunggu verifikasi admin. Pengajuan terakhir via ${getFinePaymentMethodLabel(
+                      request.methodKey || selectedMethod,
+                    )} pada ${formatDateTimeID(request.created_at)}.`
+                  : "Pembayaran sedang menunggu verifikasi admin. Jika belum ada respons, Anda bisa mengirim ulang pengajuan."
                 : request
                   ? `Pengajuan terakhir via ${getFinePaymentMethodLabel(
                       request.methodKey,
@@ -7257,10 +7393,15 @@
                       <div><strong>Jatuh tempo:</strong> ${formatDateID(
                         loan._dueDateValue,
                       )}</div>
-                      <div><strong>Terlambat:</strong> ${loan._overdueDays} hari</div>
+                      <div><strong>Usia denda:</strong> ${fineState.dueAgeDays} hari</div>
                       <div><strong>Total denda:</strong> ${formatRupiah(
                         loan._estimatedFine,
                       )}</div>
+                      <div><strong>Status pengembalian:</strong> ${
+                        fineState.isReturned
+                          ? "Buku sudah dikembalikan"
+                          : "Buku masih dipinjam"
+                      }</div>
                     </div>
                   </div>
                   <span class="fine-payment-badge ${
@@ -7322,15 +7463,24 @@
           showToast("Data pinjaman tidak ditemukan");
           return;
         }
-        if (loan.status !== "dipinjam" || loan._overdueDays <= 0) {
+        const fineState = getLoanFineState(loan);
+        if (fineState.estimatedFine <= 0) {
           showToast("Pinjaman ini belum terkena denda");
+          return;
+        }
+        if (fineState.finePaymentStatus === "lunas") {
+          showToast("Denda untuk pinjaman ini sudah lunas");
+          return;
+        }
+        if (!fineState.hasOutstandingFine) {
+          showToast("Tidak ada denda aktif untuk pinjaman ini");
           return;
         }
 
         const methodSelect = document.getElementById(`fine-method-${loanId}`);
         const submitButton = document.getElementById(`fine-submit-${loanId}`);
         const methodKey = methodSelect?.value || "qris";
-        const amount = Number(loan._estimatedFine) || 0;
+        const amount = fineState.estimatedFine;
 
         if (!amount) {
           showToast("Nominal denda belum tersedia");
@@ -7958,9 +8108,9 @@
           pengembalianFineRequestMap = new Map();
           accountSuspensionState = {
             isSuspended: false,
-            overdueLoans: [],
+            blockedLoans: [],
             totalFine: 0,
-            maxOverdueDays: 0,
+            maxBlockedDays: 0,
           };
           updateAccountSuspensionUI();
           renderFinePaymentPanel();
@@ -7991,6 +8141,7 @@
         const normalizedRows = (data || []).map((row) => {
           const dueDateValue = getLoanDueDateValue(row);
           const overdueDays = getLoanOverdueDays(row, dueDateValue, new Date());
+          const dueAgeDays = getDaysSinceDueDate(dueDateValue, new Date());
           const persistedFine = Number(row.denda) || 0;
           const estimatedFine =
             overdueDays > 0 ? overdueDays * TARIF_DENDA_USER : persistedFine;
@@ -8002,6 +8153,7 @@
             ...row,
             _dueDateValue: dueDateValue,
             _overdueDays: overdueDays,
+            _dueAgeDays: dueAgeDays,
             _estimatedFine: estimatedFine,
             _finePaymentStatus: finePaymentStatus,
             _fineRequest:
@@ -8042,9 +8194,18 @@
 
         tbody.innerHTML = normalizedRows
           .map((d) => {
+            const fineState = getLoanFineState(d);
             let statusText = badgeLabel[d.status] || d.status;
             let statusColor = badgeColor[d.status] || "#64748b";
-            if (d.status === "dipinjam" && d._overdueDays > 0) {
+            if (fineState.isReturned && fineState.hasOutstandingFine) {
+              if (fineState.finePaymentStatus === "menunggu_verifikasi") {
+                statusText = "Verifikasi Denda";
+                statusColor = "#0f766e";
+              } else {
+                statusText = "Denda Belum Lunas";
+                statusColor = "#b45309";
+              }
+            } else if (d.status === "dipinjam" && d._estimatedFine > 0) {
               if (d._finePaymentStatus === "lunas") {
                 statusText = "Denda Lunas";
                 statusColor = "#059669";
@@ -8151,9 +8312,9 @@
             currentUser = null;
             accountSuspensionState = {
               isSuspended: false,
-              overdueLoans: [],
+              blockedLoans: [],
               totalFine: 0,
-              maxOverdueDays: 0,
+              maxBlockedDays: 0,
             };
             previousSuspensionFlag = false;
           }
