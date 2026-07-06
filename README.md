@@ -1,5 +1,7 @@
 # Literasea
 
+# juansiringo
+
 Literasea adalah aplikasi perpustakaan digital berbasis web statis yang terhubung dengan Supabase untuk autentikasi, data buku, peminjaman, pengembalian, helpdesk, masukan buku, dan fitur admin/owner.
 
 ## Halaman Utama
