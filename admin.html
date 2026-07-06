@@ -1358,51 +1358,14 @@
                       <th>Status</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody id="ownerMembersBody">
                     <tr>
-                      <td>MBR-001</td>
-                      <td>Ahmad Fauzi</td>
-                      <td>ahmad.f@email.com</td>
-                      <td>08123456789</td>
-                      <td>1 Jan 2025</td>
-                      <td>3</td>
-                      <td><span class="badge badge-green">Aktif</span></td>
-                    </tr>
-                    <tr>
-                      <td>MBR-002</td>
-                      <td>Siti Nuraini</td>
-                      <td>siti.n@email.com</td>
-                      <td>08234567890</td>
-                      <td>15 Feb 2025</td>
-                      <td>1</td>
-                      <td><span class="badge badge-green">Aktif</span></td>
-                    </tr>
-                    <tr>
-                      <td>MBR-003</td>
-                      <td>Reza Pratama</td>
-                      <td>reza.p@email.com</td>
-                      <td>08345678901</td>
-                      <td>1 Mar 2025</td>
-                      <td>2</td>
-                      <td><span class="badge badge-green">Aktif</span></td>
-                    </tr>
-                    <tr>
-                      <td>MBR-009</td>
-                      <td>Bambang Susilo</td>
-                      <td>bambang.s@email.com</td>
-                      <td>08456789012</td>
-                      <td>10 Mar 2025</td>
-                      <td>0</td>
-                      <td><span class="badge badge-red">Nonaktif</span></td>
-                    </tr>
-                    <tr>
-                      <td>MBR-042</td>
-                      <td>Budi Santoso</td>
-                      <td>budi.s@email.com</td>
-                      <td>08567890123</td>
-                      <td>5 Apr 2025</td>
-                      <td>1</td>
-                      <td><span class="badge badge-green">Aktif</span></td>
+                      <td
+                        colspan="7"
+                        style="text-align: center; color: #94a3b8"
+                      >
+                        Memuat data anggota...
+                      </td>
                     </tr>
                   </tbody>
                 </table>
@@ -1417,6 +1380,8 @@
                 <div class="card-title">🔖 Semua Data Transaksi</div>
                 <div style="display: flex; gap: 10px">
                   <select
+                    id="owner-transaction-status-filter"
+                    onchange="renderOwnerTransactions()"
                     style="
                       padding: 8px 12px;
                       border: 2px solid var(--border);
@@ -1425,10 +1390,12 @@
                       font-family: &quot;Nunito&quot;, sans-serif;
                     "
                   >
-                    <option>Semua Status</option>
-                    <option>Aktif</option>
-                    <option>Selesai</option>
-                    <option>Terlambat</option>
+                    <option value="semua">Semua Status</option>
+                    <option value="menunggu">Menunggu</option>
+                    <option value="aktif">Aktif</option>
+                    <option value="selesai">Selesai</option>
+                    <option value="terlambat">Terlambat</option>
+                    <option value="ditolak">Ditolak</option>
                   </select>
                 </div>
               </div>
@@ -1445,51 +1412,14 @@
                       <th>Denda</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody id="ownerTransactionsBody">
                     <tr>
-                      <td>TRX-2025-001</td>
-                      <td>Ahmad Fauzi</td>
-                      <td>Sapiens</td>
-                      <td>5 Jun 2025</td>
-                      <td>19 Jun 2025</td>
-                      <td><span class="badge badge-yellow">Terlambat</span></td>
-                      <td>Rp 2.000</td>
-                    </tr>
-                    <tr>
-                      <td>TRX-2025-002</td>
-                      <td>Siti Nuraini</td>
-                      <td>Laskar Pelangi</td>
-                      <td>10 Jun 2025</td>
-                      <td>22 Jun 2025</td>
-                      <td><span class="badge badge-blue">Aktif</span></td>
-                      <td>—</td>
-                    </tr>
-                    <tr>
-                      <td>TRX-2025-003</td>
-                      <td>Reza Pratama</td>
-                      <td>Bumi Manusia</td>
-                      <td>1 Jun 2025</td>
-                      <td>15 Jun 2025</td>
-                      <td><span class="badge badge-green">Selesai</span></td>
-                      <td>Rp 5.000</td>
-                    </tr>
-                    <tr>
-                      <td>TRX-2025-004</td>
-                      <td>Dewi Lestari</td>
-                      <td>Harry Potter I</td>
-                      <td>15 Jun 2025</td>
-                      <td>—</td>
-                      <td><span class="badge badge-blue">Aktif</span></td>
-                      <td>—</td>
-                    </tr>
-                    <tr>
-                      <td>TRX-2025-005</td>
-                      <td>Maya Putri</td>
-                      <td>Dune</td>
-                      <td>18 Jun 2025</td>
-                      <td>—</td>
-                      <td><span class="badge badge-blue">Aktif</span></td>
-                      <td>—</td>
+                      <td
+                        colspan="7"
+                        style="text-align: center; color: #94a3b8"
+                      >
+                        Memuat data transaksi...
+                      </td>
                     </tr>
                   </tbody>
                 </table>

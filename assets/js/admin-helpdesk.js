@@ -1,4 +1,53 @@
-function normalizeHelpdeskMessage(row, sourceTable) {
+let helpdeskChatColumnHints = null;
+
+function rememberHelpdeskChatColumns(row, sourceTable) {
+        if (sourceTable !== "helpdesk_chat" || !row || helpdeskChatColumnHints) {
+          return;
+        }
+        helpdeskChatColumnHints = new Set(Object.keys(row));
+      }
+
+      function buildHelpdeskChatInsertPayload(payload) {
+        const columns = helpdeskChatColumnHints;
+        const defaultLegacyColumns = new Set([
+          "user_id",
+          "nama_pengguna",
+          "pengirim",
+          "pesan",
+        ]);
+        const has = (columnName) =>
+          columns ? columns.has(columnName) : defaultLegacyColumns.has(columnName);
+        const usesLegacyColumns =
+          !columns || columns.has("pengirim") || columns.has("pesan");
+        const insertPayload = {};
+
+        if (has("user_id")) insertPayload.user_id = payload.user_id;
+
+        if (usesLegacyColumns) {
+          if (has("nama_pengguna")) {
+            insertPayload.nama_pengguna =
+              payload.user_name || payload.user_email || "Pengguna";
+          }
+          if (has("pengirim")) insertPayload.pengirim = payload.sender_role;
+          if (has("pesan")) insertPayload.pesan = payload.message;
+          if (has("user_photo") && payload.user_photo) {
+            insertPayload.user_photo = payload.user_photo;
+          }
+          return insertPayload;
+        }
+
+        if (has("user_name")) insertPayload.user_name = payload.user_name;
+        if (has("user_email")) insertPayload.user_email = payload.user_email;
+        if (has("sender_role")) insertPayload.sender_role = payload.sender_role;
+        if (has("message")) insertPayload.message = payload.message;
+        if (has("admin_id")) insertPayload.admin_id = payload.admin_id;
+        if (has("admin_name")) insertPayload.admin_name = payload.admin_name;
+        if (has("read_at_admin")) insertPayload.read_at_admin = payload.read_at_admin;
+
+        return insertPayload;
+      }
+
+      function normalizeHelpdeskMessage(row, sourceTable) {
         const senderRole = String(row?.sender_role || row?.pengirim || "")
           .trim()
           .toLowerCase();
@@ -183,6 +232,7 @@ function normalizeHelpdeskMessage(row, sourceTable) {
 
           successCount += 1;
           (data || []).forEach((row) => {
+            rememberHelpdeskChatColumns(row, tableName);
             const normalizedMessage = normalizeHelpdeskMessage(row, tableName);
             const dedupeKey = normalizedMessage.id
               ? `${tableName}:${normalizedMessage.id}`
@@ -212,18 +262,21 @@ function normalizeHelpdeskMessage(row, sourceTable) {
       }
 
       async function insertAdminHelpdeskMessage(payload) {
+        if (HELPDESK_TABLE_CANDIDATES[0] === "helpdesk_chat") {
+          return supabaseClient
+            .from("helpdesk_chat")
+            .insert(buildHelpdeskChatInsertPayload(payload));
+        }
+
         const modernResponse = await supabaseClient
           .from("helpdesk_messages")
           .insert(payload);
 
         if (!modernResponse.error) return modernResponse;
 
-        return supabaseClient.from("helpdesk_chat").insert({
-          user_id: payload.user_id,
-          nama_pengguna: payload.user_name,
-          pengirim: payload.sender_role,
-          pesan: payload.message,
-        });
+        return supabaseClient
+          .from("helpdesk_chat")
+          .insert(buildHelpdeskChatInsertPayload(payload));
       }
 
       async function syncHelpdeskState() {

@@ -903,6 +903,20 @@ function normalizeColumnName(value) {
           memberRefreshTimer = null;
           loadMembers();
           loadDashboardStats();
+          if (
+            document
+              .getElementById("page-semuaAnggota")
+              ?.classList.contains("active")
+          ) {
+            loadOwnerMembers();
+          }
+          if (
+            document
+              .getElementById("page-semuaTransaksi")
+              ?.classList.contains("active")
+          ) {
+            loadOwnerTransactions();
+          }
         }, 120);
       }
 
@@ -963,19 +977,15 @@ function normalizeColumnName(value) {
 
       function startHelpdeskRealtimeSync() {
         if (helpdeskRealtimeChannel) return;
-        helpdeskRealtimeChannel = supabaseClient
-          .channel("admin-helpdesk-sync")
-          .on(
+        helpdeskRealtimeChannel = supabaseClient.channel("admin-helpdesk-sync");
+        HELPDESK_TABLE_CANDIDATES.forEach((tableName) => {
+          helpdeskRealtimeChannel.on(
             "postgres_changes",
-            { event: "*", schema: "public", table: "helpdesk_messages" },
+            { event: "*", schema: "public", table: tableName },
             requestHelpdeskRefresh,
-          )
-          .on(
-            "postgres_changes",
-            { event: "*", schema: "public", table: "helpdesk_chat" },
-            requestHelpdeskRefresh,
-          )
-          .subscribe();
+          );
+        });
+        helpdeskRealtimeChannel.subscribe();
       }
 
       function normalizeBorrowingStatus(status) {
@@ -1122,7 +1132,32 @@ function normalizeColumnName(value) {
         };
       }
 
+      let peminjamanFineStatusColumnAvailable = null;
+
       async function fetchReturnLoanForAdmin(id) {
+        const fetchWithoutFineStatus = async () => {
+          const fallbackResponse = await supabaseClient
+            .from("peminjaman")
+            .select("id, tanggal_kembali, status, denda")
+            .eq("id", id)
+            .maybeSingle();
+
+          return {
+            ...fallbackResponse,
+            data: fallbackResponse.data
+              ? {
+                  ...fallbackResponse.data,
+                  status_pembayaran_denda: "belum_dibayar",
+                  _hasFinePaymentStatusColumn: false,
+                }
+              : fallbackResponse.data,
+          };
+        };
+
+        if (peminjamanFineStatusColumnAvailable === false) {
+          return fetchWithoutFineStatus();
+        }
+
         const response = await supabaseClient
           .from("peminjaman")
           .select("id, tanggal_kembali, status, denda, status_pembayaran_denda")
@@ -1130,45 +1165,165 @@ function normalizeColumnName(value) {
           .maybeSingle();
 
         if (!isMissingColumnError(response.error, "status_pembayaran_denda")) {
-          return response;
+          if (!response.error) {
+            peminjamanFineStatusColumnAvailable = true;
+          }
+          return {
+            ...response,
+            data: response.data
+              ? {
+                  ...response.data,
+                  _hasFinePaymentStatusColumn: true,
+                }
+              : response.data,
+          };
         }
 
-        const fallbackResponse = await supabaseClient
-          .from("peminjaman")
-          .select("id, tanggal_kembali, status, denda")
-          .eq("id", id)
-          .maybeSingle();
-
-        return {
-          ...fallbackResponse,
-          data: fallbackResponse.data
-            ? {
-                ...fallbackResponse.data,
-                status_pembayaran_denda: "belum_dibayar",
-              }
-            : fallbackResponse.data,
-        };
+        peminjamanFineStatusColumnAvailable = false;
+        return fetchWithoutFineStatus();
       }
 
       async function updatePeminjamanSafe(id, payload) {
+        const shouldVerifyFinePaymentStatus =
+          Object.prototype.hasOwnProperty.call(
+            payload,
+            "status_pembayaran_denda",
+          );
+        const selectColumns = shouldVerifyFinePaymentStatus
+          ? "id, status, denda, status_pembayaran_denda"
+          : "id, status, denda";
+
+        if (
+          shouldVerifyFinePaymentStatus &&
+          peminjamanFineStatusColumnAvailable === false
+        ) {
+          const fallbackPayload = { ...payload };
+          const requestedFineStatus = fallbackPayload.status_pembayaran_denda;
+          delete fallbackPayload.status_pembayaran_denda;
+
+          if (requestedFineStatus === "lunas") {
+            fallbackPayload.denda = 0;
+          }
+
+          const fallbackResponse = await supabaseClient
+            .from("peminjaman")
+            .update(fallbackPayload)
+            .eq("id", id)
+            .select("id, status, denda")
+            .maybeSingle();
+
+          if (fallbackResponse.error) {
+            return fallbackResponse;
+          }
+
+          if (!fallbackResponse.data) {
+            return {
+              data: null,
+              error: {
+                message:
+                  "Data peminjaman tidak ditemukan atau tidak bisa diperbarui.",
+              },
+            };
+          }
+
+          return {
+            ...fallbackResponse,
+            data: {
+              ...fallbackResponse.data,
+              status_pembayaran_denda:
+                requestedFineStatus === "lunas" ? "lunas" : "belum_dibayar",
+              _hasFinePaymentStatusColumn: false,
+            },
+          };
+        }
+
         const response = await supabaseClient
           .from("peminjaman")
           .update(payload)
-          .eq("id", id);
+          .eq("id", id)
+          .select(selectColumns)
+          .maybeSingle();
 
         if (
-          !isMissingColumnError(response.error, "status_pembayaran_denda") ||
-          !Object.prototype.hasOwnProperty.call(
-            payload,
-            "status_pembayaran_denda",
-          )
+          isMissingColumnError(response.error, "status_pembayaran_denda") &&
+          shouldVerifyFinePaymentStatus
         ) {
+          const fallbackPayload = { ...payload };
+          const requestedFineStatus = fallbackPayload.status_pembayaran_denda;
+          delete fallbackPayload.status_pembayaran_denda;
+          peminjamanFineStatusColumnAvailable = false;
+
+          if (requestedFineStatus === "lunas") {
+            fallbackPayload.denda = 0;
+          }
+
+          const fallbackResponse = await supabaseClient
+            .from("peminjaman")
+            .update(fallbackPayload)
+            .eq("id", id)
+            .select("id, status, denda")
+            .maybeSingle();
+
+          if (fallbackResponse.error) {
+            return fallbackResponse;
+          }
+
+          if (!fallbackResponse.data) {
+            return {
+              data: null,
+              error: {
+                message:
+                  "Data peminjaman tidak ditemukan atau tidak bisa diperbarui.",
+              },
+            };
+          }
+
+          return {
+            ...fallbackResponse,
+            data: {
+              ...fallbackResponse.data,
+              status_pembayaran_denda:
+                requestedFineStatus === "lunas"
+                  ? "lunas"
+                  : "belum_dibayar",
+              _hasFinePaymentStatusColumn: false,
+            },
+          };
+        }
+
+        if (response.error) {
           return response;
         }
 
-        const fallbackPayload = { ...payload };
-        delete fallbackPayload.status_pembayaran_denda;
-        return supabaseClient.from("peminjaman").update(fallbackPayload).eq("id", id);
+        if (shouldVerifyFinePaymentStatus) {
+          peminjamanFineStatusColumnAvailable = true;
+        }
+
+        if (!response.data) {
+          return {
+            data: null,
+            error: {
+              message:
+                "Data peminjaman tidak ditemukan atau tidak bisa diperbarui.",
+            },
+          };
+        }
+
+        if (
+          shouldVerifyFinePaymentStatus &&
+          response.data.status_pembayaran_denda !==
+            payload.status_pembayaran_denda
+        ) {
+          return {
+            data: response.data,
+            error: {
+              message:
+                "Status pembayaran denda gagal berubah. Muat ulang halaman admin lalu coba lagi.",
+            },
+          };
+        }
+
+        return response;
       }
 
       async function loadDashboardBorrowRequests() {

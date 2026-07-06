@@ -1,5 +1,53 @@
 // ====== CHAT ======
       let helpdeskMessages = [];
+      let helpdeskChatColumnHints = null;
+
+      function rememberHelpdeskChatColumns(row, sourceTable) {
+        if (sourceTable !== "helpdesk_chat" || !row || helpdeskChatColumnHints) {
+          return;
+        }
+        helpdeskChatColumnHints = new Set(Object.keys(row));
+      }
+
+      function buildHelpdeskChatInsertPayload(payload) {
+        const columns = helpdeskChatColumnHints;
+        const defaultLegacyColumns = new Set([
+          "user_id",
+          "nama_pengguna",
+          "pengirim",
+          "pesan",
+        ]);
+        const has = (columnName) =>
+          columns ? columns.has(columnName) : defaultLegacyColumns.has(columnName);
+        const usesLegacyColumns =
+          !columns || columns.has("pengirim") || columns.has("pesan");
+        const insertPayload = {};
+
+        if (has("user_id")) insertPayload.user_id = payload.user_id;
+
+        if (usesLegacyColumns) {
+          if (has("nama_pengguna")) {
+            insertPayload.nama_pengguna =
+              payload.user_name || payload.user_email || "Pengguna";
+          }
+          if (has("pengirim")) insertPayload.pengirim = payload.sender_role;
+          if (has("pesan")) insertPayload.pesan = payload.message;
+          if (has("user_photo") && payload.user_photo) {
+            insertPayload.user_photo = payload.user_photo;
+          }
+          return insertPayload;
+        }
+
+        if (has("user_name")) insertPayload.user_name = payload.user_name;
+        if (has("user_email")) insertPayload.user_email = payload.user_email;
+        if (has("sender_role")) insertPayload.sender_role = payload.sender_role;
+        if (has("message")) insertPayload.message = payload.message;
+        if (has("user_photo") && payload.user_photo) {
+          insertPayload.user_photo = payload.user_photo;
+        }
+
+        return insertPayload;
+      }
 
       function normalizeHelpdeskMessage(row, sourceTable) {
         const senderRole = String(row?.sender_role || row?.pengirim || "")
@@ -127,6 +175,7 @@
 
           successCount += 1;
           (data || []).forEach((row) => {
+            rememberHelpdeskChatColumns(row, tableName);
             const normalizedMessage = normalizeHelpdeskMessage(row, tableName);
             const dedupeKey = normalizedMessage.id
               ? `${tableName}:${normalizedMessage.id}`
@@ -181,6 +230,27 @@
       }
 
       async function insertHelpdeskUserMessage(payload) {
+        const legacyPayload = buildHelpdeskChatInsertPayload(payload);
+
+        if (HELPDESK_TABLE_CANDIDATES[0] === "helpdesk_chat") {
+          const legacyResponse = await supabaseClient
+            .from("helpdesk_chat")
+            .insert(legacyPayload);
+
+          if (
+            legacyResponse.error &&
+            Object.prototype.hasOwnProperty.call(legacyPayload, "user_photo") &&
+            /user_photo|schema cache|column/i.test(
+              legacyResponse.error.message || "",
+            )
+          ) {
+            delete legacyPayload.user_photo;
+            return supabaseClient.from("helpdesk_chat").insert(legacyPayload);
+          }
+
+          return legacyResponse;
+        }
+
         const modernResponse = await supabaseClient
           .from("helpdesk_messages")
           .insert(payload);
@@ -199,19 +269,13 @@
           if (!retryResponse.error) return retryResponse;
         }
 
-        const legacyPayload = {
-          user_id: payload.user_id,
-          nama_pengguna: payload.user_name,
-          pengirim: payload.sender_role,
-          pesan: payload.message,
-          user_photo: payload.user_photo || null,
-        };
         const legacyResponse = await supabaseClient
           .from("helpdesk_chat")
           .insert(legacyPayload);
 
         if (
           legacyResponse.error &&
+          Object.prototype.hasOwnProperty.call(legacyPayload, "user_photo") &&
           /user_photo|schema cache|column/i.test(
             legacyResponse.error.message || "",
           )
@@ -333,29 +397,22 @@
 
         if (!user) return;
 
-        helpdeskRealtimeChannel = supabaseClient
-          .channel(`helpdesk-user-${user.id}`)
-          .on(
+        helpdeskRealtimeChannel = supabaseClient.channel(
+          `helpdesk-user-${user.id}`,
+        );
+        HELPDESK_TABLE_CANDIDATES.forEach((tableName) => {
+          helpdeskRealtimeChannel.on(
             "postgres_changes",
             {
               event: "*",
               schema: "public",
-              table: "helpdesk_messages",
+              table: tableName,
               filter: `user_id=eq.${user.id}`,
             },
             requestHelpdeskRefresh,
-          )
-          .on(
-            "postgres_changes",
-            {
-              event: "*",
-              schema: "public",
-              table: "helpdesk_chat",
-              filter: `user_id=eq.${user.id}`,
-            },
-            requestHelpdeskRefresh,
-          )
-          .subscribe();
+          );
+        });
+        helpdeskRealtimeChannel.subscribe();
       }
 
       async function fetchUserPeminjamanRows(userId) {

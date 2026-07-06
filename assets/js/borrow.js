@@ -431,19 +431,50 @@
       }
 
       async function updateUserFinePaymentData(loanId, userId, payload) {
+        const shouldVerifyFinePaymentStatus =
+          Object.prototype.hasOwnProperty.call(
+            payload,
+            "status_pembayaran_denda",
+          );
+        const selectColumns = shouldVerifyFinePaymentStatus
+          ? "id, denda, status_pembayaran_denda"
+          : "id, denda";
+
         const response = await supabaseClient
           .from("peminjaman")
           .update(payload)
           .eq("id", loanId)
-          .eq("user_id", userId);
+          .eq("user_id", userId)
+          .select(selectColumns)
+          .maybeSingle();
 
         if (
           !isMissingFinePaymentStatusColumnError(response.error) ||
-          !Object.prototype.hasOwnProperty.call(
-            payload,
-            "status_pembayaran_denda",
-          )
+          !shouldVerifyFinePaymentStatus
         ) {
+          if (response.error) return response;
+          if (!response.data) {
+            return {
+              data: null,
+              error: {
+                message:
+                  "Data pinjaman tidak ditemukan atau tidak bisa diperbarui.",
+              },
+            };
+          }
+          if (
+            shouldVerifyFinePaymentStatus &&
+            response.data.status_pembayaran_denda !==
+              payload.status_pembayaran_denda
+          ) {
+            return {
+              data: response.data,
+              error: {
+                message:
+                  "Status pembayaran denda gagal berubah. Muat ulang halaman lalu coba lagi.",
+              },
+            };
+          }
           return response;
         }
 
@@ -454,9 +485,20 @@
           .from("peminjaman")
           .update(fallbackPayload)
           .eq("id", loanId)
-          .eq("user_id", userId);
+          .eq("user_id", userId)
+          .select("id, denda")
+          .maybeSingle();
 
         if (!fallbackResponse.error) {
+          if (!fallbackResponse.data) {
+            return {
+              data: null,
+              error: {
+                message:
+                  "Data pinjaman tidak ditemukan atau tidak bisa diperbarui.",
+              },
+            };
+          }
           console.warn(
             "Kolom status_pembayaran_denda belum tersedia di Supabase. Pengajuan denda tetap dikirim lewat helpdesk.",
           );

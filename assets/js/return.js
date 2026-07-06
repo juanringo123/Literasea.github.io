@@ -55,8 +55,6 @@
           const overdueDays = getLoanOverdueDays(row, dueDateValue, new Date());
           const dueAgeDays = getDaysSinceDueDate(dueDateValue, new Date());
           const persistedFine = Number(row.denda) || 0;
-          const estimatedFine =
-            overdueDays > 0 ? overdueDays * TARIF_DENDA_USER : persistedFine;
           const rawFinePaymentStatus = row.status_pembayaran_denda;
           const hasFinePaymentStatusColumn =
             Object.prototype.hasOwnProperty.call(
@@ -65,10 +63,21 @@
             );
           const fineRequest =
             pengembalianFineRequestMap.get(String(row.id)) || null;
+          const isLegacyPaidFine =
+            !hasFinePaymentStatusColumn && fineRequest && persistedFine <= 0;
+          const estimatedFine = isLegacyPaidFine
+            ? 0
+            : overdueDays > 0
+              ? overdueDays * TARIF_DENDA_USER
+              : persistedFine;
+          const hasLegacyPendingFineRequest =
+            !hasFinePaymentStatusColumn && fineRequest && estimatedFine > 0;
           const finePaymentStatus =
-            !hasFinePaymentStatusColumn && fineRequest && estimatedFine > 0
-              ? "menunggu_verifikasi"
-              : normalizeFinePaymentStatus(rawFinePaymentStatus, estimatedFine);
+            isLegacyPaidFine
+              ? "lunas"
+              : hasLegacyPendingFineRequest
+                ? "menunggu_verifikasi"
+                : normalizeFinePaymentStatus(rawFinePaymentStatus, estimatedFine);
           return {
             ...row,
             _dueDateValue: dueDateValue,

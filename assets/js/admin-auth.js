@@ -22,7 +22,7 @@
       let laporanDendaFilteredRows = [];
       let laporanDendaSelectedMonth = "";
       let allMasukan = [];
-      const HELPDESK_TABLE_CANDIDATES = ["helpdesk_messages", "helpdesk_chat"];
+      const HELPDESK_TABLE_CANDIDATES = ["helpdesk_chat"];
       const BOOKS_SYNC_KEY = "literasea_books_updated";
       const MEMBER_SYNC_KEY = "literasea_profiles_updated";
       const TARIF_DENDA_ADMIN = 5000;

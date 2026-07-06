@@ -327,6 +327,10 @@
           supabaseClient.removeChannel(bukuRealtimeChannel);
           bukuRealtimeChannel = null;
         }
+        if (peminjamanRealtimeChannel) {
+          supabaseClient.removeChannel(peminjamanRealtimeChannel);
+          peminjamanRealtimeChannel = null;
+        }
         if (helpdeskRealtimeChannel) {
           supabaseClient.removeChannel(helpdeskRealtimeChannel);
           helpdeskRealtimeChannel = null;
@@ -353,6 +357,7 @@
         document.getElementById("app").style.display = "flex";
         document.getElementById("app").classList.add("active");
         startBukuRealtimeSync();
+        startPeminjamanRealtimeSync();
         startHelpdeskRealtimeSync();
         loadBukuUser();
         loadPengembalianUser();
@@ -441,6 +446,10 @@ document.addEventListener("DOMContentLoaded", async () => {
             if (bukuRealtimeChannel) {
               supabaseClient.removeChannel(bukuRealtimeChannel);
               bukuRealtimeChannel = null;
+            }
+            if (peminjamanRealtimeChannel) {
+              supabaseClient.removeChannel(peminjamanRealtimeChannel);
+              peminjamanRealtimeChannel = null;
             }
             if (helpdeskRealtimeChannel) {
               supabaseClient.removeChannel(helpdeskRealtimeChannel);

@@ -1247,6 +1247,8 @@ function setDashboardValue(id, value) {
         if (pageId === "kelolaAnggota") loadMembers();
         if (pageId === "laporanPeminjaman") loadLaporanPeminjaman();
         if (pageId === "laporanDenda") loadLaporanDenda();
+        if (pageId === "semuaAnggota") loadOwnerMembers();
+        if (pageId === "semuaTransaksi") loadOwnerTransactions();
         if (pageId === "masukanBuku") loadMasukanBuku();
         if (pageId === "helpdeskChat") loadHelpdeskChat();
         if (pageId === "rekomendasiPembelian") loadRekomendasiOwner();

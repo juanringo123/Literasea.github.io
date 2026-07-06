@@ -143,6 +143,38 @@
         return isDummyIdentityValue(fullName) || isDummyIdentityValue(email);
       }
 
+      function isDummyMemberProfile(row) {
+        const values = [
+          row?.full_name,
+          row?.email,
+          row?.member_id,
+        ].map(normalizeIdentityText);
+
+        return values.some(
+          (value) =>
+            isDummyIdentityValue(value) ||
+            value === "ahmad.f@email.com" ||
+            value === "siti.n@email.com" ||
+            value === "reza.p@email.com" ||
+            value === "bambang.s@email.com" ||
+            value === "budi.s@email.com" ||
+            value === "mbr-001" ||
+            value === "mbr-002" ||
+            value === "mbr-003" ||
+            value === "mbr-009" ||
+            value === "mbr-042",
+        );
+      }
+
+      function resolveOwnerMemberName(profile) {
+        return (
+          profile?.full_name ||
+          profile?.email ||
+          profile?.member_id ||
+          "Anggota"
+        );
+      }
+
       async function renderKelolaAdmin() {
         const tbody = document.getElementById("kelolaAdminTbody");
         if (!tbody) return;
@@ -238,6 +270,318 @@
             .join("");
           return `<tr><td>${fitur}</td>${cols}</tr>`;
         }).join("");
+      }
+
+      let ownerMemberRows = [];
+      let ownerTransactionRows = [];
+      const OWNER_SUSPEND_THRESHOLD_DAYS = 3;
+
+      function formatOwnerDate(value) {
+        const date =
+          typeof parseAdminDateOnly === "function"
+            ? parseAdminDateOnly(value)
+            : new Date(value || "");
+        if (!date || Number.isNaN(date.getTime())) return "-";
+        return date.toLocaleDateString("id-ID", {
+          day: "numeric",
+          month: "short",
+          year: "numeric",
+        });
+      }
+
+      function formatOwnerMoney(value) {
+        if (typeof formatAdminRupiah === "function") {
+          return formatAdminRupiah(value);
+        }
+        return `Rp ${Number(value || 0).toLocaleString("id-ID")}`;
+      }
+
+      function getOwnerDueAgeDays(row) {
+        const dueDate =
+          typeof parseAdminDateOnly === "function"
+            ? parseAdminDateOnly(row?.tanggal_kembali)
+            : new Date(row?.tanggal_kembali || "");
+        if (!dueDate || Number.isNaN(dueDate.getTime())) return 0;
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        dueDate.setHours(0, 0, 0, 0);
+        return Math.max(0, Math.floor((today.getTime() - dueDate.getTime()) / 86400000));
+      }
+
+      function getOwnerEstimatedFine(row) {
+        if (typeof getEstimatedLoanFine === "function") {
+          return getEstimatedLoanFine(row);
+        }
+        return Math.max(0, Number(row?.denda) || 0);
+      }
+
+      function getOwnerFineStatus(row, estimatedFine) {
+        if (typeof normalizeAdminFinePaymentStatus === "function") {
+          return normalizeAdminFinePaymentStatus(
+            row?.status_pembayaran_denda,
+            estimatedFine,
+          );
+        }
+        return row?.status_pembayaran_denda || "belum_dibayar";
+      }
+
+      function getOwnerFineStatusLabel(status) {
+        if (typeof getAdminFineStatusMeta === "function") {
+          return getAdminFineStatusMeta(status).label;
+        }
+        if (status === "lunas") return "Lunas";
+        if (status === "menunggu_verifikasi") return "Menunggu Verifikasi";
+        return "Belum Dibayar";
+      }
+
+      function isOwnerSuspendedMember(memberId, borrowings = []) {
+        return borrowings.some((row) => {
+          if (row.user_id !== memberId) return false;
+          const estimatedFine = getOwnerEstimatedFine(row);
+          const fineStatus = getOwnerFineStatus(row, estimatedFine);
+          return (
+            estimatedFine > 0 &&
+            fineStatus !== "lunas" &&
+            getOwnerDueAgeDays(row) >= OWNER_SUSPEND_THRESHOLD_DAYS
+          );
+        });
+      }
+
+      async function loadOwnerMembers() {
+        const tbody = document.getElementById("ownerMembersBody");
+        if (!tbody) return;
+
+        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; color:#94a3b8;">Memuat data anggota...</td></tr>`;
+
+        const [profilesResponse, borrowingsResponse, adminUsersResponse] = await Promise.all([
+          supabaseClient
+            .from("profiles")
+            .select("id, full_name, email, phone, member_id, created_at")
+            .order("created_at", { ascending: false }),
+          fetchPeminjamanRows({ ascending: false }),
+          supabaseClient.from("admin_users").select("id"),
+        ]);
+
+        if (profilesResponse.error) {
+          tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; color:#ef4444;">Gagal memuat anggota: ${escapeHtml(profilesResponse.error.message)}</td></tr>`;
+          return;
+        }
+
+        if (borrowingsResponse.error) {
+          showToast(
+            "Data transaksi anggota belum lengkap: " +
+              borrowingsResponse.error.message,
+            "warning",
+          );
+        }
+        if (adminUsersResponse.error) {
+          showToast(
+            "Data admin belum lengkap untuk memfilter anggota: " +
+              adminUsersResponse.error.message,
+            "warning",
+          );
+        }
+
+        const borrowings = borrowingsResponse.data || [];
+        const adminIds = new Set(
+          (adminUsersResponse.data || []).map((row) => String(row.id)),
+        );
+        const activeBorrowCount = new Map();
+        borrowings.forEach((row) => {
+          if (normalizeBorrowingStatus(row.status) === "dipinjam" && row.user_id) {
+            activeBorrowCount.set(
+              row.user_id,
+              (activeBorrowCount.get(row.user_id) || 0) + 1,
+            );
+          }
+        });
+
+        ownerMemberRows = (profilesResponse.data || [])
+          .filter(
+            (profile) =>
+              !adminIds.has(String(profile.id)) && !isDummyMemberProfile(profile),
+          )
+          .map((profile) => ({
+            ...profile,
+            _displayName: resolveOwnerMemberName(profile),
+            _activeBorrowCount: activeBorrowCount.get(profile.id) || 0,
+            _isSuspended: isOwnerSuspendedMember(profile.id, borrowings),
+          }));
+
+        renderOwnerMembers();
+      }
+
+      function renderOwnerMembers() {
+        const tbody = document.getElementById("ownerMembersBody");
+        if (!tbody) return;
+
+        if (!ownerMemberRows.length) {
+          tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; color:#94a3b8;">Belum ada anggota di database.</td></tr>`;
+          return;
+        }
+
+        tbody.innerHTML = ownerMemberRows
+          .map((member) => {
+            const statusClass = member._isSuspended ? "badge-red" : "badge-green";
+            const statusLabel = member._isSuspended ? "Ditangguhkan" : "Aktif";
+            return `
+              <tr>
+                <td>${escapeHtml(member.member_id || "-")}</td>
+                <td><strong>${escapeHtml(member._displayName || "-")}</strong></td>
+                <td>${escapeHtml(member.email || "-")}</td>
+                <td>${escapeHtml(member.phone || "-")}</td>
+                <td>${escapeHtml(formatOwnerDate(member.created_at))}</td>
+                <td>${Number(member._activeBorrowCount || 0).toLocaleString("id-ID")}</td>
+                <td><span class="badge ${statusClass}">${statusLabel}</span></td>
+              </tr>
+            `;
+          })
+          .join("");
+      }
+
+      function getOwnerTransactionStatus(row) {
+        const normalizedStatus = normalizeBorrowingStatus(row?.status);
+        const estimatedFine = Number(row?._estimatedFine) || getOwnerEstimatedFine(row);
+
+        if (normalizedStatus === "menunggu") {
+          return { key: "menunggu", label: "Menunggu", className: "badge-yellow" };
+        }
+        if (normalizedStatus === "ditolak") {
+          return { key: "ditolak", label: "Ditolak", className: "badge-red" };
+        }
+        if (estimatedFine > 0 && getOwnerFineStatus(row, estimatedFine) !== "lunas") {
+          return { key: "terlambat", label: "Terlambat", className: "badge-yellow" };
+        }
+        if (normalizedStatus === "dikembalikan") {
+          return { key: "selesai", label: "Selesai", className: "badge-green" };
+        }
+        if (normalizedStatus === "dipinjam") {
+          return { key: "aktif", label: "Aktif", className: "badge-blue" };
+        }
+        return {
+          key: normalizedStatus || "lainnya",
+          label: normalizedStatus || "-",
+          className: "badge-blue",
+        };
+      }
+
+      function formatOwnerTransactionId(id) {
+        const value = String(id || "").replace(/-/g, "").toUpperCase();
+        return value ? `TRX-${value.slice(0, 8)}` : "-";
+      }
+
+      async function loadOwnerTransactions() {
+        const tbody = document.getElementById("ownerTransactionsBody");
+        if (!tbody) return;
+
+        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; color:#94a3b8;">Memuat data transaksi...</td></tr>`;
+
+        const [loanResponse, profileResponse, adminUsersResponse, bookRows] =
+          await Promise.all([
+          fetchPeminjamanRows({ ascending: false }),
+          supabaseClient
+            .from("profiles")
+            .select("id, full_name, email, member_id"),
+          supabaseClient.from("admin_users").select("id"),
+          typeof loadBookRowsFromDatabase === "function"
+            ? loadBookRowsFromDatabase().catch(() => [])
+            : Promise.resolve([]),
+        ]);
+
+        if (loanResponse.error) {
+          tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; color:#ef4444;">Gagal memuat transaksi: ${escapeHtml(loanResponse.error.message)}</td></tr>`;
+          return;
+        }
+        if (profileResponse.error) {
+          showToast(
+            "Profil anggota belum lengkap untuk transaksi: " +
+              profileResponse.error.message,
+            "warning",
+          );
+        }
+        if (adminUsersResponse.error) {
+          showToast(
+            "Data admin belum lengkap untuk memfilter transaksi: " +
+              adminUsersResponse.error.message,
+            "warning",
+          );
+        }
+
+        const adminIds = new Set(
+          (adminUsersResponse.data || []).map((row) => String(row.id)),
+        );
+        const profileMap = new Map(
+          (profileResponse.data || [])
+            .filter(
+              (profile) =>
+                !adminIds.has(String(profile.id)) &&
+                !isDummyMemberProfile(profile),
+            )
+            .map((profile) => [String(profile.id), profile]),
+        );
+        const bookMap = new Map(
+          (bookRows || [])
+            .filter((book) => book?._dbId)
+            .map((book) => [String(book._dbId), book]),
+        );
+
+        ownerTransactionRows = (loanResponse.data || []).map((row) => {
+          const profile = profileMap.get(String(row.user_id || ""));
+          const book = bookMap.get(String(row.buku_id || ""));
+          return {
+            ...row,
+            _memberName:
+              row.nama_anggota ||
+              (profile ? resolveOwnerMemberName(profile) : row.user_id) ||
+              row.user_id ||
+              "-",
+            _bookTitle: row.judul_buku || book?.judul || row.buku_id || "-",
+            _estimatedFine: getOwnerEstimatedFine(row),
+          };
+        });
+
+        renderOwnerTransactions();
+      }
+
+      function renderOwnerTransactions() {
+        const tbody = document.getElementById("ownerTransactionsBody");
+        if (!tbody) return;
+
+        const statusFilter =
+          document.getElementById("owner-transaction-status-filter")?.value ||
+          "semua";
+        const rows = ownerTransactionRows.filter((row) => {
+          if (statusFilter === "semua") return true;
+          return getOwnerTransactionStatus(row).key === statusFilter;
+        });
+
+        if (!rows.length) {
+          tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; color:#94a3b8;">Belum ada transaksi yang cocok.</td></tr>`;
+          return;
+        }
+
+        tbody.innerHTML = rows
+          .map((row) => {
+            const statusMeta = getOwnerTransactionStatus(row);
+            const fineStatus = getOwnerFineStatus(row, row._estimatedFine);
+            const fineText =
+              row._estimatedFine > 0
+                ? `${formatOwnerMoney(row._estimatedFine)} (${getOwnerFineStatusLabel(fineStatus)})`
+                : "-";
+
+            return `
+              <tr>
+                <td>${escapeHtml(formatOwnerTransactionId(row.id))}</td>
+                <td>${escapeHtml(row._memberName || "-")}</td>
+                <td><strong>${escapeHtml(row._bookTitle || "-")}</strong></td>
+                <td>${escapeHtml(formatOwnerDate(row.tanggal_pinjam || row.created_at))}</td>
+                <td>${escapeHtml(formatOwnerDate(row.tanggal_kembali))}</td>
+                <td><span class="badge ${escapeHtml(statusMeta.className)}">${escapeHtml(statusMeta.label)}</span></td>
+                <td>${escapeHtml(fineText)}</td>
+              </tr>
+            `;
+          })
+          .join("");
       }
 
       function formatHelpdeskTime(value) {

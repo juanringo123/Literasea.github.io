@@ -309,14 +309,19 @@ async function processReturn(id, nama = "anggota") {
           return;
         }
 
-        const { error } = await updatePeminjamanSafe(id, {
-            status: "dikembalikan",
-            denda: estimatedFine,
-            status_pembayaran_denda:
-              estimatedFine > 0
-                ? "lunas"
-                : loan?.status_pembayaran_denda || "belum_dibayar",
-          });
+        const updatePayload = {
+          status: "dikembalikan",
+          denda: estimatedFine,
+        };
+
+        if (estimatedFine > 0 || loan?._hasFinePaymentStatusColumn !== false) {
+          updatePayload.status_pembayaran_denda =
+            estimatedFine > 0
+              ? "lunas"
+              : loan?.status_pembayaran_denda || "belum_dibayar";
+        }
+
+        const { error } = await updatePeminjamanSafe(id, updatePayload);
 
         if (error) {
           showToast("Gagal memproses pengembalian: " + error.message, "danger");
@@ -355,11 +360,19 @@ async function processReturn(id, nama = "anggota") {
           return;
         }
 
-        const { error } = await updatePeminjamanSafe(id, {
-          status: "dikembalikan",
-          denda: estimatedFine,
-          status_pembayaran_denda: "lunas",
-        });
+        const updatePayload =
+          loan?._hasFinePaymentStatusColumn === false
+            ? {
+                status: "dikembalikan",
+                denda: 0,
+              }
+            : {
+                status: "dikembalikan",
+                denda: estimatedFine,
+                status_pembayaran_denda: "lunas",
+              };
+
+        const { error } = await updatePeminjamanSafe(id, updatePayload);
 
         if (error) {
           showToast("Gagal menandai denda lunas: " + error.message, "danger");
@@ -401,10 +414,15 @@ async function processReturn(id, nama = "anggota") {
           return;
         }
 
-        const { error } = await updatePeminjamanSafe(id, {
-          denda: estimatedFine,
-          status_pembayaran_denda: "lunas",
-        });
+        const updatePayload =
+          loan?._hasFinePaymentStatusColumn === false
+            ? { denda: 0 }
+            : {
+                denda: estimatedFine,
+                status_pembayaran_denda: "lunas",
+              };
+
+        const { error } = await updatePeminjamanSafe(id, updatePayload);
 
         if (error) {
           showToast("Gagal menandai denda lunas: " + error.message, "danger");

@@ -67,12 +67,14 @@
       ];
       let bukuRealtimeChannel = null;
       let bukuRefreshTimer = null;
+      let peminjamanRealtimeChannel = null;
+      let peminjamanRefreshTimer = null;
       let helpdeskRealtimeChannel = null;
       let helpdeskRefreshTimer = null;
       const bookCoverLookupCache = new Map();
       const bookCoverLookupMisses = new Set();
       const bookCoverLookupPending = new Set();
-      const HELPDESK_TABLE_CANDIDATES = ["helpdesk_messages", "helpdesk_chat"];
+      const HELPDESK_TABLE_CANDIDATES = ["helpdesk_chat"];
       const DASHBOARD_NEWS_ITEMS = [
         {
           tag: "Layanan",
@@ -127,6 +129,42 @@
           );
         });
         bukuRealtimeChannel.subscribe();
+      }
+
+      function requestPeminjamanRefresh() {
+        if (peminjamanRefreshTimer) clearTimeout(peminjamanRefreshTimer);
+        peminjamanRefreshTimer = setTimeout(() => {
+          peminjamanRefreshTimer = null;
+          if (!document.getElementById("app")?.classList.contains("active")) {
+            return;
+          }
+          loadPengembalianUser();
+          loadBukuUser();
+        }, 120);
+      }
+
+      async function startPeminjamanRealtimeSync() {
+        if (peminjamanRealtimeChannel) return;
+
+        const {
+          data: { user },
+        } = await supabaseClient.auth.getUser();
+
+        if (!user) return;
+
+        peminjamanRealtimeChannel = supabaseClient
+          .channel(`peminjaman-user-${user.id}`)
+          .on(
+            "postgres_changes",
+            {
+              event: "*",
+              schema: "public",
+              table: "peminjaman",
+              filter: `user_id=eq.${user.id}`,
+            },
+            requestPeminjamanRefresh,
+          )
+          .subscribe();
       }
 
       window.addEventListener("storage", (event) => {
