@@ -183,15 +183,41 @@
         return Number(fineAmount) > 0 ? "belum_dibayar" : "belum_dibayar";
       }
 
+      function hasFinePaymentStatusValue(value) {
+        return value !== null && value !== undefined && String(value).trim() !== "";
+      }
+
+      function isMissingFinePaymentStatusColumnError(error) {
+        const message = String(error?.message || error || "").toLowerCase();
+        return (
+          message.includes("status_pembayaran_denda") &&
+          (message.includes("does not exist") ||
+            message.includes("schema cache") ||
+            message.includes("column"))
+        );
+      }
+
       function getLoanFineState(loan) {
         const estimatedFine = Math.max(
           0,
           Number(loan?._estimatedFine ?? loan?.denda) || 0,
         );
-        const finePaymentStatus = normalizeFinePaymentStatus(
-          loan?._finePaymentStatus ?? loan?.status_pembayaran_denda,
+        const rawFinePaymentStatus =
+          loan?._finePaymentStatus ?? loan?.status_pembayaran_denda;
+        const hasFinePaymentStatusColumn =
+          loan?._hasFinePaymentStatusColumn ??
+          hasFinePaymentStatusValue(rawFinePaymentStatus);
+        let finePaymentStatus = normalizeFinePaymentStatus(
+          rawFinePaymentStatus,
           estimatedFine,
         );
+        if (
+          estimatedFine > 0 &&
+          !hasFinePaymentStatusColumn &&
+          loan?._fineRequest
+        ) {
+          finePaymentStatus = "menunggu_verifikasi";
+        }
         const normalizedStatus = String(loan?.status || "")
           .trim()
           .toLowerCase();
@@ -404,6 +430,41 @@
           .join("");
       }
 
+      async function updateUserFinePaymentData(loanId, userId, payload) {
+        const response = await supabaseClient
+          .from("peminjaman")
+          .update(payload)
+          .eq("id", loanId)
+          .eq("user_id", userId);
+
+        if (
+          !isMissingFinePaymentStatusColumnError(response.error) ||
+          !Object.prototype.hasOwnProperty.call(
+            payload,
+            "status_pembayaran_denda",
+          )
+        ) {
+          return response;
+        }
+
+        const fallbackPayload = { ...payload };
+        delete fallbackPayload.status_pembayaran_denda;
+
+        const fallbackResponse = await supabaseClient
+          .from("peminjaman")
+          .update(fallbackPayload)
+          .eq("id", loanId)
+          .eq("user_id", userId);
+
+        if (!fallbackResponse.error) {
+          console.warn(
+            "Kolom status_pembayaran_denda belum tersedia di Supabase. Pengajuan denda tetap dikirim lewat helpdesk.",
+          );
+        }
+
+        return fallbackResponse;
+      }
+
       async function kirimPembayaranDenda(loanId) {
         const loan = pengembalianLoansCache.find(
           (item) => String(item.id) === String(loanId),
@@ -455,14 +516,16 @@
             full_name: currentUser?.name || user.email.split("@")[0],
           });
 
-          const { error: updateError } = await supabaseClient
-            .from("peminjaman")
-            .update({
-              denda: amount,
-              status_pembayaran_denda: "menunggu_verifikasi",
-            })
-            .eq("id", loanId)
-            .eq("user_id", user.id);
+          const updatePayload = { denda: amount };
+          if (loan._hasFinePaymentStatusColumn !== false) {
+            updatePayload.status_pembayaran_denda = "menunggu_verifikasi";
+          }
+
+          const { error: updateError } = await updateUserFinePaymentData(
+            loanId,
+            user.id,
+            updatePayload,
+          );
 
           if (updateError) {
             showToast("Gagal menyimpan data denda: " + updateError.message);

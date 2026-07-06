@@ -201,6 +201,27 @@
                   </button>`;
             }
 
+            const loanIdArg = escapeHtml(JSON.stringify(String(item.id || "")));
+            const memberNameArg = escapeHtml(JSON.stringify(namaAnggota));
+            const detailButton = `<button class="btn btn-outline" onclick="showFineDetail(this)">
+                    Detail Denda
+                  </button>`;
+
+            if (estimatedFine > 0 && fineStatus !== "lunas") {
+              actionButtons = `${detailButton}
+                  <button
+                    class="btn btn-primary"
+                    onclick="confirmFinePaid(${loanIdArg}, ${memberNameArg}, ${!isReturned})">
+                    Konfirmasi Terbayar
+                  </button>`;
+            } else if (canProcessReturn) {
+              actionButtons = `<button
+                    class="btn btn-success"
+                    onclick="processReturn(${loanIdArg}, ${memberNameArg})">
+                    Proses
+                  </button>`;
+            }
+
             return `
               <div class="confirm-item">
                 <div class="confirm-info">
@@ -228,6 +249,25 @@
             `;
           })
           .join("");
+      }
+
+      async function confirmFinePaid(
+        id,
+        nama = "anggota",
+        shouldProcessReturn = false,
+      ) {
+        const message = shouldProcessReturn
+          ? `Konfirmasi denda ${nama} sudah terbayar? Buku juga akan diproses sebagai dikembalikan.`
+          : `Konfirmasi denda ${nama} sudah terbayar?`;
+
+        if (!confirm(message)) return;
+
+        if (shouldProcessReturn) {
+          await markFinePaidAndProcessReturn(id, nama);
+          return;
+        }
+
+        await markFinePaidOnly(id, nama);
       }
 
 async function processReturn(id, nama = "anggota") {

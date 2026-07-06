@@ -1,0 +1,225 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1100" viewBox="0 0 1600 1100" role="img" aria-labelledby="title desc">
+  <title id="title">Data Flow Diagram Literasea</title>
+  <desc id="desc">DFD visual Literasea dengan panah arah data antar aktor, proses, data store, Supabase, dan API eksternal.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#0f766e"/>
+    </marker>
+    <marker id="arrowBlue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#2563eb"/>
+    </marker>
+    <marker id="arrowGray" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#64748b"/>
+    </marker>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#0f172a" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+  <style>
+    .page { fill: #f8fafc; }
+    .title { font: 800 34px Arial, sans-serif; fill: #0f172a; }
+    .subtitle { font: 500 16px Arial, sans-serif; fill: #475569; }
+    .section { font: 800 16px Arial, sans-serif; fill: #334155; letter-spacing: 1px; }
+    .actor { fill: #dbeafe; stroke: #2563eb; stroke-width: 2; filter: url(#shadow); }
+    .process { fill: #ccfbf1; stroke: #0f766e; stroke-width: 2; filter: url(#shadow); }
+    .store { fill: #fef3c7; stroke: #d97706; stroke-width: 2; filter: url(#shadow); }
+    .external { fill: #ede9fe; stroke: #7c3aed; stroke-width: 2; filter: url(#shadow); }
+    .edge { fill: #fee2e2; stroke: #dc2626; stroke-width: 2; filter: url(#shadow); }
+    .boxTitle { font: 800 16px Arial, sans-serif; fill: #0f172a; }
+    .boxSmall { font: 500 12px Arial, sans-serif; fill: #475569; }
+    .arrow { stroke: #0f766e; stroke-width: 2.2; fill: none; marker-end: url(#arrow); }
+    .arrowBoth { stroke: #0f766e; stroke-width: 2.2; fill: none; marker-start: url(#arrow); marker-end: url(#arrow); }
+    .arrowBlue { stroke: #2563eb; stroke-width: 2.2; fill: none; marker-end: url(#arrowBlue); }
+    .arrowGray { stroke: #64748b; stroke-width: 1.8; fill: none; marker-end: url(#arrowGray); stroke-dasharray: 7 6; }
+    .label { font: 700 12px Arial, sans-serif; fill: #334155; }
+    .labelBg { fill: #ffffff; opacity: 0.92; rx: 6; }
+  </style>
+
+  <rect class="page" x="0" y="0" width="1600" height="1100"/>
+  <text class="title" x="60" y="55">DFD Literasea</text>
+  <text class="subtitle" x="60" y="82">Panah menunjukkan arah aliran data. Garis dua arah berarti proses membaca dan menulis data.</text>
+
+  <text class="section" x="70" y="125">EXTERNAL ENTITY</text>
+  <text class="section" x="390" y="125">PROSES APLIKASI</text>
+  <text class="section" x="1000" y="125">DATA STORE</text>
+  <text class="section" x="1300" y="125">SERVICE</text>
+
+  <!-- Actors -->
+  <rect class="actor" x="60" y="155" width="210" height="76" rx="14"/>
+  <text class="boxTitle" x="165" y="190" text-anchor="middle">Anggota</text>
+  <text class="boxSmall" x="165" y="211" text-anchor="middle">pengguna perpustakaan</text>
+
+  <rect class="actor" x="60" y="325" width="210" height="76" rx="14"/>
+  <text class="boxTitle" x="165" y="360" text-anchor="middle">Admin</text>
+  <text class="boxSmall" x="165" y="381" text-anchor="middle">operator perpustakaan</text>
+
+  <rect class="actor" x="60" y="495" width="210" height="76" rx="14"/>
+  <text class="boxTitle" x="165" y="530" text-anchor="middle">Owner</text>
+  <text class="boxSmall" x="165" y="551" text-anchor="middle">pengelola utama</text>
+
+  <!-- Processes -->
+  <rect class="process" x="360" y="145" width="280" height="76" rx="18"/>
+  <text class="boxTitle" x="500" y="178" text-anchor="middle">P1 Autentikasi</text>
+  <text class="boxSmall" x="500" y="201" text-anchor="middle">login, register, profil, role</text>
+
+  <rect class="process" x="360" y="265" width="280" height="76" rx="18"/>
+  <text class="boxTitle" x="500" y="298" text-anchor="middle">P2 Katalog Buku</text>
+  <text class="boxSmall" x="500" y="321" text-anchor="middle">cari, lihat, kelola koleksi</text>
+
+  <rect class="process" x="360" y="385" width="280" height="76" rx="18"/>
+  <text class="boxTitle" x="500" y="418" text-anchor="middle">P3 Peminjaman</text>
+  <text class="boxSmall" x="500" y="441" text-anchor="middle">ajukan, setujui, tolak</text>
+
+  <rect class="process" x="360" y="505" width="280" height="76" rx="18"/>
+  <text class="boxTitle" x="500" y="538" text-anchor="middle">P4 Pengembalian</text>
+  <text class="boxSmall" x="500" y="561" text-anchor="middle">status kembali dan denda</text>
+
+  <rect class="process" x="360" y="625" width="280" height="76" rx="18"/>
+  <text class="boxTitle" x="500" y="658" text-anchor="middle">P5 Helpdesk</text>
+  <text class="boxSmall" x="500" y="681" text-anchor="middle">chat anggota dan admin</text>
+
+  <rect class="process" x="360" y="745" width="280" height="76" rx="18"/>
+  <text class="boxTitle" x="500" y="778" text-anchor="middle">P6 Saran dan PO</text>
+  <text class="boxSmall" x="500" y="801" text-anchor="middle">masukan buku, purchase order</text>
+
+  <rect class="process" x="360" y="865" width="280" height="76" rx="18"/>
+  <text class="boxTitle" x="500" y="898" text-anchor="middle">P7 Dashboard</text>
+  <text class="boxSmall" x="500" y="921" text-anchor="middle">statistik dan laporan</text>
+
+  <!-- Data stores -->
+  <rect class="store" x="980" y="145" width="250" height="58" rx="10"/>
+  <text class="boxTitle" x="1105" y="180" text-anchor="middle">D1 auth.users</text>
+
+  <rect class="store" x="980" y="225" width="250" height="58" rx="10"/>
+  <text class="boxTitle" x="1105" y="260" text-anchor="middle">D2 profiles</text>
+
+  <rect class="store" x="980" y="305" width="250" height="58" rx="10"/>
+  <text class="boxTitle" x="1105" y="340" text-anchor="middle">D3 admin_users</text>
+
+  <rect class="store" x="980" y="385" width="250" height="58" rx="10"/>
+  <text class="boxTitle" x="1105" y="420" text-anchor="middle">D4 buku / book / books</text>
+
+  <rect class="store" x="980" y="465" width="250" height="58" rx="10"/>
+  <text class="boxTitle" x="1105" y="500" text-anchor="middle">D5 peminjaman</text>
+
+  <rect class="store" x="980" y="545" width="250" height="58" rx="10"/>
+  <text class="boxTitle" x="1105" y="580" text-anchor="middle">D6 helpdesk</text>
+
+  <rect class="store" x="980" y="625" width="250" height="58" rx="10"/>
+  <text class="boxTitle" x="1105" y="660" text-anchor="middle">D7 masukan_buku</text>
+
+  <rect class="store" x="980" y="705" width="250" height="58" rx="10"/>
+  <text class="boxTitle" x="1105" y="740" text-anchor="middle">D8 purchase_order</text>
+
+  <rect class="store" x="980" y="785" width="250" height="58" rx="10"/>
+  <text class="boxTitle" x="1105" y="820" text-anchor="middle">D9 purchase_order_item</text>
+
+  <!-- Services -->
+  <rect class="edge" x="1300" y="180" width="230" height="74" rx="14"/>
+  <text class="boxTitle" x="1415" y="214" text-anchor="middle">Edge Function</text>
+  <text class="boxSmall" x="1415" y="236" text-anchor="middle">create admin account</text>
+
+  <rect class="external" x="1300" y="385" width="230" height="74" rx="14"/>
+  <text class="boxTitle" x="1415" y="419" text-anchor="middle">Cover APIs</text>
+  <text class="boxSmall" x="1415" y="441" text-anchor="middle">Google Books, OpenLibrary</text>
+
+  <!-- Actor to process arrows -->
+  <path class="arrowBlue" d="M270 193 C305 193 320 183 360 183"/>
+  <text class="label" x="288" y="176">login / daftar</text>
+  <path class="arrowBlue" d="M270 213 C320 245 320 293 360 303"/>
+  <text class="label" x="278" y="260">cari buku</text>
+  <path class="arrowBlue" d="M270 225 C335 300 330 414 360 423"/>
+  <text class="label" x="274" y="350">pinjam</text>
+  <path class="arrowBlue" d="M270 227 C345 380 338 534 360 543"/>
+  <text class="label" x="276" y="470">kembali / denda</text>
+  <path class="arrowBlue" d="M270 225 C350 470 338 654 360 663"/>
+  <text class="label" x="292" y="610">chat</text>
+  <path class="arrowBlue" d="M270 227 C352 550 338 774 360 783"/>
+  <text class="label" x="289" y="736">saran buku</text>
+
+  <path class="arrowBlue" d="M270 363 C310 350 320 310 360 303"/>
+  <text class="label" x="282" y="332">kelola buku</text>
+  <path class="arrowBlue" d="M270 373 C320 384 330 416 360 423"/>
+  <text class="label" x="282" y="400">konfirmasi pinjam</text>
+  <path class="arrowBlue" d="M270 383 C330 425 330 536 360 543"/>
+  <text class="label" x="281" y="491">verifikasi denda</text>
+  <path class="arrowBlue" d="M270 390 C342 505 334 656 360 663"/>
+  <text class="label" x="290" y="608">balas chat</text>
+  <path class="arrowBlue" d="M270 397 C352 610 333 894 360 903"/>
+  <text class="label" x="294" y="850">dashboard</text>
+
+  <path class="arrowBlue" d="M270 533 C335 570 333 775 360 783"/>
+  <text class="label" x="286" y="720">PO dan rekomendasi</text>
+  <path class="arrowBlue" d="M270 553 C350 690 338 894 360 903"/>
+  <text class="label" x="298" y="860">laporan</text>
+
+  <!-- Process to stores -->
+  <path class="arrowBoth" d="M640 172 C775 160 835 160 980 174"/>
+  <text class="label" x="730" y="154">session auth</text>
+  <path class="arrowBoth" d="M640 190 C780 220 840 242 980 254"/>
+  <text class="label" x="730" y="226">profil anggota</text>
+  <path class="arrowBoth" d="M640 206 C800 260 835 325 980 334"/>
+  <text class="label" x="726" y="300">role admin</text>
+
+  <path class="arrowBoth" d="M640 303 C770 330 840 395 980 414"/>
+  <text class="label" x="746" y="372">CRUD koleksi</text>
+  <path class="arrow" d="M640 290 C940 270 1130 360 1300 418"/>
+  <text class="label" x="910" y="304">cover lookup</text>
+
+  <path class="arrowBoth" d="M640 423 C780 430 835 478 980 494"/>
+  <text class="label" x="725" y="459">transaksi pinjam</text>
+  <path class="arrowGray" d="M640 405 C775 385 845 405 980 414"/>
+  <text class="label" x="735" y="397">read buku</text>
+  <path class="arrowGray" d="M640 442 C782 400 842 276 980 254"/>
+  <text class="label" x="725" y="336">read profil</text>
+
+  <path class="arrowBoth" d="M640 543 C790 535 835 505 980 494"/>
+  <text class="label" x="720" y="525">status dan denda</text>
+  <path class="arrow" d="M640 560 C790 590 835 584 980 574"/>
+  <text class="label" x="724" y="590">request bayar denda</text>
+
+  <path class="arrowBoth" d="M640 663 C785 640 835 590 980 574"/>
+  <text class="label" x="740" y="633">pesan chat</text>
+  <path class="arrowGray" d="M640 648 C785 575 838 287 980 254"/>
+  <text class="label" x="710" y="555">read nama/foto</text>
+
+  <path class="arrowBoth" d="M640 776 C785 720 838 668 980 654"/>
+  <text class="label" x="736" y="716">saran buku</text>
+  <path class="arrowBoth" d="M640 792 C790 760 840 744 980 734"/>
+  <text class="label" x="745" y="772">purchase order</text>
+  <path class="arrowBoth" d="M640 805 C790 822 840 824 980 814"/>
+  <text class="label" x="748" y="835">item PO</text>
+
+  <!-- Dashboard reads -->
+  <path class="arrowGray" d="M980 414 C800 725 720 880 640 896"/>
+  <path class="arrowGray" d="M980 494 C810 760 730 895 640 903"/>
+  <path class="arrowGray" d="M980 574 C820 805 730 905 640 910"/>
+  <path class="arrowGray" d="M980 654 C820 835 730 915 640 917"/>
+  <path class="arrowGray" d="M980 734 C820 870 730 925 640 924"/>
+  <text class="label" x="735" y="952">data agregasi untuk dashboard dan laporan</text>
+
+  <!-- Edge function arrows -->
+  <path class="arrow" d="M270 520 C645 120 1040 180 1300 217"/>
+  <text class="label" x="710" y="122">owner minta buat admin</text>
+  <path class="arrowBoth" d="M1300 207 C1270 170 1250 172 1230 174"/>
+  <text class="label" x="1242" y="160">create auth user</text>
+  <path class="arrowBoth" d="M1300 235 C1265 310 1248 325 1230 334"/>
+  <text class="label" x="1243" y="304">insert role</text>
+
+  <!-- Legend -->
+  <rect x="60" y="1010" width="1480" height="55" rx="12" fill="#ffffff" stroke="#cbd5e1"/>
+  <line x1="90" y1="1038" x2="150" y2="1038" class="arrow"/>
+  <text class="label" x="162" y="1043">satu arah</text>
+  <line x1="285" y1="1038" x2="345" y2="1038" class="arrowBoth"/>
+  <text class="label" x="357" y="1043">baca dan tulis</text>
+  <line x1="530" y1="1038" x2="590" y2="1038" class="arrowGray"/>
+  <text class="label" x="602" y="1043">read/agregasi laporan</text>
+  <rect class="actor" x="840" y="1024" width="28" height="20" rx="5" filter="none"/>
+  <text class="label" x="878" y="1040">aktor</text>
+  <rect class="process" x="970" y="1024" width="28" height="20" rx="6" filter="none"/>
+  <text class="label" x="1008" y="1040">proses</text>
+  <rect class="store" x="1110" y="1024" width="28" height="20" rx="4" filter="none"/>
+  <text class="label" x="1148" y="1040">data store</text>
+  <rect class="external" x="1270" y="1024" width="28" height="20" rx="5" filter="none"/>
+  <text class="label" x="1308" y="1040">service eksternal</text>
+</svg>

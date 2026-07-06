@@ -1,0 +1,206 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1180" viewBox="0 0 1600 1180" role="img" aria-labelledby="title desc">
+  <title id="title">Entity Relationship Diagram Literasea</title>
+  <desc id="desc">ERD visual Literasea dengan arah relasi antar entitas database.</desc>
+  <defs>
+    <marker id="relArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#2563eb"/>
+    </marker>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#0f172a" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+  <style>
+    .page { fill: #f8fafc; }
+    .title { font: 800 34px Arial, sans-serif; fill: #0f172a; }
+    .subtitle { font: 500 16px Arial, sans-serif; fill: #475569; }
+    .entity { fill: #ffffff; stroke: #0f766e; stroke-width: 2; filter: url(#shadow); }
+    .entityAuth { fill: #eff6ff; stroke: #2563eb; stroke-width: 2; filter: url(#shadow); }
+    .entityLegacy { fill: #fff7ed; stroke: #ea580c; stroke-width: 2; filter: url(#shadow); }
+    .head { fill: #0f766e; }
+    .headAuth { fill: #2563eb; }
+    .headLegacy { fill: #ea580c; }
+    .entityTitle { font: 800 15px Arial, sans-serif; fill: #ffffff; }
+    .field { font: 500 12px Arial, sans-serif; fill: #334155; }
+    .pk { font: 800 12px Arial, sans-serif; fill: #0f172a; }
+    .fk { font: 700 12px Arial, sans-serif; fill: #2563eb; }
+    .relation { stroke: #2563eb; stroke-width: 2.2; fill: none; marker-end: url(#relArrow); }
+    .relationLogical { stroke: #64748b; stroke-width: 2; fill: none; marker-end: url(#relArrow); stroke-dasharray: 7 6; }
+    .relLabel { font: 800 12px Arial, sans-serif; fill: #1e293b; }
+    .note { font: 500 12px Arial, sans-serif; fill: #475569; }
+    .badge { fill: #ffffff; stroke: #cbd5e1; }
+  </style>
+
+  <rect class="page" width="1600" height="1180"/>
+  <text class="title" x="60" y="55">ERD Literasea</text>
+  <text class="subtitle" x="60" y="82">Panah menunjukkan arah relasi dari parent ke child. Garis putus-putus berarti relasi logis/legacy, tidak selalu FK database.</text>
+
+  <!-- AUTH_USERS -->
+  <rect class="entityAuth" x="650" y="120" width="300" height="132" rx="12"/>
+  <rect class="headAuth" x="650" y="120" width="300" height="34" rx="12"/>
+  <rect class="headAuth" x="650" y="142" width="300" height="12"/>
+  <text class="entityTitle" x="800" y="143" text-anchor="middle">AUTH_USERS</text>
+  <text class="pk" x="670" y="176">PK id uuid</text>
+  <text class="field" x="670" y="198">email text</text>
+  <text class="field" x="670" y="220">raw_user_meta_data jsonb</text>
+  <text class="field" x="670" y="242">created_at timestamptz</text>
+
+  <!-- PROFILES -->
+  <rect class="entity" x="70" y="335" width="300" height="190" rx="12"/>
+  <rect class="head" x="70" y="335" width="300" height="34" rx="12"/>
+  <rect class="head" x="70" y="357" width="300" height="12"/>
+  <text class="entityTitle" x="220" y="358" text-anchor="middle">PROFILES</text>
+  <text class="pk" x="90" y="391">PK id uuid</text>
+  <text class="field" x="90" y="413">email text</text>
+  <text class="field" x="90" y="435">full_name text</text>
+  <text class="field" x="90" y="457">phone text</text>
+  <text class="field" x="90" y="479">member_id text</text>
+  <text class="field" x="90" y="501">tanggal_lahir text</text>
+  <text class="field" x="90" y="523">foto_url text</text>
+
+  <!-- ADMIN_USERS -->
+  <rect class="entity" x="450" y="335" width="300" height="145" rx="12"/>
+  <rect class="head" x="450" y="335" width="300" height="34" rx="12"/>
+  <rect class="head" x="450" y="357" width="300" height="12"/>
+  <text class="entityTitle" x="600" y="358" text-anchor="middle">ADMIN_USERS</text>
+  <text class="pk" x="470" y="391">PK id uuid</text>
+  <text class="field" x="470" y="413">full_name text</text>
+  <text class="field" x="470" y="435">email text</text>
+  <text class="field" x="470" y="457">role text</text>
+  <text class="field" x="470" y="479">created_at timestamptz</text>
+
+  <!-- PEMINJAMAN -->
+  <rect class="entity" x="830" y="335" width="330" height="278" rx="12"/>
+  <rect class="head" x="830" y="335" width="330" height="34" rx="12"/>
+  <rect class="head" x="830" y="357" width="330" height="12"/>
+  <text class="entityTitle" x="995" y="358" text-anchor="middle">PEMINJAMAN</text>
+  <text class="pk" x="850" y="391">PK id uuid</text>
+  <text class="fk" x="850" y="413">FK user_id uuid</text>
+  <text class="field" x="850" y="435">buku_id text</text>
+  <text class="field" x="850" y="457">judul_buku text</text>
+  <text class="field" x="850" y="479">nama_anggota text</text>
+  <text class="field" x="850" y="501">tanggal_pinjam date</text>
+  <text class="field" x="850" y="523">tanggal_kembali date</text>
+  <text class="field" x="850" y="545">durasi_hari integer</text>
+  <text class="field" x="850" y="567">status text</text>
+  <text class="field" x="850" y="589">denda integer</text>
+  <text class="field" x="850" y="611">status_pembayaran_denda text</text>
+
+  <!-- BUKU -->
+  <rect class="entity" x="1245" y="335" width="300" height="230" rx="12"/>
+  <rect class="head" x="1245" y="335" width="300" height="34" rx="12"/>
+  <rect class="head" x="1245" y="357" width="300" height="12"/>
+  <text class="entityTitle" x="1395" y="358" text-anchor="middle">BUKU</text>
+  <text class="pk" x="1265" y="391">PK id uuid</text>
+  <text class="field" x="1265" y="413">judul text</text>
+  <text class="field" x="1265" y="435">penulis text</text>
+  <text class="field" x="1265" y="457">isbn text</text>
+  <text class="field" x="1265" y="479">penerbit text</text>
+  <text class="field" x="1265" y="501">kategori text</text>
+  <text class="field" x="1265" y="523">stok integer</text>
+  <text class="field" x="1265" y="545">cover_url text</text>
+  <text class="field" x="1265" y="567">deskripsi text</text>
+
+  <!-- HELPDESK_MESSAGES -->
+  <rect class="entity" x="70" y="720" width="330" height="252" rx="12"/>
+  <rect class="head" x="70" y="720" width="330" height="34" rx="12"/>
+  <rect class="head" x="70" y="742" width="330" height="12"/>
+  <text class="entityTitle" x="235" y="743" text-anchor="middle">HELPDESK_MESSAGES</text>
+  <text class="pk" x="90" y="776">PK id uuid</text>
+  <text class="fk" x="90" y="798">FK user_id uuid</text>
+  <text class="field" x="90" y="820">user_name text</text>
+  <text class="field" x="90" y="842">user_email text</text>
+  <text class="field" x="90" y="864">user_photo text</text>
+  <text class="field" x="90" y="886">sender_role text</text>
+  <text class="fk" x="90" y="908">FK admin_id uuid</text>
+  <text class="field" x="90" y="930">message text</text>
+  <text class="field" x="90" y="952">read_at_admin / read_at_user</text>
+  <text class="field" x="90" y="974">created_at timestamptz</text>
+
+  <!-- MASUKAN_BUKU -->
+  <rect class="entity" x="455" y="720" width="315" height="212" rx="12"/>
+  <rect class="head" x="455" y="720" width="315" height="34" rx="12"/>
+  <rect class="head" x="455" y="742" width="315" height="12"/>
+  <text class="entityTitle" x="612" y="743" text-anchor="middle">MASUKAN_BUKU</text>
+  <text class="pk" x="475" y="776">PK id uuid</text>
+  <text class="fk" x="475" y="798">FK user_id uuid</text>
+  <text class="field" x="475" y="820">nama_user text</text>
+  <text class="field" x="475" y="842">judul_buku text</text>
+  <text class="field" x="475" y="864">penulis text</text>
+  <text class="field" x="475" y="886">alasan text</text>
+  <text class="field" x="475" y="908">status text</text>
+  <text class="field" x="475" y="930">catatan_admin text</text>
+
+  <!-- PURCHASE_ORDER -->
+  <rect class="entity" x="850" y="720" width="315" height="212" rx="12"/>
+  <rect class="head" x="850" y="720" width="315" height="34" rx="12"/>
+  <rect class="head" x="850" y="742" width="315" height="12"/>
+  <text class="entityTitle" x="1008" y="743" text-anchor="middle">PURCHASE_ORDER</text>
+  <text class="pk" x="870" y="776">PK id uuid</text>
+  <text class="field" x="870" y="798">nomor_po text</text>
+  <text class="field" x="870" y="820">penerbit text</text>
+  <text class="field" x="870" y="842">catatan text</text>
+  <text class="field" x="870" y="864">status text</text>
+  <text class="fk" x="870" y="886">FK dibuat_oleh uuid</text>
+  <text class="field" x="870" y="908">nama_pembuat text</text>
+  <text class="field" x="870" y="930">created_at / updated_at</text>
+
+  <!-- PURCHASE_ORDER_ITEM -->
+  <rect class="entity" x="1245" y="720" width="300" height="168" rx="12"/>
+  <rect class="head" x="1245" y="720" width="300" height="34" rx="12"/>
+  <rect class="head" x="1245" y="742" width="300" height="12"/>
+  <text class="entityTitle" x="1395" y="743" text-anchor="middle">PURCHASE_ORDER_ITEM</text>
+  <text class="pk" x="1265" y="776">PK id uuid</text>
+  <text class="fk" x="1265" y="798">FK po_id uuid</text>
+  <text class="fk" x="1265" y="820">FK masukan_id uuid</text>
+  <text class="field" x="1265" y="842">judul_buku text</text>
+  <text class="field" x="1265" y="864">penulis text</text>
+  <text class="field" x="1265" y="886">jumlah integer</text>
+
+  <!-- HELPDESK_CHAT LEGACY -->
+  <rect class="entityLegacy" x="70" y="1010" width="330" height="120" rx="12"/>
+  <rect class="headLegacy" x="70" y="1010" width="330" height="34" rx="12"/>
+  <rect class="headLegacy" x="70" y="1032" width="330" height="12"/>
+  <text class="entityTitle" x="235" y="1033" text-anchor="middle">HELPDESK_CHAT (legacy)</text>
+  <text class="pk" x="90" y="1066">PK id uuid</text>
+  <text class="fk" x="90" y="1088">FK user_id uuid</text>
+  <text class="field" x="90" y="1110">nama_pengguna, pengirim, pesan, user_photo</text>
+
+  <!-- Relationships -->
+  <path class="relation" d="M650 188 C430 220 315 300 245 335"/>
+  <text class="relLabel" x="392" y="235">1 to 0..1 profile</text>
+
+  <path class="relation" d="M720 252 C700 285 665 315 630 335"/>
+  <text class="relLabel" x="690" y="304">1 to 0..1 staff role</text>
+
+  <path class="relation" d="M850 252 C930 280 975 310 990 335"/>
+  <text class="relLabel" x="915" y="304">1 to 0..* loans</text>
+
+  <path class="relationLogical" d="M1245 450 C1210 450 1192 450 1160 450"/>
+  <text class="relLabel" x="1184" y="438">logical 1 to 0..*</text>
+
+  <path class="relation" d="M690 252 C420 395 280 610 245 720"/>
+  <text class="relLabel" x="380" y="575">1 to 0..* chats</text>
+
+  <path class="relationLogical" d="M210 972 C210 988 215 1000 225 1010"/>
+  <text class="relLabel" x="235" y="997">legacy mirror</text>
+
+  <path class="relation" d="M760 252 C680 420 630 600 615 720"/>
+  <text class="relLabel" x="650" y="594">1 to 0..* suggestions</text>
+
+  <path class="relation" d="M835 252 C955 410 1010 600 1010 720"/>
+  <text class="relLabel" x="1008" y="600">1 to 0..* PO</text>
+
+  <path class="relation" d="M1165 826 C1190 810 1215 800 1245 798"/>
+  <text class="relLabel" x="1185" y="790">1 to 0..* items</text>
+
+  <path class="relation" d="M770 824 C940 900 1120 842 1245 820"/>
+  <text class="relLabel" x="945" y="894">recommendation source</text>
+
+  <!-- Legend -->
+  <rect class="badge" x="60" y="1138" width="1480" height="28" rx="8"/>
+  <line x1="85" y1="1152" x2="145" y2="1152" class="relation"/>
+  <text class="note" x="155" y="1157">relasi/FK utama</text>
+  <line x1="300" y1="1152" x2="360" y2="1152" class="relationLogical"/>
+  <text class="note" x="370" y="1157">relasi logis atau legacy compatibility</text>
+  <text class="note" x="700" y="1157">Arah panah: parent/source data menuju child/record turunan.</text>
+</svg>

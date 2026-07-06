@@ -150,6 +150,13 @@ sql/
 
 Gunakan file tersebut untuk menyiapkan tabel dan policy Supabase yang dibutuhkan aplikasi.
 
+## Dokumentasi Diagram
+
+- `docs/DFD.md` - Data Flow Diagram level 0 dan level 1.
+- `docs/ERD.md` - Entity Relationship Diagram dan ringkasan relasi tabel.
+- `docs/DFD.svg` - gambar DFD visual dengan arah panah.
+- `docs/ERD.svg` - gambar ERD visual dengan arah panah relasi.
+
 ## Supabase Edge Functions
 
 Source Edge Function masih berada di:

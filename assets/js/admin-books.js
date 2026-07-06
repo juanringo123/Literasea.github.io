@@ -679,6 +679,10 @@ function normalizeColumnName(value) {
             rows: data || [],
             columns: Object.keys((data && data[0]) || {}),
           });
+
+          if (tableName === "buku" || (data || []).length) {
+            break;
+          }
         }
 
         if (!results.length) {

@@ -57,10 +57,18 @@
           const persistedFine = Number(row.denda) || 0;
           const estimatedFine =
             overdueDays > 0 ? overdueDays * TARIF_DENDA_USER : persistedFine;
-          const finePaymentStatus = normalizeFinePaymentStatus(
-            row.status_pembayaran_denda,
-            estimatedFine,
-          );
+          const rawFinePaymentStatus = row.status_pembayaran_denda;
+          const hasFinePaymentStatusColumn =
+            Object.prototype.hasOwnProperty.call(
+              row,
+              "status_pembayaran_denda",
+            );
+          const fineRequest =
+            pengembalianFineRequestMap.get(String(row.id)) || null;
+          const finePaymentStatus =
+            !hasFinePaymentStatusColumn && fineRequest && estimatedFine > 0
+              ? "menunggu_verifikasi"
+              : normalizeFinePaymentStatus(rawFinePaymentStatus, estimatedFine);
           return {
             ...row,
             _dueDateValue: dueDateValue,
@@ -68,8 +76,8 @@
             _dueAgeDays: dueAgeDays,
             _estimatedFine: estimatedFine,
             _finePaymentStatus: finePaymentStatus,
-            _fineRequest:
-              pengembalianFineRequestMap.get(String(row.id)) || null,
+            _hasFinePaymentStatusColumn: hasFinePaymentStatusColumn,
+            _fineRequest: fineRequest,
           };
         });
 
