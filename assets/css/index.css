@@ -421,6 +421,8 @@
       }
       .fish svg {
         width: 100%;
+        transform: scaleX(-1);
+        transform-origin: center;
       }
       .fish:nth-child(1) {
         top: 35%;
@@ -444,7 +446,6 @@
         animation-duration: 15s;
         animation-delay: -3s;
         right: 0;
-        transform: scaleX(-1);
         animation-name: swim-reverse;
       }
       .fish:nth-child(5) {
@@ -453,8 +454,11 @@
         animation-duration: 22s;
         animation-delay: -12s;
         right: 0;
-        transform: scaleX(-1);
         animation-name: swim-reverse;
+      }
+      .fish:nth-child(4) svg,
+      .fish:nth-child(5) svg {
+        transform: none;
       }
 
       .seaweed {
@@ -529,10 +533,10 @@
       }
       @keyframes swim-reverse {
         from {
-          transform: scaleX(-1) translateX(-120px);
+          transform: translateX(120px);
         }
         to {
-          transform: scaleX(-1) translateX(110vw);
+          transform: translateX(calc(-100vw - 120px));
         }
       }
       @keyframes sway {
